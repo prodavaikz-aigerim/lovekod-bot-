@@ -26,10 +26,6 @@ import html
 import logging
 import os
 import random
-import re
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
 import anthropic
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -70,9 +66,9 @@ PERSISTENCE_PATH = os.environ.get("PERSISTENCE_PATH", "bot_persistence.pickle")
 
 # Финальный платный оффер (полный профиль: психотип + язык любви).
 # Полуручной режим (пока не подключён официальный эквайринг Kaspi):
-# пользователь оставляет email → тебе приходит уведомление с кнопкой
-# подтверждения → после нажатия бот сам присылает полный отчёт в Telegram
-# и дублирует его на email.
+# пользователь жмёт "Получить профиль" → сразу видит реквизиты для оплаты →
+# присылает чек → тебе приходит уведомление с кнопкой подтверждения →
+# после нажатия бот сам присылает полный отчёт в Telegram.
 FULL_REPORT_PRICE_SOLO = os.environ.get("FULL_REPORT_PRICE_SOLO", "4 950 ₸")
 FULL_REPORT_PRICE_COUPLE = os.environ.get("FULL_REPORT_PRICE_COUPLE", "6 930 ₸")
 FULL_REPORT_BUTTON_TEXT = os.environ.get(
@@ -80,7 +76,7 @@ FULL_REPORT_BUTTON_TEXT = os.environ.get(
 )
 
 # Ссылка на оплату (например, ссылка "удалённая оплата" из Kaspi Pay) —
-# показывается пользователю сразу после того, как он оставил email, ДО
+# показывается пользователю сразу после нажатия "Получить профиль", ДО
 # уведомления админу. Если оставить пустым — вместо кнопки со ссылкой
 # покажется номер телефона для перевода (KASPI_PHONE_NUMBER), а если и он
 # пуст — просто попросим подождать реквизиты от админа лично.
@@ -106,16 +102,6 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 # смотри в документации Anthropic (docs.anthropic.com), если этот
 # конкретный id перестанет работать.
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
-
-# Настройки почты для дублирования отчёта на email (SMTP). Если оставить
-# SMTP_HOST пустым — email просто не отправляется, отчёт уходит только в
-# Telegram, без ошибок и без блокировки процесса подтверждения.
-SMTP_HOST = os.environ.get("SMTP_HOST", "")
-SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
-SMTP_USER = os.environ.get("SMTP_USER", "")
-SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
-SMTP_FROM_EMAIL = os.environ.get("SMTP_FROM_EMAIL", SMTP_USER)
-SMTP_FROM_NAME = os.environ.get("SMTP_FROM_NAME", "Твой психотип и совместимость")
 
 # --------------------------------------------------------------------------
 # ЖЕНСКИЕ ПСИХОТИПЫ (цветовая модель Марстона, адаптация под отношения)
@@ -231,114 +217,304 @@ QUESTIONS = [
     {
         "text": "Ты планируешь выходные с подругами. Как это обычно происходит?",
         "options": [
-            ("🟡 Накидываю кучу идей в чат, обсуждаем, спонтанно выбираем что-то по настроению", "Y"),
-            ("🔵 Заранее продумываю маршрут, бюджет и бронирую всё по датам", "B"),
-            ("🔴 Я сама решаю, куда идём, и говорю остальным время и место", "R"),
-            ("🟢 Спрашиваю всех, что удобно, и подстраиваюсь под большинство", "G"),
+            ("Накидываю кучу идей в чат, обсуждаем, спонтанно выбираем что-то по настроению", "Y"),
+            ("Заранее продумываю маршрут, бюджет и бронирую всё по датам", "B"),
+            ("Я сама решаю, куда идём, и говорю остальным время и место", "R"),
+            ("Спрашиваю всех, что удобно, и подстраиваюсь под большинство", "G"),
         ],
     },
     {
         "text": "Партнёр опоздал на встречу без предупреждения. Твоя первая реакция?",
         "options": [
-            ("🔵 Анализирую: он часто так делает или это разовый случай", "B"),
-            ("🔴 Прямо говорю, что это неуважение, и жду объяснений", "R"),
-            ("🟢 Молчу, не хочу конфликта, но внутри обидно", "G"),
-            ("🟡 Расстраиваюсь, но быстро отхожу, если он извинится с юмором", "Y"),
+            ("Анализирую: он часто так делает или это разовый случай", "B"),
+            ("Прямо говорю, что это неуважение, и жду объяснений", "R"),
+            ("Молчу, не хочу конфликта, но внутри обидно", "G"),
+            ("Расстраиваюсь, но быстро отхожу, если он извинится с юмором", "Y"),
         ],
     },
     {
         "text": "В конфликте с близким человеком ты чаще всего…",
         "options": [
-            ("🟢 Ухожу в себя, избегаю продолжения разговора", "G"),
-            ("🟡 Пытаюсь разрядить обстановку шуткой или переключить тему", "Y"),
-            ("🔵 Беру паузу, чтобы всё обдумать, и возвращаюсь с аргументами", "B"),
-            ("🔴 Говорю прямо, что думаю, даже если это резко", "R"),
+            ("Ухожу в себя, избегаю продолжения разговора", "G"),
+            ("Пытаюсь разрядить обстановку шуткой или переключить тему", "Y"),
+            ("Беру паузу, чтобы всё обдумать, и возвращаюсь с аргументами", "B"),
+            ("Говорю прямо, что думаю, даже если это резко", "R"),
         ],
     },
     {
         "text": "Что для тебя «идеальный вечер» после тяжёлой недели?",
         "options": [
-            ("🔵 Почитать, разложить мысли по полочкам, спланировать следующую неделю", "B"),
-            ("🔴 Сделать ещё что-то полезное — спорт, генеральная уборка, разобрать дела", "R"),
-            ("🟢 Тихий вечер дома с близким человеком, никуда не спешить", "G"),
-            ("🟡 Собраться с друзьями, поболтать, посмеяться", "Y"),
+            ("Почитать, разложить мысли по полочкам, спланировать следующую неделю", "B"),
+            ("Сделать ещё что-то полезное — спорт, генеральная уборка, разобрать дела", "R"),
+            ("Тихий вечер дома с близким человеком, никуда не спешить", "G"),
+            ("Собраться с друзьями, поболтать, посмеяться", "Y"),
         ],
     },
     {
         "text": "Тебе сделали неожиданный подарок. Первая реакция?",
         "options": [
-            ("🟢 Смущаюсь, не знаю, как реагировать, потом долго благодарю", "G"),
-            ("🔴 Радуюсь, но сразу думаю, чем ответить тем же", "R"),
-            ("🔵 Оцениваю, насколько подарок продуман и «в точку»", "B"),
-            ("🟡 Восторженно реагирую вслух, обнимаю, показываю всем вокруг", "Y"),
+            ("Смущаюсь, не знаю, как реагировать, потом долго благодарю", "G"),
+            ("Радуюсь, но сразу думаю, чем ответить тем же", "R"),
+            ("Оцениваю, насколько подарок продуман и «в точку»", "B"),
+            ("Восторженно реагирую вслух, обнимаю, показываю всем вокруг", "Y"),
         ],
     },
     {
         "text": "Как ты обычно принимаешь решение о крупной покупке?",
         "options": [
-            ("🔵 Сравниваю варианты, читаю отзывы, беру время подумать", "B"),
-            ("🟡 Иду на эмоции — если понравилось, беру сразу", "Y"),
-            ("🔴 Решаю быстро сама, не люблю затягивать", "R"),
-            ("🟢 Советуюсь с близкими, важно их мнение", "G"),
+            ("Сравниваю варианты, читаю отзывы, беру время подумать", "B"),
+            ("Иду на эмоции — если понравилось, беру сразу", "Y"),
+            ("Решаю быстро сама, не люблю затягивать", "R"),
+            ("Советуюсь с близкими, важно их мнение", "G"),
         ],
     },
     {
         "text": "В компании малознакомых людей ты чаще всего…",
         "options": [
-            ("🟡 Быстро включаюсь, знакомлюсь, задаю тон разговору", "Y"),
-            ("🟢 Держусь рядом с тем, кого уже знаю, наблюдаю со стороны", "G"),
-            ("🔵 Присматриваюсь, говорю по делу, когда есть что сказать", "B"),
-            ("🔴 Веду себя уверенно, могу взять разговор в свои руки", "R"),
+            ("Быстро включаюсь, знакомлюсь, задаю тон разговору", "Y"),
+            ("Держусь рядом с тем, кого уже знаю, наблюдаю со стороны", "G"),
+            ("Присматриваюсь, говорю по делу, когда есть что сказать", "B"),
+            ("Веду себя уверенно, могу взять разговор в свои руки", "R"),
         ],
     },
     {
         "text": "Партнёр забыл про важную для тебя дату. Что делаешь?",
         "options": [
-            ("🔴 Прямо говорю, что расстроена, и почему это важно", "R"),
-            ("🔵 Отмечаю про себя, жду, заметит ли он сам в следующий раз", "B"),
-            ("🟡 Шучу об этом, но в глубине немного задето", "Y"),
-            ("🟢 Ничего не говорю, чтобы не создавать напряжение", "G"),
+            ("Прямо говорю, что расстроена, и почему это важно", "R"),
+            ("Отмечаю про себя, жду, заметит ли он сам в следующий раз", "B"),
+            ("Шучу об этом, но в глубине немного задето", "Y"),
+            ("Ничего не говорю, чтобы не создавать напряжение", "G"),
         ],
     },
     {
         "text": "Тебе нужно отказать в просьбе близкому человеку. Как это происходит?",
         "options": [
-            ("🟢 Мне тяжело отказывать, часто соглашаюсь через силу", "G"),
-            ("🔴 Говорю «нет» прямо, без долгих объяснений", "R"),
-            ("🟡 Смягчаю отказ шуткой или переключаю на альтернативу", "Y"),
-            ("🔵 Объясняю причины подробно и аргументированно", "B"),
+            ("Мне тяжело отказывать, часто соглашаюсь через силу", "G"),
+            ("Говорю «нет» прямо, без долгих объяснений", "R"),
+            ("Смягчаю отказ шуткой или переключаю на альтернативу", "Y"),
+            ("Объясняю причины подробно и аргументированно", "B"),
         ],
     },
     {
         "text": "Твои выходные без всяких планов — что происходит по факту?",
         "options": [
-            ("🔵 Составляю список дел и стараюсь успеть по нему", "B"),
-            ("🟢 Провожу время дома, никуда не тороплюсь", "G"),
-            ("🟡 День складывается спонтанно, по настроению", "Y"),
-            ("🔴 Нахожу, чем себя занять — спорт, дела, что-то активное", "R"),
+            ("Составляю список дел и стараюсь успеть по нему", "B"),
+            ("Провожу время дома, никуда не тороплюсь", "G"),
+            ("День складывается спонтанно, по настроению", "Y"),
+            ("Нахожу, чем себя занять — спорт, дела, что-то активное", "R"),
         ],
     },
     {
         "text": "Как ты реагируешь на критику в свой адрес?",
         "options": [
-            ("🟡 Пропускаю через юмор, не принимаю близко", "Y"),
-            ("🔵 Разбираю по существу — права критика или нет", "B"),
-            ("🔴 Могу вспылить в моменте, но быстро отхожу", "R"),
-            ("🟢 Переживаю долго, даже если критика была мягкой", "G"),
+            ("Пропускаю через юмор, не принимаю близко", "Y"),
+            ("Разбираю по существу — права критика или нет", "B"),
+            ("Могу вспылить в моменте, но быстро отхожу", "R"),
+            ("Переживаю долго, даже если критика была мягкой", "G"),
         ],
     },
     {
         "text": "Что для тебя главное в отношениях?",
         "options": [
-            ("🔴 Уважение и то, что со мной считаются", "R"),
-            ("🟢 Тепло, забота, ощущение, что мы одна команда", "G"),
-            ("🔵 Стабильность и понятность — знать, чего ждать", "B"),
-            ("🟡 Лёгкость, радость, чтобы не было скучно", "Y"),
+            ("Уважение и то, что со мной считаются", "R"),
+            ("Тепло, забота, ощущение, что мы одна команда", "G"),
+            ("Стабильность и понятность — знать, чего ждать", "B"),
+            ("Лёгкость, радость, чтобы не было скучно", "Y"),
         ],
     },
 ]
 
 TOTAL_QUESTIONS = len(QUESTIONS)
+
+
+# --------------------------------------------------------------------------
+# МОТИВАТОРЫ (модель Спрэнгера / PIAV: Развития, Результата, Гармонии,
+# Пользы, Свободы, Принципов) — вторая часть ТЕСТА 1, сразу после психотипа.
+#
+# Специально НЕ вынесены в отдельный третий тест: психотип отвечает на
+# вопрос "КАК ты себя ведёшь", мотиваторы — "ПОЧЕМУ" — это одна связка, как
+# в исходном DISC+мотиваторы боте. Идёт сразу после результата психотипа,
+# без отдельной кнопки-старта, чтобы не терять темп и ощущаться одним
+# тестом, а не тремя отдельными.
+#
+# Формат — тот же движок, что и у психотипа: один вопрос, несколько
+# вариантов (здесь 6, по одному на категорию), порядок вариантов внутри
+# вопроса перемешан.
+# --------------------------------------------------------------------------
+
+MOTIVATOR_PROFILES = {
+    "T": {
+        "name": "Развития",
+        "emoji": "🧠",
+        "subtitle": "Тебе важно расти и узнавать новое",
+        "teaser": (
+            "Тебя двигает вперёд любопытство и желание разобраться в сути — "
+            "не поверхностно, а по-настоящему. Рутина без развития быстро "
+            "тебя выматывает."
+        ),
+    },
+    "U": {
+        "name": "Результата",
+        "emoji": "💰",
+        "subtitle": "Тебе важно видеть конкретную отдачу от своих усилий",
+        "teaser": (
+            "Просто «интересно» тебя надолго не удержит — тебе важно видеть "
+            "измеримый результат: рост дохода, прогресс, конкретную цифру."
+        ),
+    },
+    "A": {
+        "name": "Гармонии",
+        "emoji": "✨",
+        "subtitle": "Тебе важны красота, баланс и удовольствие от процесса",
+        "teaser": (
+            "Тебе важно не только ЧТО сделано, но и КАК — атмосфера и "
+            "гармония процесса имеют для тебя реальное значение."
+        ),
+    },
+    "S": {
+        "name": "Пользы",
+        "emoji": "❤️",
+        "subtitle": "Тебе важно помогать людям и видеть смысл в том, что делаешь",
+        "teaser": (
+            "Тебя мотивирует ощущение, что твои усилия реально кому-то "
+            "помогают, а не только приносят выгоду."
+        ),
+    },
+    "I": {
+        "name": "Свободы",
+        "emoji": "👑",
+        "subtitle": "Тебе важно самой принимать решения и не зависеть от чужого разрешения",
+        "teaser": (
+            "Тебе важно не просто получить результат — тебе важно самой "
+            "решать, как, с кем и куда двигаться. Жёсткий контроль быстро "
+            "снижает твою мотивацию."
+        ),
+    },
+    "TR": {
+        "name": "Принципов",
+        "emoji": "⚖️",
+        "subtitle": "Тебе важны чёткая система и понятные правила",
+        "teaser": (
+            "Тебе комфортнее и эффективнее, когда есть ясная система и "
+            "понятные принципы, а не хаос и постоянные исключения."
+        ),
+    },
+}
+
+MOTIVATOR_QUESTIONS = [
+    {
+        "text": "Что даёт тебе больше всего энергии в работе или проекте?",
+        "options": [
+            ("Разобраться в чём-то новом и сложном до конца", "T"),
+            ("Увидеть конкретный измеримый результат", "U"),
+            ("Ощущение, что всё сделано красиво и гармонично", "A"),
+            ("Понимание, что это реально помогает людям", "S"),
+            ("Возможность самой решать, как действовать", "I"),
+            ("Чёткая система и понятные правила", "TR"),
+        ],
+    },
+    {
+        "text": "Что раздражает тебя больше всего?",
+        "options": [
+            ("Когда решения принимают за тебя", "I"),
+            ("Рутина без видимого результата", "U"),
+            ("Поверхностный подход без понимания сути", "T"),
+            ("Хаос и неаккуратность вокруг", "A"),
+            ("Ощущение, что твои усилия никому не нужны", "S"),
+            ("Отсутствие структуры и постоянные исключения из правил", "TR"),
+        ],
+    },
+    {
+        "text": "Что тебя вдохновляет по-настоящему?",
+        "options": [
+            ("Видеть, что кому-то стало лучше благодаря тебе", "S"),
+            ("Свобода действовать по-своему", "I"),
+            ("Рост показателей — доход, результат, прогресс", "U"),
+            ("Новые знания и идеи", "T"),
+            ("Проверенная, работающая система", "TR"),
+            ("Красота и баланс в том, что ты делаешь", "A"),
+        ],
+    },
+    {
+        "text": "Идеальный день для тебя — это день, когда...",
+        "options": [
+            ("Всё прошло по чёткому плану", "TR"),
+            ("Не было ни одного неприятного момента, всё гармонично", "A"),
+            ("Ты узнала что-то новое", "T"),
+            ("Ты видишь конкретный результат своих усилий", "U"),
+            ("Ты кому-то реально помогла", "S"),
+            ("Никто не указывал, что тебе делать", "I"),
+        ],
+    },
+    {
+        "text": "Что для тебя признак хорошо сделанной работы?",
+        "options": [
+            ("Понятный измеримый итог", "U"),
+            ("Она выглядит и ощущается гармонично", "A"),
+            ("Ты действительно разобралась в вопросе", "T"),
+            ("Всё сделано по системе, ничего не упущено", "TR"),
+            ("От неё есть реальная польза людям", "S"),
+            ("Ты сделала это по-своему, без диктата", "I"),
+        ],
+    },
+    {
+        "text": "Что демотивирует тебя быстрее всего?",
+        "options": [
+            ("Беспорядок и неаккуратность", "A"),
+            ("Ощущение бесполезности того, что делаешь", "S"),
+            ("Жёсткий контроль над каждым шагом", "I"),
+            ("Задачи без интеллектуального вызова", "T"),
+            ("Отсутствие видимого прогресса", "U"),
+            ("Постоянные изменения правил на ходу", "TR"),
+        ],
+    },
+    {
+        "text": "На что ты обращаешь внимание в первую очередь, оценивая новую идею?",
+        "options": [
+            ("Насколько это интересно и ново", "T"),
+            ("Даёт ли это мне больше свободы", "I"),
+            ("Какая от этого практическая польза", "U"),
+            ("Насколько это гармонично впишется", "A"),
+            ("Насколько это системно и предсказуемо", "TR"),
+            ("Кому это реально поможет", "S"),
+        ],
+    },
+    {
+        "text": "Что для тебя важнее в деньгах?",
+        "options": [
+            ("Видеть, что доход растёт от твоих усилий", "U"),
+            ("Финансовая независимость и свобода выбора", "I"),
+            ("Возможность помогать близким и другим", "S"),
+            ("Комфорт и красота жизни, которую деньги дают", "A"),
+            ("Ресурс для развития и новых знаний", "T"),
+            ("Стабильность и предсказуемость дохода", "TR"),
+        ],
+    },
+    {
+        "text": "Как ты реагируешь, если тебе навязывают чужой способ делать что-то?",
+        "options": [
+            ("Внутренне сопротивляюсь, хочу делать по-своему", "I"),
+            ("Ищу, есть ли в этом система, которой стоит следовать", "TR"),
+            ("Спрашиваю: «а почему именно так?»", "T"),
+            ("Смотрю, гармонично ли это со мной", "A"),
+            ("Оцениваю, даёт ли это лучший результат", "U"),
+            ("Смотрю, не навредит ли это людям вокруг", "S"),
+        ],
+    },
+    {
+        "text": "Что бы ты выбрала, если пришлось выбирать одно?",
+        "options": [
+            ("Работу, которая точно помогает людям, но с небольшим доходом", "S"),
+            ("Работу с высоким доходом и чёткими показателями", "U"),
+            ("Полную свободу графика и решений, но нестабильный доход", "I"),
+            ("Постоянное обучение и рост, даже без быстрого результата", "T"),
+            ("Комфортную, приятную атмосферу работы", "A"),
+            ("Понятную систему с чёткими правилами игры", "TR"),
+        ],
+    },
+]
+
+TOTAL_MOTIVATOR_QUESTIONS = len(MOTIVATOR_QUESTIONS)
 
 # --------------------------------------------------------------------------
 # ЯЗЫКИ ЛЮБВИ (методика Гэри Чепмена)
@@ -728,11 +904,15 @@ async def send_question(update_or_query, context: ContextTypes.DEFAULT_TYPE, qin
     text = f"Вопрос {qindex + 1} из {TOTAL_QUESTIONS}\n\n{question['text']}"
     keyboard = build_question_keyboard(qindex, question["options"])
 
-    if hasattr(update_or_query, "message") and update_or_query.message is not None:
-        # Первый вопрос — обычное сообщение
+    if isinstance(update_or_query, Update):
+        # Первый вопрос — обычное сообщение (в ответ на /start)
         await update_or_query.message.reply_text(text, reply_markup=keyboard)
     else:
-        # Callback-запрос — редактируем предыдущее сообщение
+        # CallbackQuery (ответ на предыдущий вопрос) — редактируем то же
+        # сообщение, а не создаём новое, чтобы отвеченные вопросы исчезали
+        # (раньше здесь была ошибка: CallbackQuery тоже имеет атрибут
+        # .message, поэтому старая проверка hasattr всегда попадала в
+        # первую ветку и вопросы копились в чате один под другим).
         await update_or_query.edit_message_text(text, reply_markup=keyboard)
 
 
@@ -816,7 +996,145 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # --------------------------------------------------------------------------
-# ЛОГИКА ТЕСТА НА МОТИВАТОРЫ (запускается кнопкой после результата DISC)
+# ЛОГИКА ТЕСТА НА МОТИВАТОРЫ — вторая часть ТЕСТА 1, продолжает психотип
+# без отдельной кнопки (см. show_result → start_motivator_test).
+# --------------------------------------------------------------------------
+
+
+def build_motivator_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton(text=label, callback_data=f"motans|{qindex}|{code}")]
+        for label, code in options
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+async def send_motivator_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
+    question = MOTIVATOR_QUESTIONS[qindex]
+    text = f"Вопрос {qindex + 1} из {TOTAL_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
+    keyboard = build_motivator_keyboard(qindex, question["options"])
+    await query.edit_message_text(text, reply_markup=keyboard)
+
+
+def format_bridge_to_motivators_text() -> str:
+    lines = [
+        "Ты уже знаешь, <b>КАК</b> ты себя ведёшь.",
+        "",
+        (
+            "А теперь узнаем, <b>ПОЧЕМУ</b> — что тебя реально включает, а "
+            "что выключает в жизни и в деньгах."
+        ),
+    ]
+    return "\n".join(lines)
+
+
+async def start_motivator_test(query, context: ContextTypes.DEFAULT_TYPE):
+    """Продолжение Теста 1 сразу после результата психотипа — без кнопки,
+    чтобы не терять темп и ощущаться одним тестом, а не отдельным третьим.
+    """
+    context.user_data["mot_scores"] = {code: 0 for code in MOTIVATOR_PROFILES}
+    context.user_data["mot_current_q"] = 0
+
+    bridge = format_bridge_to_motivators_text()
+    await query.message.reply_text(bridge, parse_mode=ParseMode.HTML)
+
+    question = MOTIVATOR_QUESTIONS[0]
+    text = f"Вопрос 1 из {TOTAL_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
+    await query.message.reply_text(
+        text, reply_markup=build_motivator_keyboard(0, question["options"])
+    )
+
+
+async def handle_motivator_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer(text="✅ Принято")
+
+    try:
+        _, qindex_str, code = query.data.split("|")
+        qindex = int(qindex_str)
+    except (ValueError, AttributeError):
+        return
+
+    current_q = context.user_data.get("mot_current_q")
+    scores = context.user_data.get("mot_scores")
+
+    if current_q is None or scores is None:
+        await query.edit_message_text(
+            "⚠️ Результаты не сохранились (бот перезапускался). Нажми "
+            "/start, чтобы пройти тест заново."
+        )
+        return
+
+    if qindex != current_q:
+        return
+
+    scores[code] = scores.get(code, 0) + 1
+    next_q = current_q + 1
+    context.user_data["mot_current_q"] = next_q
+
+    if next_q < TOTAL_MOTIVATOR_QUESTIONS:
+        await send_motivator_question(query, context, next_q)
+    else:
+        await show_motivator_result(query, context, scores)
+
+
+def format_motivator_result_text(scores: dict) -> str:
+    """Бесплатный результат — топ-1 мотиватор + короткий тизер."""
+    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+    top1_code, _ = ranked[0]
+    top1 = MOTIVATOR_PROFILES[top1_code]
+
+    lines = [
+        f"🔑 <b>Что тебя реально двигает — {top1['emoji']} {top1['name'].upper()}</b>\n",
+        f"{top1['subtitle']}.",
+        "",
+        top1["teaser"],
+    ]
+    return "\n".join(lines)
+
+
+def format_motivator_full_text(scores: dict) -> str:
+    """Полный (платный) результат — все 6 мотиваторов с баллами."""
+    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+
+    lines = ["🔑 <b>Твой полный профиль мотиваторов</b>\n"]
+    for code, score in ranked:
+        p = MOTIVATOR_PROFILES[code]
+        lines.append(f"{p['emoji']} {p['name']}: {score}/{TOTAL_MOTIVATOR_QUESTIONS}")
+    lines.append("")
+
+    top1_code, _ = ranked[0]
+    top1 = MOTIVATOR_PROFILES[top1_code]
+    lines.append(f"<b>Ведущий мотиватор: {top1['emoji']} {top1['name']}</b>")
+    lines.append(f"{top1['subtitle']}.")
+    lines.append(top1["teaser"])
+
+    return "\n".join(lines)
+
+
+async def show_motivator_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
+    result_text = format_motivator_result_text(scores)
+    await query.edit_message_text(result_text, parse_mode=ParseMode.HTML, reply_markup=None)
+
+    context.user_data["motivator_scores"] = scores
+    context.user_data["mot_current_q"] = None
+
+    # Тест 1 закончен (психотип + мотиваторы) — дальше мостик к Тесту 2
+    # (язык любви), который раньше шёл сразу после психотипа.
+    bridge_text = format_bridge_to_lovelang_text()
+    cta_buttons = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("❤️ Узнать свой язык любви", callback_data="start_lovelang")],
+            [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
+            [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
+        ]
+    )
+    await query.message.reply_text(bridge_text, parse_mode=ParseMode.HTML)
+    await query.message.reply_text("Что дальше? 👇", reply_markup=cta_buttons)
+
+
+# --------------------------------------------------------------------------
+# ЛОГИКА ТЕСТА НА ЯЗЫК ЛЮБВИ (ТЕСТ 2 — запускается кнопкой после Теста 1)
 # --------------------------------------------------------------------------
 
 
@@ -1303,49 +1621,16 @@ async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: di
 
 
 # --------------------------------------------------------------------------
-# ПОЛУРУЧНОЙ РЕЖИМ ОПЛАТЫ: заявка на email → уведомление админу → подтверждение
+# ПОЛУРУЧНОЙ РЕЖИМ ОПЛАТЫ: заявка → уведомление админу → подтверждение
 #
 # Пока не подключён официальный эквайринг Kaspi, процесс такой:
-#   1) пользователь жмёт "Получить мой полный профиль" → бот просит email
-#   2) после email заявка (баллы + email + контакт) уходит админу в личку
-#      (ADMIN_CHAT_ID) с кнопкой подтверждения
+#   1) пользователь жмёт "Получить мой полный профиль" → бот сразу показывает
+#      реквизиты для оплаты (email не собираем)
+#   2) пользователь присылает скриншот чека → заявка (баллы + контакт) уходит
+#      админу в личку (ADMIN_CHAT_ID) с кнопкой подтверждения
 #   3) админ вручную сверяет оплату и жмёт кнопку → бот сам отправляет
-#      полный отчёт пользователю в Telegram и дублирует его на email
+#      полный отчёт пользователю в Telegram
 # --------------------------------------------------------------------------
-
-EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
-
-
-def is_valid_email(text: str) -> bool:
-    return bool(EMAIL_RE.match(text.strip()))
-
-
-def send_report_email(to_email: str, subject: str, html_body: str) -> bool:
-    """Отправляет отчёт на email через SMTP. Возвращает True/False.
-
-    Если SMTP не настроен (SMTP_HOST пуст) — ничего не делает и возвращает
-    False, не поднимая исключение: email тут не критичен, отчёт всё равно
-    уходит в Telegram.
-    """
-    if not SMTP_HOST or not SMTP_USER or not SMTP_PASSWORD:
-        logger.info("SMTP не настроен — email не отправлен (%s)", to_email)
-        return False
-
-    try:
-        message = MIMEMultipart("alternative")
-        message["Subject"] = subject
-        message["From"] = f"{SMTP_FROM_NAME} <{SMTP_FROM_EMAIL}>"
-        message["To"] = to_email
-        message.attach(MIMEText(html_body, "html", "utf-8"))
-
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as server:
-            server.starttls()
-            server.login(SMTP_USER, SMTP_PASSWORD)
-            server.sendmail(SMTP_FROM_EMAIL, [to_email], message.as_string())
-        return True
-    except Exception:
-        logger.exception("Не удалось отправить email на %s", to_email)
-        return False
 
 
 async def send_payment_instructions(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1400,41 +1685,13 @@ async def request_full_report(update: Update, context: ContextTypes.DEFAULT_TYPE
         return
 
     is_couple = context.user_data.get("male_scores") is not None
-    context.user_data["awaiting_email"] = True
     note = (
-        " (у тебя пройден и тест на партнёра — отчёт будет на двоих)"
+        " У тебя пройден и тест на партнёра — отчёт будет на двоих."
         if is_couple
-        else " (тест на партнёра не пройден — отчёт будет только на тебя; "
-        "если хочешь на двоих, сначала пройди «Узнать психотип партнёра»)"
+        else " Тест на партнёра не пройден — отчёт будет только на тебя; "
+        "если хочешь на двоих, сначала пройди «Узнать психотип партнёра»."
     )
-    await query.message.reply_text(
-        "Напиши свою электронную почту — как только оплата будет "
-        f"подтверждена, отчёт придёт сюда и на неё.{note}"
-    )
-
-
-async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Ловит обычные текстовые сообщения — сейчас нужен только email-адрес.
-
-    Если пользователь не в процессе оставления email (awaiting_email не
-    выставлен), просто ничего не делаем — этот бот не рассчитан на
-    произвольный диалог вне сценария теста.
-    """
-    if not context.user_data.get("awaiting_email"):
-        return
-
-    email = update.message.text.strip()
-    if not is_valid_email(email):
-        await update.message.reply_text(
-            "Это не похоже на email. Проверь формат (например, name@example.com) "
-            "и пришли ещё раз."
-        )
-        return
-
-    context.user_data["awaiting_email"] = False
-    context.user_data["email"] = email
-
-    await update.message.reply_text("Спасибо! Вот как оплатить:")
+    await query.message.reply_text(f"Отлично!{note} Вот как оплатить:")
     await send_payment_instructions(update, context)
 
 
@@ -1448,21 +1705,19 @@ async def process_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, fi
     context.user_data["awaiting_receipt"] = False
 
     user = update.effective_user
-    email = context.user_data.get("email", "")
 
     pending = context.bot_data.setdefault("pending", {})
     pending[str(user.id)] = {
         "disc_scores": context.user_data.get("disc_scores"),
         "love_lang_scores": context.user_data.get("love_lang_scores"),
         "male_scores": context.user_data.get("male_scores"),
-        "email": email,
         "username": user.username,
         "full_name": user.full_name,
         "receipt_file_id": file_id,
         "receipt_is_photo": is_photo,
     }
 
-    followup = "Спасибо! Проверю оплату и пришлю тебе полный разбор — сюда и на почту."
+    followup = "Спасибо! Проверю оплату и пришлю тебе полный разбор сюда же, в этот чат."
     if ADMIN_USERNAME:
         followup += f"\n\nЕсли хочешь ускорить — можешь также написать мне лично: https://t.me/{ADMIN_USERNAME}"
     await update.message.reply_text(followup)
@@ -1477,8 +1732,7 @@ async def process_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, fi
     contact = f"@{user.username}" if user.username else user.full_name
     caption = (
         "🔔 Новая заявка на полный профиль\n\n"
-        f"Пользователь: {contact} (id {user.id})\n"
-        f"Email: {email}\n\n"
+        f"Пользователь: {contact} (id {user.id})\n\n"
         "Проверь чек и нажми кнопку, чтобы отправить отчёт."
     )
     confirm_button = InlineKeyboardMarkup(
@@ -1916,22 +2170,8 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
         logger.exception("Не удалось отправить отчёт пользователю %s в Telegram", target_id)
         telegram_ok = False
 
-    brand_cta_html = format_brand_cta_text().replace("\n", "<br>")
-    html_body = (
-        "<h2>Твой полный профиль</h2><p>"
-        + report_text.replace("\n", "<br>")
-        + "</p><hr><p>"
-        + brand_cta_html
-        + f'</p><p><a href="{CHANNEL_URL}">Перейти в канал</a></p>'
-        + "<p>📖 Книга «Сначала Я» пишется и скоро выйдет — главы уже публикуются в канале.</p>"
-    )
-    email_ok = send_report_email(
-        record["email"], "Твой полный профиль", html_body
-    )
-
     status_lines = [f"✅ Отправлено: {record.get('username') or record.get('full_name') or target_id}"]
     status_lines.append(f"Telegram: {'ok' if telegram_ok else '⚠️ не доставлено (бот заблокирован?)'}")
-    status_lines.append(f"Email ({record['email']}): {'ok' if email_ok else '⚠️ не отправлен'}")
     if used_fallback:
         status_lines.append(f"⚠️ Отправлена склеенная версия ({error_reason})")
     await edit_admin_message(query, "\n".join(status_lines))
@@ -1962,7 +2202,7 @@ async def pending_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         button = InlineKeyboardMarkup(
             [[InlineKeyboardButton("✅ Подтвердить и отправить", callback_data=f"confirm|{uid}")]]
         )
-        caption = f"{contact} — {record['email']}"
+        caption = contact
         if record.get("receipt_file_id"):
             if record.get("receipt_is_photo", True):
                 await update.message.reply_photo(
@@ -2100,30 +2340,21 @@ def format_full_result_text(scores: dict) -> str:
 
 async def show_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
     result_text = format_result_text(scores)
-    bridge_text = format_bridge_to_lovelang_text()
 
-    cta_buttons = InlineKeyboardMarkup(
-        [
-            [InlineKeyboardButton("❤️ Узнать свой язык любви", callback_data="start_lovelang")],
-            [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
-            [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
-        ]
-    )
-
-    # Результат и мостик — раздельными сообщениями, чтобы бесплатный разбор
-    # не сливался визуально с приглашением на второй тест.
+    # Результат психотипа — отдельным сообщением, чтобы не сливаться с
+    # продолжением. Кнопок тут больше нет: сразу после результата бот сам
+    # продолжает тем же тестом — переходит к вопросам на мотиваторы (см.
+    # start_motivator_test), а не ждёт лишнего клика.
     await query.edit_message_text(
         result_text, parse_mode=ParseMode.HTML, reply_markup=None
     )
-    await query.message.reply_text(bridge_text, parse_mode=ParseMode.HTML)
-    await query.message.reply_text(
-        "Что дальше? 👇", reply_markup=cta_buttons
-    )
 
-    # Баллы DISC сохраняем (не обнуляем!) — понадобятся позже для полного
-    # платного отчёта, который объединит их с результатами теста на языки любви.
+    # Баллы психотипа сохраняем (не обнуляем!) — понадобятся позже для
+    # полного платного отчёта вместе с языком любви и (опционально) партнёром.
     context.user_data["disc_scores"] = scores
     context.user_data["current_q"] = None
+
+    await start_motivator_test(query, context)
     context.user_data["scores"] = None
 
 
@@ -2145,6 +2376,7 @@ def main():
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("pending", pending_command))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^ans\|"))
+    application.add_handler(CallbackQueryHandler(handle_motivator_answer, pattern=r"^motans\|"))
     application.add_handler(CallbackQueryHandler(start_lovelang, pattern=r"^start_lovelang$"))
     application.add_handler(CallbackQueryHandler(handle_lovelang_answer, pattern=r"^llanswer\|"))
     application.add_handler(CallbackQueryHandler(start_male_test, pattern=r"^start_male_test$"))
@@ -2154,7 +2386,8 @@ def main():
     application.add_handler(CallbackQueryHandler(handle_confirm_payment, pattern=r"^confirm\|"))
     application.add_handler(MessageHandler(filters.PHOTO, handle_receipt_photo))
     application.add_handler(MessageHandler(filters.Document.ALL, handle_receipt_document))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_message))
+    # Свободный текст (не команда) боту сейчас не нужен — email мы больше
+    # не собираем, а весь остальной сценарий идёт через кнопки.
     application.add_error_handler(on_error)
 
     logger.info("Бот запущен, ждём сообщения...")
