@@ -56,10 +56,16 @@ logger = logging.getLogger(__name__)
 # --------------------------------------------------------------------------
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
-CHANNEL_URL = os.environ.get("CHANNEL_URL", "https://t.me/your_channel")
-COURSE_URL = os.environ.get("COURSE_URL", "https://your-course-link.example")
+CHANNEL_URL = os.environ.get("CHANNEL_URL", "https://t.me/samaiyaschastlivaya")
 CHANNEL_BUTTON_TEXT = os.environ.get("CHANNEL_BUTTON_TEXT", "📣 Подписаться на канал")
-COURSE_BUTTON_TEXT = os.environ.get("COURSE_BUTTON_TEXT", "🎓 Узнать про программу")
+COURSE_BUTTON_TEXT = os.environ.get("COURSE_BUTTON_TEXT", "📖 Книга «Сначала Я»")
+BOOK_INFO_TEXT = os.environ.get(
+    "BOOK_INFO_TEXT",
+    "📖 Книга «Сначала Я» сейчас пишется и скоро выйдет в продажу.\n\n"
+    "Пока она не закончена, отдельные главы и отрывки выкладываются "
+    "в моём Telegram-канале — переходи туда, чтобы читать по кусочкам "
+    "уже сейчас и не пропустить выход книги целиком:",
+)
 PERSISTENCE_PATH = os.environ.get("PERSISTENCE_PATH", "bot_persistence.pickle")
 
 # Финальный платный оффер (полный профиль: психотип + язык любви).
@@ -1754,12 +1760,8 @@ def format_report_html(sections: list, is_couple: bool = False) -> str:
 
 
 def format_brand_cta_text() -> str:
-    """Нативная реклама канала/программ Айгерим — отправляется отдельным
+    """Нативная реклама канала и книги «Сначала Я» — отправляется отдельным
     сообщением сразу после полного отчёта (и в Telegram, и добавляется в email).
-
-    ВАЖНО ДЛЯ АЙГЕРИМ: подставь сюда реальные названия и цифры своих
-    программ (курс/разбор/консультация) вместо плейсхолдеров в скобках —
-    сознательно не выдумываю за тебя конкретные названия продуктов и цифры.
 
     Сознательно не ссылается на конкретные номера пунктов отчёта (типа
     "см. пункт 8") — текст отчёта каждый раз генерируется заново и его
@@ -1776,14 +1778,15 @@ def format_brand_cta_text() -> str:
         ),
         "",
         (
-            "Именно для этого в [название канала/сообщества] есть "
-            "инструменты, которые закрывают ровно твоё слепое пятно из отчёта выше:"
+            "В канале «Сама я счастливая» я разбираю ровно такие вещи — "
+            "паттерны, слепые пятна и то, как менять сценарий в отношениях "
+            "на практике."
         ),
         "",
         (
-            "💬 <b>[Название программы/курса].</b> Учимся замечать свой "
-            "паттерн в моменте — до того, как он снова приводит к одному и "
-            "тому же сценарию в отношениях."
+            "📖 Там же по кусочкам выходит моя книга «Сначала Я» — пока она "
+            "пишется, главы публикуются в канале, и как только книга "
+            "выйдет целиком, ты узнаешь об этом первой."
         ),
         "",
         (
@@ -1791,15 +1794,22 @@ def format_brand_cta_text() -> str:
             "тренированный навык."
         ),
         "",
-        (
-            "🔥 Хочешь прямо сейчас начать менять свой сценарий в "
-            "отношениях? Загляни в [название курса/разбора] — "
-            "[коротко, чем он поможет]."
-        ),
-        "",
         "👇 Выбирай, с чего начать:",
     ]
     return "\n".join(lines)
+
+
+async def show_book_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Кнопка «Книга «Сначала Я»» не ведёт по прямой ссылке (книга ещё не
+    издана) — вместо этого показывает всплывающее сообщение о том, что
+    книга пишется и выходит по частям в канале, с кнопкой на сам канал.
+    """
+    query = update.callback_query
+    await query.answer()
+    buttons = InlineKeyboardMarkup(
+        [[InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)]]
+    )
+    await query.message.reply_text(BOOK_INFO_TEXT, reply_markup=buttons)
 
 
 def split_for_telegram(text: str, limit: int = 3500) -> list:
@@ -1893,7 +1903,7 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
         brand_buttons = InlineKeyboardMarkup(
             [
                 [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
-                [InlineKeyboardButton(COURSE_BUTTON_TEXT, url=COURSE_URL)],
+                [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
             ]
         )
         await context.bot.send_message(
@@ -1913,7 +1923,7 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
         + "</p><hr><p>"
         + brand_cta_html
         + f'</p><p><a href="{CHANNEL_URL}">Перейти в канал</a></p>'
-        + f'<p><a href="{COURSE_URL}">Узнать про программу</a></p>'
+        + "<p>📖 Книга «Сначала Я» пишется и скоро выйдет — главы уже публикуются в канале.</p>"
     )
     email_ok = send_report_email(
         record["email"], "Твой полный профиль", html_body
@@ -2096,7 +2106,7 @@ async def show_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
         [
             [InlineKeyboardButton("❤️ Узнать свой язык любви", callback_data="start_lovelang")],
             [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
-            [InlineKeyboardButton(COURSE_BUTTON_TEXT, url=COURSE_URL)],
+            [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
         ]
     )
 
@@ -2140,6 +2150,7 @@ def main():
     application.add_handler(CallbackQueryHandler(start_male_test, pattern=r"^start_male_test$"))
     application.add_handler(CallbackQueryHandler(handle_male_answer, pattern=r"^maleans\|"))
     application.add_handler(CallbackQueryHandler(request_full_report, pattern=r"^request_report$"))
+    application.add_handler(CallbackQueryHandler(show_book_info, pattern=r"^book_info$"))
     application.add_handler(CallbackQueryHandler(handle_confirm_payment, pattern=r"^confirm\|"))
     application.add_handler(MessageHandler(filters.PHOTO, handle_receipt_photo))
     application.add_handler(MessageHandler(filters.Document.ALL, handle_receipt_document))
