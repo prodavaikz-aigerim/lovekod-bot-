@@ -84,6 +84,11 @@ PAYMENT_LINK_URL = os.environ.get("PAYMENT_LINK_URL", "")
 KASPI_PHONE_NUMBER = os.environ.get("KASPI_PHONE_NUMBER", "")
 PAYMENT_BUTTON_TEXT = os.environ.get("PAYMENT_BUTTON_TEXT", "💳 Оплатить")
 
+# Доп. опция "узнать психотип ещё одного человека" (мама, подруга, коллега —
+# любой, не обязательно партнёр). Отдельная цена за каждого следующего
+# человека, не связана с солo/парной ценой основного отчёта.
+OTHER_PERSON_PRICE = os.environ.get("OTHER_PERSON_PRICE", "2 000 ₸")
+
 # Твой личный Telegram chat_id (не username!) — сюда будут приходить
 # уведомления. Узнать свой chat_id можно, написав боту @userinfobot.
 ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "")
@@ -886,6 +891,207 @@ MALE_QUESTIONS = [
 
 TOTAL_MALE_QUESTIONS = len(MALE_QUESTIONS)
 
+
+# --------------------------------------------------------------------------
+# ПСИХОТИП ЛЮБОГО ДРУГОГО ЧЕЛОВЕКА (мама, подруга, коллега, ребёнок —
+# не обязательно романтический партнёр). Отдельная платная опция, доступная
+# в любой момент (кнопка после отчёта + команда /another), с отдельной
+# ценой за КАЖДОГО следующего человека (OTHER_PERSON_PRICE).
+#
+# В отличие от MALE_PROFILES, тексты здесь нейтральные — не про романтику
+# и не про "него", а про общение с этим типом человека в целом.
+# --------------------------------------------------------------------------
+
+OTHER_PERSON_PROFILES = {
+    "R": {
+        "name": "Красный",
+        "subtitle": "Лидер — уверенно ведёт и решает",
+        "emoji": "🔴",
+        "strengths": [
+            "прямо говорит, чего хочет — с ним всегда понятно, на чём вы стоите",
+            "берёт на себя ответственность за решения",
+            "не боится конфликтов и не откладывает трудные разговоры",
+            "энергичен, двигает дела вперёд",
+        ],
+        "weaknesses": [
+            "может давить и торопить с решением",
+            "нетерпелив, тяжело переносит чужую нерешительность",
+            "порой не дослушивает до конца, перебивает",
+            "может показаться резким или излишне контролирующим",
+        ],
+        "recommendations": [
+            "говори прямо и по делу — он ценит это больше, чем долгие подводки",
+            "не бойся возражать открыто — он уважает тех, кто отстаивает свою позицию",
+            "если нужно время подумать — прямо скажи об этом, не отмалчивайся",
+            "не воспринимай его напор как личное — часто это просто его манера действовать",
+        ],
+    },
+    "Y": {
+        "name": "Жёлтый",
+        "subtitle": "Душа компании — заряжает лёгкостью и энергией",
+        "emoji": "🟡",
+        "strengths": [
+            "легко создаёт тёплую, живую атмосферу",
+            "искренне и ярко проявляет эмоции",
+            "заряжает энтузиазмом, вытаскивает из рутины",
+            "быстро отходит после конфликтов",
+        ],
+        "weaknesses": [
+            "может забывать договорённости и детали",
+            "иногда обещает больше, чем может выполнить",
+            "избегает серьёзных разговоров, уходит в шутку",
+            "откладывает скучные, рутинные задачи",
+        ],
+        "recommendations": [
+            "фиксируйте важные договорённости письменно — так надёжнее для вас обоих",
+            "если тема серьёзная — прямо скажи, что не готова шутить, и попроси договорить до конца",
+            "цени его лёгкость, но не полагайся на память без напоминаний",
+            "в конфликте предлагай прямой разговор вместо сарказма — с ним это работает лучше",
+        ],
+    },
+    "G": {
+        "name": "Зелёный",
+        "subtitle": "Опора — надёжный и терпеливый",
+        "emoji": "🟢",
+        "strengths": [
+            "терпелив и надёжен, создаёт ощущение стабильности",
+            "отлично слушает",
+            "сохраняет спокойствие в конфликте",
+            "умеет годами поддерживать тёплые отношения",
+        ],
+        "weaknesses": [
+            "избегает конфликта даже там, где стоило бы обозначить границы",
+            "долго терпит то, что не устраивает",
+            "тяжело переживает трения молча",
+            "неохотно поднимает неудобные темы",
+        ],
+        "recommendations": [
+            "создавай пространство для честного разговора сама — он не поднимет тему первым",
+            "если он молчит — не значит, что всё хорошо, спроси прямо",
+            "цени его терпение, но не пользуйся тем, что он не спорит",
+            "договоритесь о регулярных «сверках», чтобы недовольство не копилось",
+        ],
+    },
+    "B": {
+        "name": "Синий",
+        "subtitle": "Аналитик — вдумчивый и последовательный",
+        "emoji": "🔵",
+        "strengths": [
+            "вдумчиво подходит к решениям, не действует импульсивно",
+            "даёт точные, взвешенные советы",
+            "вызывает доверие как надёжный человек",
+            "держит слово",
+        ],
+        "weaknesses": [
+            "может «тонуть» в деталях и анализе",
+            "медленно открывается эмоционально",
+            "избегает эмоциональных разговоров, может казаться отстранённым",
+            "трудно подстраивается к спонтанности",
+        ],
+        "recommendations": [
+            "не жди, что он первым проявит эмоции — иногда нужно спросить прямо, что он чувствует",
+            "дай время подумать перед важным разговором, не требуй ответа сразу",
+            "цени его стабильность, но иногда мягко предлагай спонтанность",
+            "не путай его сдержанность с равнодушием",
+        ],
+    },
+}
+
+OTHER_PERSON_QUESTIONS = [
+    {
+        "text": "Когда вы вместе что-то планируете, этот человек обычно…",
+        "options": [
+            ("Накидывает несколько идей, решает по настроению", "Y"),
+            ("Всё заранее продумывает и планирует по пунктам", "B"),
+            ("Сам решает и говорит план", "R"),
+            ("Спрашивает, что удобно другим, и подстраивается", "G"),
+        ],
+    },
+    {
+        "text": "Если возникает недопонимание, этот человек чаще всего…",
+        "options": [
+            ("Замолкает, уходит от разговора", "G"),
+            ("Прямо говорит, что думает, даже резко", "R"),
+            ("Переводит всё в шутку", "Y"),
+            ("Берёт паузу, обдумывает, возвращается с аргументами", "B"),
+        ],
+    },
+    {
+        "text": "Крупное решение этот человек обычно принимает так:",
+        "options": [
+            ("Загорается и решает сразу, на эмоциях", "Y"),
+            ("Долго сравнивает варианты и изучает", "B"),
+            ("Решает быстро сам, не любит затягивать", "R"),
+            ("Советуется с другими", "G"),
+        ],
+    },
+    {
+        "text": "В компании малознакомых людей этот человек…",
+        "options": [
+            ("Присматривается, говорит по делу", "B"),
+            ("Уверенно берёт разговор в свои руки", "R"),
+            ("Быстро включается, всех веселит", "Y"),
+            ("Держится рядом с тем, кого знает", "G"),
+        ],
+    },
+    {
+        "text": "Когда у тебя плохое настроение, этот человек обычно…",
+        "options": [
+            ("Сразу предлагает решение проблемы", "R"),
+            ("Просто рядом побудет, поддержит молча", "G"),
+            ("Пытается развеселить, отвлечь", "Y"),
+            ("Спокойно расспрашивает, что случилось", "B"),
+        ],
+    },
+    {
+        "text": "Если ты раздражена или резка, этот человек…",
+        "options": [
+            ("Спокойно и по фактам разбирает, в чём дело", "B"),
+            ("Отвечает так же прямо", "R"),
+            ("Старается сгладить, успокоить", "G"),
+            ("Переводит в лёгкое русло, шутит", "Y"),
+        ],
+    },
+    {
+        "text": "О чём этот человек говорит с гордостью?",
+        "options": [
+            ("О своих победах и достижениях", "R"),
+            ("О ярких моментах и людях, с которыми общался", "Y"),
+            ("О том, что разобрался в чём-то сложном", "B"),
+            ("О том, что смог кому-то помочь", "G"),
+        ],
+    },
+    {
+        "text": "Свободный день без планов — как обычно проходит у этого человека?",
+        "options": [
+            ("Составляет список дел, делает по пунктам", "B"),
+            ("Находит, чем себя занять — спорт, дела", "R"),
+            ("День складывается спонтанно", "Y"),
+            ("Просто дома, никуда не торопится", "G"),
+        ],
+    },
+    {
+        "text": "Как этот человек реагирует на критику?",
+        "options": [
+            ("Может вспылить, но быстро отходит", "R"),
+            ("Отшучивается, не принимает близко", "Y"),
+            ("Переживает долго, даже если сказано мягко", "G"),
+            ("Разбирает по существу", "B"),
+        ],
+    },
+    {
+        "text": "Что для этого человека важнее всего в общении с людьми (по твоим наблюдениям)?",
+        "options": [
+            ("Уважение, чтобы с ним считались", "R"),
+            ("Тепло, ощущение поддержки", "G"),
+            ("Стабильность, понятность", "B"),
+            ("Лёгкость, чтобы не было скучно", "Y"),
+        ],
+    },
+]
+
+TOTAL_OTHER_QUESTIONS = len(OTHER_PERSON_QUESTIONS)
+
 # --------------------------------------------------------------------------
 # ЛОГИКА БОТА
 # --------------------------------------------------------------------------
@@ -957,7 +1163,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Команда /start — начать (или начать заново) тест на психотип."
+        "Команда /start — начать (или начать заново) тест на психотип.\n"
+        "Команда /another — узнать психотип ещё одного человека "
+        f"(мама, подруга, коллега — {OTHER_PERSON_PRICE} за каждого)."
     )
 
 
@@ -1621,6 +1829,265 @@ async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: di
 
 
 # --------------------------------------------------------------------------
+# ПСИХОТИП ЛЮБОГО ДРУГОГО ЧЕЛОВЕКА — отдельная платная опция (не связана с
+# основным отчётом), доступна кнопкой после отчёта или командой /another.
+# Оплата и доставка результата — свой отдельный, более простой процесс:
+# без Claude API, сразу статический текст после подтверждения админом.
+# --------------------------------------------------------------------------
+
+
+def build_other_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton(text=label, callback_data=f"otherans|{qindex}|{code}")]
+        for label, code in options
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+async def send_other_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
+    question = OTHER_PERSON_QUESTIONS[qindex]
+    text = f"Вопрос {qindex + 1} из {TOTAL_OTHER_QUESTIONS}\n\n{question['text']}"
+    keyboard = build_other_keyboard(qindex, question["options"])
+    await query.edit_message_text(text, reply_markup=keyboard)
+
+
+OTHER_TEST_INTRO_TEXT = (
+    f"🧠 Психотип ещё одного человека — {OTHER_PERSON_PRICE} за анализ.\n\n"
+    "Как назвать этого человека, чтобы легче было узнать результат? Можно "
+    "имя или просто «мама», «подруга Аня», «коллега» и т.п. — напиши текстом:"
+)
+
+
+async def start_other_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускается кнопкой (callback) или командой /another — оба пути
+    ведут в один и тот же следующий шаг: попросить текстом имя/label
+    человека (см. handle_text_message), прежде чем показывать вопросы.
+    """
+    context.user_data["awaiting_other_name"] = True
+    if update.callback_query:
+        await update.callback_query.answer()
+        await update.callback_query.message.reply_text(OTHER_TEST_INTRO_TEXT)
+    else:
+        await update.message.reply_text(OTHER_TEST_INTRO_TEXT)
+
+
+async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Свободный текст нужен только для одного шага — узнать, как назвать
+    человека для теста "психотип ещё одного человека". Во всех остальных
+    случаях (флаг не установлен) бот ничего не делает с произвольным текстом.
+    """
+    if not context.user_data.get("awaiting_other_name"):
+        return
+
+    label = update.message.text.strip()
+    if not label:
+        await update.message.reply_text("Напиши хотя бы одно слово — имя или кем он тебе приходится.")
+        return
+
+    context.user_data["awaiting_other_name"] = False
+    context.user_data["other_label"] = label
+    context.user_data["other_scores"] = {"R": 0, "Y": 0, "G": 0, "B": 0}
+    context.user_data["other_current_q"] = 0
+
+    question = OTHER_PERSON_QUESTIONS[0]
+    text = f"Вопрос 1 из {TOTAL_OTHER_QUESTIONS}\n\n{question['text']}"
+    await update.message.reply_text(
+        text, reply_markup=build_other_keyboard(0, question["options"])
+    )
+
+
+async def handle_other_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer(text="✅ Принято")
+
+    try:
+        _, qindex_str, code = query.data.split("|")
+        qindex = int(qindex_str)
+    except (ValueError, AttributeError):
+        return
+
+    current_q = context.user_data.get("other_current_q")
+    scores = context.user_data.get("other_scores")
+
+    if current_q is None or scores is None:
+        await query.edit_message_text(
+            "⚠️ Результаты не сохранились (бот перезапускался). Нажми "
+            "/another, чтобы начать заново."
+        )
+        return
+
+    if qindex != current_q:
+        return
+
+    scores[code] = scores.get(code, 0) + 1
+    next_q = current_q + 1
+    context.user_data["other_current_q"] = next_q
+
+    if next_q < TOTAL_OTHER_QUESTIONS:
+        await send_other_question(query, context, next_q)
+    else:
+        await show_other_result(query, context, scores)
+
+
+def format_other_result_text(label: str, scores: dict) -> str:
+    """Бесплатный тизер — топ-1 тип + первая сильная/слабая сторона."""
+    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+    top1_code, _ = ranked[0]
+    top1 = OTHER_PERSON_PROFILES[top1_code]
+
+    lines = [
+        f"🧠 <b>Психотип «{label}» — {top1['emoji']} {top1['name'].upper()}</b>\n",
+        f"{top1['subtitle']}.",
+        "",
+        top1["strengths"][0],
+        top1["weaknesses"][0],
+    ]
+    return "\n".join(lines)
+
+
+def format_other_full_text(label: str, scores: dict) -> str:
+    """Полный (платный) результат — все 4 типа с баллами + рекомендации."""
+    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+
+    lines = [f"🧠 <b>Полный профиль «{label}»</b>\n"]
+    for code, score in ranked:
+        p = OTHER_PERSON_PROFILES[code]
+        lines.append(f"{p['emoji']} {p['name']}: {score}/{TOTAL_OTHER_QUESTIONS}")
+    lines.append("")
+
+    top1_code, _ = ranked[0]
+    top1 = OTHER_PERSON_PROFILES[top1_code]
+    lines.append(f"<b>Ведущий тип: {top1['emoji']} {top1['name']}</b>")
+    lines.append(f"{top1['subtitle']}.")
+    lines.append("Сильные стороны: " + "; ".join(top1["strengths"]))
+    lines.append("Зоны риска: " + "; ".join(top1["weaknesses"]))
+    lines.append("Как с ним общаться: " + "; ".join(top1["recommendations"]))
+
+    return "\n".join(lines)
+
+
+async def show_other_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
+    label = context.user_data.get("other_label", "этого человека")
+    result_text = format_other_result_text(label, scores)
+    await query.edit_message_text(result_text, parse_mode=ParseMode.HTML, reply_markup=None)
+
+    context.user_data["other_scores"] = scores
+    context.user_data["other_current_q"] = None
+    context.user_data["awaiting_other_receipt"] = True
+
+    await query.message.reply_text(
+        f"💳 Полный разбор «{label}» — <b>{OTHER_PERSON_PRICE}</b>.\n\n"
+        "Пришли сюда скриншот чека (просто фото) — проверю и вышлю полный профиль.",
+        parse_mode=ParseMode.HTML,
+    )
+
+
+async def process_other_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, file_id: str, is_photo: bool):
+    """Аналог process_receipt, но для доп. опции "ещё один человек" — своя
+    отдельная очередь заявок (other_pending), чтобы не конфликтовать с
+    основной заявкой на психотип+язык любви, если она ещё не подтверждена.
+    """
+    context.user_data["awaiting_other_receipt"] = False
+
+    user = update.effective_user
+    label = context.user_data.get("other_label", "этого человека")
+    scores = context.user_data.get("other_scores")
+
+    other_pending = context.bot_data.setdefault("other_pending", {})
+    counter = context.bot_data.setdefault("other_pending_counter", 0) + 1
+    context.bot_data["other_pending_counter"] = counter
+    key = f"{user.id}-{counter}"
+
+    other_pending[key] = {
+        "user_id": user.id,
+        "label": label,
+        "scores": scores,
+        "username": user.username,
+        "full_name": user.full_name,
+        "receipt_file_id": file_id,
+        "receipt_is_photo": is_photo,
+    }
+
+    followup = f"Спасибо! Проверю оплату и пришлю тебе полный профиль «{label}» сюда же."
+    if ADMIN_USERNAME:
+        followup += f"\n\nЕсли хочешь ускорить — можешь также написать мне лично: https://t.me/{ADMIN_USERNAME}"
+    await update.message.reply_text(followup)
+
+    if not ADMIN_CHAT_ID:
+        logger.warning(
+            "ADMIN_CHAT_ID не задан — доп. заявка от %s сохранена, но уведомление не отправлено",
+            user.id,
+        )
+        return
+
+    contact = f"@{user.username}" if user.username else user.full_name
+    caption = (
+        "🔔 Новая заявка на доп. профиль\n\n"
+        f"Пользователь: {contact} (id {user.id})\n"
+        f"Кому: «{label}»\n\n"
+        "Проверь чек и нажми кнопку, чтобы отправить отчёт."
+    )
+    confirm_button = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("✅ Подтвердить и отправить", callback_data=f"otherconfirm|{key}")]]
+    )
+    try:
+        if is_photo:
+            await context.bot.send_photo(
+                chat_id=ADMIN_CHAT_ID, photo=file_id, caption=caption, reply_markup=confirm_button
+            )
+        else:
+            await context.bot.send_document(
+                chat_id=ADMIN_CHAT_ID, document=file_id, caption=caption, reply_markup=confirm_button
+            )
+    except TelegramError:
+        logger.exception("Не удалось отправить уведомление админу о доп. заявке")
+
+
+async def handle_confirm_other_payment(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Подтверждение доп. заявки — отправляет статический полный текст
+    (без Claude API, тут это не нужно — это просто один тип из четырёх)."""
+    query = update.callback_query
+    await query.answer()
+
+    key = query.data.split("|", 1)[1]
+    other_pending = context.bot_data.get("other_pending", {})
+    record = other_pending.pop(key, None)
+
+    if record is None:
+        await edit_admin_message(query, "⚠️ Заявка не найдена (возможно, уже обработана).")
+        return
+
+    target_id = record["user_id"]
+    label = record["label"]
+    report_text = format_other_full_text(label, record["scores"])
+
+    telegram_ok = True
+    try:
+        await context.bot.send_message(
+            chat_id=target_id,
+            text=f"🎉 Оплата подтверждена! Вот полный профиль «{label}».",
+        )
+        for chunk in split_for_telegram(report_text):
+            await context.bot.send_message(chat_id=target_id, text=chunk, parse_mode=ParseMode.HTML)
+
+        another_buttons = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("🧠 Узнать ещё одного человека", callback_data="start_other_test")]]
+        )
+        await context.bot.send_message(
+            chat_id=target_id,
+            text=f"Хочешь узнать психотип ещё кого-то? Каждый следующий анализ — {OTHER_PERSON_PRICE}.",
+            reply_markup=another_buttons,
+        )
+    except TelegramError:
+        logger.exception("Не удалось отправить доп. отчёт пользователю %s", target_id)
+        telegram_ok = False
+
+    status = f"✅ Отправлено «{label}» пользователю {record.get('username') or record.get('full_name') or target_id}"
+    status += f"\nTelegram: {'ok' if telegram_ok else '⚠️ не доставлено (бот заблокирован?)'}"
+    await edit_admin_message(query, status)
+
+
+# --------------------------------------------------------------------------
 # ПОЛУРУЧНОЙ РЕЖИМ ОПЛАТЫ: заявка → уведомление админу → подтверждение
 #
 # Пока не подключён официальный эквайринг Kaspi, процесс такой:
@@ -1758,21 +2225,26 @@ async def process_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, fi
 
 
 async def handle_receipt_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Ловит фото-чеки. Если пользователь не в процессе отправки чека —
-    ничего не делаем (бот не разбирает произвольные фото).
+    """Ловит фото-чеки. Проверяет оба возможных флага ожидания — основной
+    отчёт (awaiting_receipt) и доп. опцию "ещё один человек"
+    (awaiting_other_receipt) — и направляет в соответствующую обработку.
+    Если ни один флаг не установлен — ничего не делаем.
     """
-    if not context.user_data.get("awaiting_receipt"):
-        return
-    await process_receipt(update, context, update.message.photo[-1].file_id, is_photo=True)
+    if context.user_data.get("awaiting_receipt"):
+        await process_receipt(update, context, update.message.photo[-1].file_id, is_photo=True)
+    elif context.user_data.get("awaiting_other_receipt"):
+        await process_other_receipt(update, context, update.message.photo[-1].file_id, is_photo=True)
 
 
 async def handle_receipt_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Ловит чеки, присланные файлом (например, PDF) — раньше такие чеки
     вообще не обрабатывались (бот молчал), теперь принимаются наравне с фото.
+    Как и handle_receipt_photo, проверяет оба флага ожидания.
     """
-    if not context.user_data.get("awaiting_receipt"):
-        return
-    await process_receipt(update, context, update.message.document.file_id, is_photo=False)
+    if context.user_data.get("awaiting_receipt"):
+        await process_receipt(update, context, update.message.document.file_id, is_photo=False)
+    elif context.user_data.get("awaiting_other_receipt"):
+        await process_other_receipt(update, context, update.message.document.file_id, is_photo=False)
 
 
 
@@ -2156,6 +2628,7 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
         brand_cta_text = format_brand_cta_text()
         brand_buttons = InlineKeyboardMarkup(
             [
+                [InlineKeyboardButton(f"🧠 Узнать психотип ещё одного человека ({OTHER_PERSON_PRICE})", callback_data="start_other_test")],
                 [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
                 [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
             ]
@@ -2375,19 +2848,24 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("pending", pending_command))
+    application.add_handler(CommandHandler("another", start_other_test))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^ans\|"))
     application.add_handler(CallbackQueryHandler(handle_motivator_answer, pattern=r"^motans\|"))
     application.add_handler(CallbackQueryHandler(start_lovelang, pattern=r"^start_lovelang$"))
     application.add_handler(CallbackQueryHandler(handle_lovelang_answer, pattern=r"^llanswer\|"))
     application.add_handler(CallbackQueryHandler(start_male_test, pattern=r"^start_male_test$"))
     application.add_handler(CallbackQueryHandler(handle_male_answer, pattern=r"^maleans\|"))
+    application.add_handler(CallbackQueryHandler(start_other_test, pattern=r"^start_other_test$"))
+    application.add_handler(CallbackQueryHandler(handle_other_answer, pattern=r"^otherans\|"))
+    application.add_handler(CallbackQueryHandler(handle_confirm_other_payment, pattern=r"^otherconfirm\|"))
     application.add_handler(CallbackQueryHandler(request_full_report, pattern=r"^request_report$"))
     application.add_handler(CallbackQueryHandler(show_book_info, pattern=r"^book_info$"))
     application.add_handler(CallbackQueryHandler(handle_confirm_payment, pattern=r"^confirm\|"))
     application.add_handler(MessageHandler(filters.PHOTO, handle_receipt_photo))
     application.add_handler(MessageHandler(filters.Document.ALL, handle_receipt_document))
-    # Свободный текст (не команда) боту сейчас не нужен — email мы больше
-    # не собираем, а весь остальной сценарий идёт через кнопки.
+    # Свободный текст нужен только для одного шага — имя человека в опции
+    # "психотип ещё одного человека" (см. handle_text_message).
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_message))
     application.add_error_handler(on_error)
 
     logger.info("Бот запущен, ждём сообщения...")
