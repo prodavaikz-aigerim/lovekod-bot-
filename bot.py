@@ -1820,7 +1820,7 @@ async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: di
 
     ready_text = format_couple_ready_text()
     ready_buttons = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(FULL_REPORT_BUTTON_TEXT, callback_data="request_report")]]
+        [[InlineKeyboardButton("💎 Получить разбор на двоих", callback_data="request_report")]]
     )
     await query.message.reply_text(ready_text, parse_mode=ParseMode.HTML, reply_markup=ready_buttons)
 
@@ -2120,16 +2120,16 @@ async def send_payment_instructions(update: Update, context: ContextTypes.DEFAUL
         buttons = InlineKeyboardMarkup(
             [[InlineKeyboardButton(PAYMENT_BUTTON_TEXT, url=PAYMENT_LINK_URL)]]
         )
-        await update.message.reply_text(text, reply_markup=buttons)
+        await update.effective_message.reply_text(text, reply_markup=buttons)
     elif KASPI_PHONE_NUMBER:
         text = (
             f"💳 Стоимость: {price}\n\n"
             f"Переведи через Kaspi Pay на номер: <b>{KASPI_PHONE_NUMBER}</b>"
             f"{ask_receipt}"
         )
-        await update.message.reply_text(text, parse_mode=ParseMode.HTML)
+        await update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
     else:
-        await update.message.reply_text(
+        await update.effective_message.reply_text(
             f"💳 Стоимость: {price}\n\n"
             "Реквизиты для оплаты пришлю тебе лично в течение дня."
             f"{ask_receipt}"
