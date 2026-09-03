@@ -69,8 +69,9 @@ PERSISTENCE_PATH = os.environ.get("PERSISTENCE_PATH", "bot_persistence.pickle")
 # пользователь жмёт "Получить профиль" → сразу видит реквизиты для оплаты →
 # присылает чек → тебе приходит уведомление с кнопкой подтверждения →
 # после нажатия бот сам присылает полный отчёт в Telegram.
-FULL_REPORT_PRICE_SOLO = os.environ.get("FULL_REPORT_PRICE_SOLO", "4 950 ₸")
-FULL_REPORT_PRICE_COUPLE = os.environ.get("FULL_REPORT_PRICE_COUPLE", "6 930 ₸")
+FULL_REPORT_PRICE_SOLO = os.environ.get("FULL_REPORT_PRICE_SOLO", "2 700 ₸")
+FULL_REPORT_PRICE_COUPLE = os.environ.get("FULL_REPORT_PRICE_COUPLE", "3 900 ₸")
+COMPATIBILITY_RETEST_PRICE = os.environ.get("COMPATIBILITY_RETEST_PRICE", "1 500 ₸")
 FULL_REPORT_BUTTON_TEXT = os.environ.get(
     "FULL_REPORT_BUTTON_TEXT", "💎 Получить мой полный профиль"
 )
@@ -1122,6 +1123,30 @@ async def send_question(update_or_query, context: ContextTypes.DEFAULT_TYPE, qin
         await update_or_query.edit_message_text(text, reply_markup=keyboard)
 
 
+def split_text_by_limit(text: str, limit: int) -> list:
+    """Режет текст на части не длиннее limit символов, стараясь резать по
+    границам абзацев (\\n\\n), чтобы не ломать форматирование. Нужно только
+    как страховка от лимита Telegram (4096 символов на сообщение) — в
+    подавляющем большинстве случаев вернёт список из одного элемента.
+    """
+    if len(text) <= limit:
+        return [text]
+
+    parts = []
+    current = ""
+    for paragraph in text.split("\n\n"):
+        candidate = f"{current}\n\n{paragraph}" if current else paragraph
+        if len(candidate) > limit:
+            if current:
+                parts.append(current)
+            current = paragraph
+        else:
+            current = candidate
+    if current:
+        parts.append(current)
+    return parts
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Если пользователь уже начинал тест, но не дошёл до конца (current_q
     # задан и не None) — это значит, что предыдущий прогон прервался
@@ -1145,20 +1170,148 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "предыдущий результат будет заменён новым."
         )
 
-    intro = (
-        "Привет! 👋\n\n"
-        "Здесь ты узнаешь свой психотип и язык любви — свой и партнёра — "
-        "чтобы понимать, где вы совпадаете, а где нужно чуть подстроиться "
-        "друг под друга.\n\n"
-        "Начнём с психотипа "
-        "(Красный / Жёлтый / Зелёный / Синий).\n\n"
-        f"Тебя ждёт {TOTAL_QUESTIONS} вопросов, отвечай честно и быстро — "
-        "первый вариант, который откликается, обычно самый точный.\n"
-        "В конце ты узнаешь свои 2 ведущих психотипа.\n\n"
-        "Погнали!"
+    # Объяснение методологии показываем ДО первого вопроса — женщина должна
+    # понимать, на основе чего строится тестирование, а не просто отвечать
+    # на вопросы вслепую. Такой же принцип — отдельным объяснением перед
+    # каждым инструментом — применяется дальше для Шпрангера (мотиваторы)
+    # и Чепмена (языки любви), см. show_motivator_intro и start_lovelang.
+    intro_parts = [
+        "Привет! 👋",
+        (
+            "У каждой женщины есть свой уникальный способ проявляться в "
+            "отношениях. Дело не в «характере» — свои паттерны можно "
+            "понять, если знать, куда смотреть.\n\n"
+            "Вопрос не в том, «хорошая» ты партнёрша или нет. Вопрос в "
+            "том, какие твои сильные стороны уже работают на твои "
+            "отношения, а какие зоны создают повторяющиеся трудности."
+        ),
+        (
+            "Насколько хорошо ты на самом деле себя понимаешь?\n\n"
+            "Наверное, ты ловила себя на мыслях:\n"
+            "— «Почему я так реагирую?»\n"
+            "— «Почему с одним человеком легко находить общий язык, а с "
+            "другим — сложно?»\n"
+            "— «Почему иногда решение приходит быстро, а иногда я "
+            "мучительно долго сомневаюсь?»\n"
+            "— «Через что я на самом деле чувствую любовь?»\n"
+            "— «Почему одни ситуации меня заряжают, а другие выматывают?»\n\n"
+            "Мы привыкли думать, что хорошо себя знаем. Но наше поведение "
+            "и внутренние мотивы не всегда очевидны даже нам самим."
+        ),
+        (
+            "🎯 <b>Зачем тебе вообще знать свой психотип?</b>\n\n"
+            "Потому что одна и та же ты — на работе, в отношениях, в "
+            "конфликте — раз за разом проявляешься по одному и тому же "
+            "сценарию. И пока ты его не видишь, ты не можешь им управлять."
+        ),
+        (
+            "💼 <b>В работе.</b> Ты либо используешь свои природные "
+            "сильные стороны — либо изматываешь себя, пытаясь работать "
+            "«как правильно», а не так, как устроена именно ты. Знание "
+            "своего психотипа сразу показывает, где ты будешь эффективна "
+            "без усилий, а где придётся тратить в разы больше энергии на "
+            "то же самое."
+        ),
+        (
+            "❤️ <b>При выборе партнёра.</b> Ты либо осознанно выбираешь "
+            "человека, с которым естественно совпадаешь по темпу и "
+            "стилю — либо снова и снова влюбляешься в один и тот же "
+            "«сложный» тип, с которым потом одинаково тяжело. Психотип "
+            "показывает, ПОЧЕМУ так происходит, и что именно повторяется."
+        ),
+        (
+            "💥 <b>В разногласиях.</b> Когда ты понимаешь, кто перед "
+            "тобой — ты знаешь, КАК отстоять свою точку зрения именно с "
+            "этим человеком: кому-то нужно говорить прямо и коротко, "
+            "кому-то — сначала дать эмоциональную поддержку, а кому-то — "
+            "разложить всё по фактам и цифрам. Один и тот же подход "
+            "работает не со всеми одинаково — а с некоторыми не работает "
+            "вообще."
+        ),
+        (
+            "Знание психотипа — это не теория ради теории. Это конкретный "
+            "навык: за секунды считывать, с кем ты имеешь дело, и "
+            "выбирать стратегию, которая реально сработает — а не ту, "
+            "которая сработала бы с тобой самой."
+        ),
+        (
+            "Поэтому в этой диагностике несколько инструментов:\n\n"
+            "🔹 DISC — показывает, КАК ты действуешь.\n"
+            "💎 Мотиваторы по Шпрангеру — показывают, ПОЧЕМУ ты действуешь "
+            "именно так.\n"
+            "❤️ Языки любви по Гэри Чепмену — показывают, ЧЕРЕЗ ЧТО ты "
+            "чувствуешь любовь.\n\n"
+            "Вместе они дают объёмную картину того, как ты проявляешься в "
+            "отношениях."
+        ),
+        (
+            "Универсальной формулы гармоничных отношений не существует. "
+            "То, что легко работает у одной пары, у другой вызывает "
+            "сопротивление и забирает энергию.\n\n"
+            "Поэтому прежде чем говорить о рекомендациях, важно понять "
+            "тебя саму: как ты действуешь + что тобой движет + через что "
+            "ты чувствуешь любовь = твой индивидуальный стиль в "
+            "отношениях."
+        ),
+        (
+            "Что ты получишь:\n"
+            "✨ свои сильные стороны и зоны роста в отношениях;\n"
+            "✨ свой стиль общения и принятия решений;\n"
+            "✨ то, что тебя заряжает — и то, что забирает энергию;\n"
+            "✨ через что ты чувствуешь любовь и заботу;\n"
+            "✨ как находить общий язык с разными типами партнёров;\n"
+            "✨ как отстаивать себя именно с тем человеком, который перед "
+            "тобой, а не «универсальным» способом, который часто не работает."
+        ),
+        (
+            "🔹 <b>DISC — технология понимания поведения человека</b>\n\n"
+            "DISC придумал американский психолог Уильям Марстон — тот "
+            "самый, кто изобрёл детектор лжи и позже создал супергероиню "
+            "Чудо-женщину. Он первым описал, что поведение человека можно "
+            "разложить на 4 базовых стиля — и эта модель работает с "
+            "точностью, которая используется до сих пор, спустя почти "
+            "100 лет.\n\n"
+            "DISC показывает, как человек обычно действует, принимает "
+            "решения, общается и реагирует в отношениях.\n\n"
+            "🔴 <b>Красный — Доминирование</b>\n"
+            "Ориентирован на результат, скорость и контроль. Ему важно "
+            "прямо говорить, чего хочет, и быстро принимать решения.\n\n"
+            "🟡 <b>Жёлтый — Влияние</b>\n"
+            "Общительная, эмоциональная, энергичная. Ей важны тепло, "
+            "эмоции и лёгкость в общении.\n\n"
+            "🟢 <b>Зелёный — Стабильность</b>\n"
+            "Ценит спокойствие, доверие и надёжные отношения. Ей важно не "
+            "давить и дать время.\n\n"
+            "🔵 <b>Синий — Соответствие</b>\n"
+            "Ориентирован на факты, логику и точность. Ей важны ясность, "
+            "последовательность и аргументы.\n\n"
+            "И вот главный секрет: один и тот же человек может по-разному "
+            "проявляться в отношениях с разными людьми — то, что легко "
+            "работает с одним партнёром, может не работать с другим.\n\n"
+            "DISC — это не про то, чтобы «навесить ярлык». Это про то, "
+            "чтобы понимать себя и говорить с другими на понятном им "
+            "языке."
+        ),
+        (
+            "Это только первая часть — дальше будет ещё две, покороче.\n\n"
+            "Готова узнать о себе больше?"
+        ),
+    ]
+
+    full_intro = "\n\n".join(intro_parts)
+    for chunk in split_text_by_limit(full_intro, 4096):
+        await update.message.reply_text(chunk, parse_mode=ParseMode.HTML)
+
+    start_button = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("🚀 Начать тест", callback_data="begin_disc_test")]]
     )
-    await update.message.reply_text(intro)
-    await send_question(update, context, 0)
+    await update.message.reply_text("Жми, когда готова:", reply_markup=start_button)
+
+
+async def begin_disc_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    await send_question(query, context, 0)
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1224,7 +1377,10 @@ async def send_motivator_question(query, context: ContextTypes.DEFAULT_TYPE, qin
     await query.edit_message_text(text, reply_markup=keyboard)
 
 
-def format_bridge_to_motivators_text() -> str:
+def format_motivator_intro_text() -> str:
+    """Объяснение методологии Шпрангера — показывается ПОСЛЕ результата
+    психотипа и ДО первого вопроса на мотиваторы (не сразу вопросы вслепую).
+    """
     lines = [
         "Ты уже знаешь, <b>КАК</b> ты себя ведёшь.",
         "",
@@ -1232,23 +1388,74 @@ def format_bridge_to_motivators_text() -> str:
             "А теперь узнаем, <b>ПОЧЕМУ</b> — что тебя реально включает, а "
             "что выключает в жизни и в деньгах."
         ),
+        "",
+        "💎 <b>Мотиваторы по Шпрангеру — что тобой движет на самом деле</b>",
+        "",
+        (
+            "Модель создал немецкий философ и психолог Эдуард Шпрангер — "
+            "человек, чьи труды о ценностях личности легли в основу "
+            "современной психологии и помогли миллионам людей понять, что "
+            "ими движет."
+        ),
+        (
+            "Его идея простая, но фундаментальная: за каждым поступком "
+            "человека стоит ценность. Не характер, не настроение — а то, "
+            "что человек считает важным на глубинном уровне."
+        ),
+        (
+            "Одной женщиной движет стремление к результату и деньгам. "
+            "Другой — знания и развитие. Третьей — отношения и "
+            "возможность помогать людям. Для кого-то принципиальны "
+            "свобода, красота или порядок."
+        ),
+        (
+            "Именно поэтому две женщины могут хотеть одного и того же — "
+            "например, стабильных отношений — но по совершенно разным "
+            "внутренним причинам."
+        ),
+        (
+            "🎯 <b>Зачем это знать?</b> Когда ты понимаешь свой мотиватор, "
+            "ты перестаёшь винить себя за то, что «то же самое», что "
+            "заряжает других, тебя не трогает вообще. Ты выбираешь работу "
+            "и отношения, которые реально наполняют — а не те, что "
+            "«должны» подходить по чужим правилам. И в конфликте ты "
+            "начинаешь видеть: человек напротив спорит не из вредности, а "
+            "потому что задета его ключевая ценность — и это меняет, как "
+            "ты будешь с ним разговаривать."
+        ),
+        (
+            "Поэтому важно понять не только КАК ты действуешь (это ты уже "
+            "узнала), но и какие именно ценности стоят за твоими решениями."
+        ),
+        "",
+        f"Вторая часть — {TOTAL_MOTIVATOR_QUESTIONS} вопросов. Готова?",
     ]
     return "\n".join(lines)
 
 
-async def start_motivator_test(query, context: ContextTypes.DEFAULT_TYPE):
-    """Продолжение Теста 1 сразу после результата психотипа — без кнопки,
-    чтобы не терять темп и ощущаться одним тестом, а не отдельным третьим.
+async def show_motivator_intro(query, context: ContextTypes.DEFAULT_TYPE):
+    """Показывается сразу после результата психотипа — объясняет методологию
+    ДО того, как показать первый вопрос (см. begin_motivator_test).
     """
+    intro = format_motivator_intro_text()
+    button = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("🚀 Начать вторую часть", callback_data="begin_motivator_test")]]
+    )
+    await query.message.reply_text(intro, parse_mode=ParseMode.HTML, reply_markup=button)
+
+
+async def begin_motivator_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускается кнопкой после show_motivator_intro — сбрасывает баллы и
+    показывает первый вопрос."""
+    query = update.callback_query
+    await query.answer()
+
     context.user_data["mot_scores"] = {code: 0 for code in MOTIVATOR_PROFILES}
     context.user_data["mot_current_q"] = 0
 
-    bridge = format_bridge_to_motivators_text()
-    await query.message.reply_text(bridge, parse_mode=ParseMode.HTML)
-
     question = MOTIVATOR_QUESTIONS[0]
     text = f"Вопрос 1 из {TOTAL_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
-    await query.message.reply_text(
+    await query.edit_message_text(
         text, reply_markup=build_motivator_keyboard(0, question["options"])
     )
 
@@ -1379,23 +1586,69 @@ async def send_lovelang_question(query, context: ContextTypes.DEFAULT_TYPE, qind
     await query.edit_message_text(text, reply_markup=keyboard)
 
 
+def format_lovelang_intro_text() -> str:
+    """Объяснение методологии Чепмена — показывается ДО первого вопроса на
+    язык любви, а не сразу вопросы вслепую."""
+    lines = [
+        "❤️ <b>Языки любви по Гэри Чепмену</b>",
+        "",
+        (
+            "Американский психолог и семейный консультант Гэри Чепмен "
+            "больше 30 лет консультировал пары и заметил закономерность: "
+            "партнёры часто искренне любят друг друга, но чувствуют себя "
+            "нелюбимыми — просто потому, что проявляют и считывают любовь "
+            "по-разному."
+        ),
+        "Он выделил 5 «языков», через которые люди чувствуют заботу:",
+        "💬 Слова поддержки",
+        "⏰ Время вместе",
+        "🎁 Подарки",
+        "🤝 Помощь и забота",
+        "🤗 Прикосновения",
+        "",
+        (
+            "Если партнёр проявляет любовь не на том языке, на котором ты "
+            "её «слышишь» — легко решить, что его чувства остыли, хотя "
+            "дело просто в разнице языков."
+        ),
+        (
+            "🎯 <b>Зачем это знать?</b> Как только ты называешь свой язык "
+            "прямо — тебе больше не нужно молча ждать и обижаться, что "
+            "партнёр «не догадался». Ты можешь прямо попросить то, что "
+            "тебе действительно нужно, вместо того чтобы годами ходить по "
+            "кругу с одной и той же невысказанной претензией."
+        ),
+        (
+            "Этот тест поможет понять, через что именно ты чувствуешь "
+            "любовь — и на что обратить внимание у партнёра."
+        ),
+        "",
+        f"{TOTAL_LOVE_LANG_QUESTIONS} вопросов. Готова узнать, на каком языке говоришь именно ты?",
+    ]
+    return "\n".join(lines)
+
+
 async def start_lovelang(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    intro = format_lovelang_intro_text()
+    button = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("🚀 Начать тест", callback_data="begin_lovelang_test")]]
+    )
+    await query.message.reply_text(intro, parse_mode=ParseMode.HTML, reply_markup=button)
+
+
+async def begin_lovelang_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускается кнопкой после объяснения методологии Чепмена (start_lovelang)."""
     query = update.callback_query
     await query.answer()
 
     context.user_data["ll_scores"] = {code: 0 for code in LOVE_LANG_PROFILES}
     context.user_data["ll_current_q"] = 0
 
-    intro = (
-        "❤️ Второй тест: твой язык любви.\n\n"
-        f"Тебя ждёт {TOTAL_LOVE_LANG_QUESTIONS} вопросов о том, через что ты "
-        "чувствуешь любовь и заботу партнёра. Выбирай тот вариант, который "
-        "откликается первым — это обычно самый точный.\n\n"
-        "В конце узнаешь свой ведущий язык любви."
-    )
-    await query.edit_message_text(intro)
     progress = build_progress_bar(0, TOTAL_LOVE_LANG_QUESTIONS)
-    await query.message.reply_text(
+    await query.edit_message_text(
         f"{progress}\n"
         f"Вопрос 1 из {TOTAL_LOVE_LANG_QUESTIONS}\n\n"
         f"{LOVE_LANG_QUESTIONS[0]['text']}",
@@ -1623,15 +1876,31 @@ def format_choice_bridge_text() -> str:
     return "\n".join(lines)
 
 
-def format_couple_ready_text() -> str:
+def get_couple_price(context: ContextTypes.DEFAULT_TYPE) -> str:
+    """Цена на разбор психотипа партнёра + совместимость: первый раз —
+    полная (FULL_REPORT_PRICE_COUPLE), а если у пользователя уже когда-то
+    был подтверждён и отправлен парный отчёт (has_couple_report) — дешевле
+    (COMPATIBILITY_RETEST_PRICE), потому что её собственный психотип и язык
+    любви уже есть и повторно не считаются, нужен только новый партнёр.
+    """
+    if context.user_data.get("has_couple_report"):
+        return COMPATIBILITY_RETEST_PRICE
+    return FULL_REPORT_PRICE_COUPLE
+
+
+def format_couple_ready_text(context: ContextTypes.DEFAULT_TYPE) -> str:
     """Показывается вместо format_choice_bridge_text, когда тест на партнёра
     уже пройден (см. show_male_result) — выбирать больше не из чего, просто
     подтверждаем цену за уже готовый парный разбор.
     """
-    lines = [
-        "Ты прошла оба теста — свой психотип и психотип партнёра. 🎉",
-        f"Тебе доступен полный разбор на двоих — <b>{FULL_REPORT_PRICE_COUPLE}</b>.",
-    ]
+    price = get_couple_price(context)
+    lines = ["Ты прошла оба теста — свой психотип и психотип партнёра. 🎉"]
+    if context.user_data.get("has_couple_report"):
+        lines.append(
+            "Твой психотип и язык любви уже сохранены с прошлого раза — "
+            "заново их анализировать не нужно, поэтому в этот раз дешевле."
+        )
+    lines.append(f"Тебе доступен полный разбор на двоих — <b>{price}</b>.")
     return "\n".join(lines)
 
 
@@ -1693,11 +1962,20 @@ async def start_male_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["male_scores"] = {"R": 0, "Y": 0, "G": 0, "B": 0}
     context.user_data["male_current_q"] = 0
 
+    already_has_own_data = context.user_data.get("disc_scores") is not None
+    reassurance = (
+        "\n\n💾 Твой психотип и язык любви уже сохранены — их не нужно "
+        "проходить заново, дальше отвечаешь только про партнёра."
+        if already_has_own_data
+        else ""
+    )
+
     intro = (
         "🧑 Тест на психотип партнёра.\n\n"
         "Отвечай не за себя, а наблюдая за его типичным поведением — как он "
         "обычно ведёт себя в этих ситуациях.\n\n"
         f"Вопросов: {TOTAL_MALE_QUESTIONS}. Погнали!"
+        f"{reassurance}"
     )
     await query.edit_message_text(intro)
     await query.message.reply_text(
@@ -1818,7 +2096,7 @@ async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: di
     offer_text = format_paid_offer_text()
     await query.message.reply_text(offer_text, parse_mode=ParseMode.HTML)
 
-    ready_text = format_couple_ready_text()
+    ready_text = format_couple_ready_text(context)
     ready_buttons = InlineKeyboardMarkup(
         [[InlineKeyboardButton("💎 Получить разбор на двоих", callback_data="request_report")]]
     )
@@ -2108,7 +2386,7 @@ async def send_payment_instructions(update: Update, context: ContextTypes.DEFAUL
     → если ничего не настроено, просто просим подождать реквизиты лично.
     """
     is_couple = context.user_data.get("male_scores") is not None
-    price = FULL_REPORT_PRICE_COUPLE if is_couple else FULL_REPORT_PRICE_SOLO
+    price = get_couple_price(context) if is_couple else FULL_REPORT_PRICE_SOLO
 
     ask_receipt = (
         "\n\nПосле оплаты пришли сюда скриншот чека (просто фото) — я "
@@ -2152,12 +2430,18 @@ async def request_full_report(update: Update, context: ContextTypes.DEFAULT_TYPE
         return
 
     is_couple = context.user_data.get("male_scores") is not None
-    note = (
-        " У тебя пройден и тест на партнёра — отчёт будет на двоих."
-        if is_couple
-        else " Тест на партнёра не пройден — отчёт будет только на тебя; "
-        "если хочешь на двоих, сначала пройди «Узнать психотип партнёра»."
-    )
+    if is_couple and context.user_data.get("has_couple_report"):
+        note = (
+            " Твои прошлые ответы уже сохранены, заново их анализировать "
+            "не нужно — отчёт по новому партнёру будет дешевле."
+        )
+    elif is_couple:
+        note = " У тебя пройден и тест на партнёра — отчёт будет на двоих."
+    else:
+        note = (
+            " Тест на партнёра не пройден — отчёт будет только на тебя; "
+            "если хочешь на двоих, сначала пройди «Узнать психотип партнёра»."
+        )
     await query.message.reply_text(f"Отлично!{note} Вот как оплатить:")
     await send_payment_instructions(update, context)
 
@@ -2626,19 +2910,32 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
             await context.bot.send_message(chat_id=target_id, text=chunk, parse_mode=ParseMode.HTML)
 
         brand_cta_text = format_brand_cta_text()
-        brand_buttons = InlineKeyboardMarkup(
-            [
-                [InlineKeyboardButton(f"🧠 Узнать психотип ещё одного человека ({OTHER_PERSON_PRICE})", callback_data="start_other_test")],
-                [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
-                [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
-            ]
-        )
+        brand_buttons_list = [
+            [InlineKeyboardButton(f"🧠 Узнать психотип ещё одного человека ({OTHER_PERSON_PRICE})", callback_data="start_other_test")],
+        ]
+        if is_couple:
+            brand_buttons_list.append(
+                [InlineKeyboardButton(
+                    f"💑 Узнать совместимость с другим партнёром ({COMPATIBILITY_RETEST_PRICE})",
+                    callback_data="start_male_test",
+                )]
+            )
+        brand_buttons_list.append([InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)])
+        brand_buttons_list.append([InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")])
+        brand_buttons = InlineKeyboardMarkup(brand_buttons_list)
         await context.bot.send_message(
             chat_id=target_id,
             text=brand_cta_text,
             parse_mode=ParseMode.HTML,
             reply_markup=brand_buttons,
         )
+
+        if is_couple:
+            # Флаг живёт в user_data ЦЕЛЕВОГО пользователя, а не админа —
+            # именно поэтому обращаемся через application.user_data[target_id],
+            # а не через context.user_data (тот принадлежит админу, который
+            # сейчас нажал кнопку подтверждения в своём чате с ботом).
+            context.application.user_data[target_id]["has_couple_report"] = True
     except TelegramError:
         logger.exception("Не удалось отправить отчёт пользователю %s в Telegram", target_id)
         telegram_ok = False
@@ -2827,7 +3124,7 @@ async def show_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
     context.user_data["disc_scores"] = scores
     context.user_data["current_q"] = None
 
-    await start_motivator_test(query, context)
+    await show_motivator_intro(query, context)
     context.user_data["scores"] = None
 
 
@@ -2850,8 +3147,11 @@ def main():
     application.add_handler(CommandHandler("pending", pending_command))
     application.add_handler(CommandHandler("another", start_other_test))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^ans\|"))
+    application.add_handler(CallbackQueryHandler(begin_disc_test, pattern=r"^begin_disc_test$"))
     application.add_handler(CallbackQueryHandler(handle_motivator_answer, pattern=r"^motans\|"))
+    application.add_handler(CallbackQueryHandler(begin_motivator_test, pattern=r"^begin_motivator_test$"))
     application.add_handler(CallbackQueryHandler(start_lovelang, pattern=r"^start_lovelang$"))
+    application.add_handler(CallbackQueryHandler(begin_lovelang_test, pattern=r"^begin_lovelang_test$"))
     application.add_handler(CallbackQueryHandler(handle_lovelang_answer, pattern=r"^llanswer\|"))
     application.add_handler(CallbackQueryHandler(start_male_test, pattern=r"^start_male_test$"))
     application.add_handler(CallbackQueryHandler(handle_male_answer, pattern=r"^maleans\|"))
