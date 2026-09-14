@@ -407,117 +407,37 @@ MOTIVATOR_PROFILES = {
     },
 }
 
+# --------------------------------------------------------------------------
+# Формат теста на мотиваторы — 18 утверждений, по 3 на каждый из 6
+# мотиваторов, ответ "да / нет" (а не выбор одного из 6 длинных вариантов —
+# кнопки с длинным текстом обрезаются Telegram-ом и их не видно целиком).
+# Категория каждого утверждения не идёт подряд — порядок перемешан вручную,
+# чтобы не было заметно, что 3 вопроса подряд про одно и то же.
+# Балл по категории — количество "да" из её 3 утверждений (0-3), в
+# результатах показывается как доля/проценты, а не как ранг относительно
+# остальных категорий — так можно увидеть НЕСКОЛЬКО сильных мотиваторов
+# сразу, а не только один "победивший".
+# --------------------------------------------------------------------------
+
 MOTIVATOR_QUESTIONS = [
-    {
-        "text": "Что даёт тебе больше всего энергии в работе или проекте?",
-        "options": [
-            ("Разобраться в чём-то новом и сложном до конца", "T"),
-            ("Увидеть конкретный измеримый результат", "U"),
-            ("Ощущение, что всё сделано красиво и гармонично", "A"),
-            ("Понимание, что это реально помогает людям", "S"),
-            ("Возможность самой решать, как действовать", "I"),
-            ("Чёткая система и понятные правила", "TR"),
-        ],
-    },
-    {
-        "text": "Что раздражает тебя больше всего?",
-        "options": [
-            ("Когда решения принимают за тебя", "I"),
-            ("Рутина без видимого результата", "U"),
-            ("Поверхностный подход без понимания сути", "T"),
-            ("Хаос и неаккуратность вокруг", "A"),
-            ("Ощущение, что твои усилия никому не нужны", "S"),
-            ("Отсутствие структуры и постоянные исключения из правил", "TR"),
-        ],
-    },
-    {
-        "text": "Что тебя вдохновляет по-настоящему?",
-        "options": [
-            ("Видеть, что кому-то стало лучше благодаря тебе", "S"),
-            ("Свобода действовать по-своему", "I"),
-            ("Рост показателей — доход, результат, прогресс", "U"),
-            ("Новые знания и идеи", "T"),
-            ("Проверенная, работающая система", "TR"),
-            ("Красота и баланс в том, что ты делаешь", "A"),
-        ],
-    },
-    {
-        "text": "Идеальный день для тебя — это день, когда...",
-        "options": [
-            ("Всё прошло по чёткому плану", "TR"),
-            ("Не было ни одного неприятного момента, всё гармонично", "A"),
-            ("Ты узнала что-то новое", "T"),
-            ("Ты видишь конкретный результат своих усилий", "U"),
-            ("Ты кому-то реально помогла", "S"),
-            ("Никто не указывал, что тебе делать", "I"),
-        ],
-    },
-    {
-        "text": "Что для тебя признак хорошо сделанной работы?",
-        "options": [
-            ("Понятный измеримый итог", "U"),
-            ("Она выглядит и ощущается гармонично", "A"),
-            ("Ты действительно разобралась в вопросе", "T"),
-            ("Всё сделано по системе, ничего не упущено", "TR"),
-            ("От неё есть реальная польза людям", "S"),
-            ("Ты сделала это по-своему, без диктата", "I"),
-        ],
-    },
-    {
-        "text": "Что демотивирует тебя быстрее всего?",
-        "options": [
-            ("Беспорядок и неаккуратность", "A"),
-            ("Ощущение бесполезности того, что делаешь", "S"),
-            ("Жёсткий контроль над каждым шагом", "I"),
-            ("Задачи без интеллектуального вызова", "T"),
-            ("Отсутствие видимого прогресса", "U"),
-            ("Постоянные изменения правил на ходу", "TR"),
-        ],
-    },
-    {
-        "text": "На что ты обращаешь внимание в первую очередь, оценивая новую идею?",
-        "options": [
-            ("Насколько это интересно и ново", "T"),
-            ("Даёт ли это мне больше свободы", "I"),
-            ("Какая от этого практическая польза", "U"),
-            ("Насколько это гармонично впишется", "A"),
-            ("Насколько это системно и предсказуемо", "TR"),
-            ("Кому это реально поможет", "S"),
-        ],
-    },
-    {
-        "text": "Что для тебя важнее в деньгах?",
-        "options": [
-            ("Видеть, что доход растёт от твоих усилий", "U"),
-            ("Финансовая независимость и свобода выбора", "I"),
-            ("Возможность помогать близким и другим", "S"),
-            ("Комфорт и красота жизни, которую деньги дают", "A"),
-            ("Ресурс для развития и новых знаний", "T"),
-            ("Стабильность и предсказуемость дохода", "TR"),
-        ],
-    },
-    {
-        "text": "Как ты реагируешь, если тебе навязывают чужой способ делать что-то?",
-        "options": [
-            ("Внутренне сопротивляюсь, хочу делать по-своему", "I"),
-            ("Ищу, есть ли в этом система, которой стоит следовать", "TR"),
-            ("Спрашиваю: «а почему именно так?»", "T"),
-            ("Смотрю, гармонично ли это со мной", "A"),
-            ("Оцениваю, даёт ли это лучший результат", "U"),
-            ("Смотрю, не навредит ли это людям вокруг", "S"),
-        ],
-    },
-    {
-        "text": "Что бы ты выбрала, если пришлось выбирать одно?",
-        "options": [
-            ("Работу, которая точно помогает людям, но с небольшим доходом", "S"),
-            ("Работу с высоким доходом и чёткими показателями", "U"),
-            ("Полную свободу графика и решений, но нестабильный доход", "I"),
-            ("Постоянное обучение и рост, даже без быстрого результата", "T"),
-            ("Комфортную, приятную атмосферу работы", "A"),
-            ("Понятную систему с чёткими правилами игры", "TR"),
-        ],
-    },
+    {"text": "Мне важно постоянно узнавать что-то новое и разбираться в сути вещей, а не оставаться на поверхности.", "category": "T"},
+    {"text": "Для меня важен измеримый результат — конкретная цифра, прогресс, доход.", "category": "U"},
+    {"text": "Мне важно, чтобы то, что я делаю, было не только эффективным, но и красиво или аккуратно сделано.", "category": "A"},
+    {"text": "Мне важно видеть, что моя работа реально помогает конкретным людям.", "category": "S"},
+    {"text": "Мне важно самой принимать решения и не зависеть от чужого разрешения.", "category": "I"},
+    {"text": "Мне важно, чтобы у того, что я делаю, была чёткая система и понятные правила.", "category": "TR"},
+    {"text": "Я быстро теряю интерес к тому, что не даёт мне расти и развиваться.", "category": "T"},
+    {"text": "Я быстро теряю интерес к делу, если не вижу видимой отдачи от своих усилий.", "category": "U"},
+    {"text": "Беспорядок и негармоничная обстановка реально снижают мою продуктивность и настроение.", "category": "A"},
+    {"text": "Я теряю мотивацию, если не понимаю, кому конкретно от моей работы есть польза.", "category": "S"},
+    {"text": "Жёсткий контроль над каждым моим шагом быстро снижает мою мотивацию.", "category": "I"},
+    {"text": "Меня выбивает из колеи хаос и постоянные исключения из правил.", "category": "TR"},
+    {"text": "Мне важнее понять, ПОЧЕМУ что-то работает, чем просто получить готовый ответ.", "category": "T"},
+    {"text": "Оценивая новую идею, я в первую очередь думаю: «Какая от этого практическая польза?»", "category": "U"},
+    {"text": "Я обращаю внимание на атмосферу и эстетику происходящего не меньше, чем на суть дела.", "category": "A"},
+    {"text": "Забота о других так же важна для меня, как и личный результат.", "category": "S"},
+    {"text": "Я предпочту нестабильность, но свободу выбора, чем стабильность под чужим контролем.", "category": "I"},
+    {"text": "Я скорее буду следовать проверенной системе, чем каждый раз изобретать всё заново.", "category": "TR"},
 ]
 
 TOTAL_MOTIVATOR_QUESTIONS = len(MOTIVATOR_QUESTIONS)
@@ -586,107 +506,29 @@ LOVE_LANG_PROFILES = {
     },
 }
 
+# --------------------------------------------------------------------------
+# Формат теста на языки любви — 15 утверждений, по 3 на каждый из 5 языков,
+# ответ "да / нет" (та же логика, что и у мотиваторов выше — короткие кнопки
+# вместо длинных вариантов, которые Telegram обрезает). Балл по языку —
+# количество "да" из его 3 утверждений (0-3), показывается как доля.
+# --------------------------------------------------------------------------
+
 LOVE_LANG_QUESTIONS = [
-    {
-        "text": "Что из этого сильнее всего трогает тебя в отношениях?",
-        "options": [
-            ("🎁 Когда партнёр приносит что-то, просто потому что подумал обо мне", "GIFTS"),
-            ("🤝 Когда партнёр берёт на себя мои дела, чтобы мне стало легче", "ACTS"),
-            ("💬 Когда партнёр говорит вслух, за что меня ценит", "WORDS"),
-            ("🤗 Объятия и физическая близость без повода", "TOUCH"),
-            ("⏰ Время вдвоём без телефонов и отвлечений", "TIME"),
-        ],
-    },
-    {
-        "text": "Что ранит тебя сильнее всего, если этого не хватает?",
-        "options": [
-            ("⏰ Когда партнёр вечно занят и у него нет времени просто побыть со мной", "TIME"),
-            ("🤗 Когда партнёр редко обнимает или прикасается", "TOUCH"),
-            ("🎁 Когда партнёр забывает о важных датах и подарках", "GIFTS"),
-            ("💬 Когда партнёр никогда не говорит вслух тёплых слов", "WORDS"),
-            ("🤝 Когда партнёр не помогает, даже видя, что я устала", "ACTS"),
-        ],
-    },
-    {
-        "text": "Идеальный вечер с партнёром — это…",
-        "options": [
-            ("🤝 Он приготовил ужин или сделал что-то по дому, пока я отдыхала", "ACTS"),
-            ("🤗 Просто лежать рядом, обнявшись, ни о чём не разговаривая", "TOUCH"),
-            ("💬 Долгий разговор, где он честно говорит, что чувствует ко мне", "WORDS"),
-            ("🎁 Он удивил меня чем-то маленьким и продуманным", "GIFTS"),
-            ("⏰ Совместное занятие — фильм, прогулка, что угодно, но вместе", "TIME"),
-        ],
-    },
-    {
-        "text": "Как ты сама чаще всего проявляешь любовь к партнёру?",
-        "options": [
-            ("💬 Хвалю, говорю комплименты, подчёркиваю его сильные стороны", "WORDS"),
-            ("🎁 Дарю подарки, даже небольшие, без повода", "GIFTS"),
-            ("⏰ Стараюсь выделить время только для него", "TIME"),
-            ("🤝 Беру на себя его дела, помогаю, забочусь на практике", "ACTS"),
-            ("🤗 Через объятия, поцелуи, физическую близость", "TOUCH"),
-        ],
-    },
-    {
-        "text": "Партнёр вернулся домой после тяжёлого дня. Что ты делаешь?",
-        "options": [
-            ("🤗 Обнимаю, физически показываю поддержку", "TOUCH"),
-            ("🤝 Сразу предлагаю помощь — приготовлю, сделаю, разгружу его", "ACTS"),
-            ("⏰ Откладываю все дела, чтобы побыть рядом", "TIME"),
-            ("💬 Говорю что-то ободряющее, напоминаю, какой он молодец", "WORDS"),
-            ("🎁 Готовлю небольшой сюрприз, чтобы поднять настроение", "GIFTS"),
-        ],
-    },
-    {
-        "text": "Что для тебя лучший комплимент от партнёра?",
-        "options": [
-            ("💬 «Я горжусь тобой» или «ты у меня самая…»", "WORDS"),
-            ("🤗 Он не говорит, а просто крепко обнимает", "TOUCH"),
-            ("🎁 Дарит что-то, что показывает, как хорошо он меня знает", "GIFTS"),
-            ("🤝 Берёт на себя то, что мне тяжело, без просьб", "ACTS"),
-            ("⏰ Откладывает свои дела ради времени со мной", "TIME"),
-        ],
-    },
-    {
-        "text": "Что бы тебя расстроило больше всего в годовщину отношений?",
-        "options": [
-            ("🎁 Партнёр не подготовил вообще ничего, даже мелочи", "GIFTS"),
-            ("⏰ Мы весь день провели порознь, каждый занят своим", "TIME"),
-            ("🤝 Партнёр не помог с организацией, всё легло на меня", "ACTS"),
-            ("💬 Партнёр не сказал ничего тёплого в этот день", "WORDS"),
-            ("🤗 Между нами не было никакой физической близости", "TOUCH"),
-        ],
-    },
-    {
-        "text": "Когда тебе грустно, что помогает больше всего?",
-        "options": [
-            ("🤗 Просто обнять меня и помолчать", "TOUCH"),
-            ("💬 Услышать, что он рядом и верит в меня", "WORDS"),
-            ("🤝 Он сам, без просьб, берёт на себя мои задачи", "ACTS"),
-            ("⏰ Он откладывает всё и проводит время со мной", "TIME"),
-            ("🎁 Маленький подарок, который поднимает настроение", "GIFTS"),
-        ],
-    },
-    {
-        "text": "Что ты замечаешь в первую очередь у заботливого партнёра?",
-        "options": [
-            ("🤝 Он делает то, что облегчает мою жизнь, без напоминаний", "ACTS"),
-            ("🎁 Он помнит мелочи и радует ими", "GIFTS"),
-            ("🤗 Он не стесняется физической нежности при любой возможности", "TOUCH"),
-            ("⏰ Он находит время для меня, даже когда занят", "TIME"),
-            ("💬 Он проговаривает вслух, что ценит меня", "WORDS"),
-        ],
-    },
-    {
-        "text": "В идеале, как партнёр должен извиняться после ссоры?",
-        "options": [
-            ("💬 Сказать словами, что был неправ и почему", "WORDS"),
-            ("🤗 Обнять — иногда это красноречивее слов", "TOUCH"),
-            ("⏰ Предложить провести время вместе, чтобы всё сгладить", "TIME"),
-            ("🤝 Сделать что-то полезное для меня в знак примирения", "ACTS"),
-            ("🎁 Подарить что-то небольшое как знак «мир»", "GIFTS"),
-        ],
-    },
+    {"text": "Мне становится тепло на душе, когда партнёр вслух говорит, что ценит меня.", "category": "WORDS"},
+    {"text": "Мне важно, чтобы партнёр уделял мне безраздельное внимание, без телефона и посторонних дел.", "category": "TIME"},
+    {"text": "Мне приятно, когда партнёр приносит что-то, просто подумав обо мне.", "category": "GIFTS"},
+    {"text": "Для меня любовь — это когда партнёр реально помогает по делу, а не только на словах.", "category": "ACTS"},
+    {"text": "Мне важны объятия и физическая близость, даже без особого повода.", "category": "TOUCH"},
+    {"text": "Молчаливая забота без единого слова ощущается мной как её нехватка.", "category": "WORDS"},
+    {"text": "Я расстраиваюсь, если мы с партнёром редко бываем просто вдвоём.", "category": "TIME"},
+    {"text": "Отсутствие любых знаков внимания на важные для меня даты сильно меня задевает.", "category": "GIFTS"},
+    {"text": "Мне важнее, чтобы партнёр взял на себя часть моих дел, чем услышал от меня, что я устала, и просто посочувствовал.", "category": "ACTS"},
+    {"text": "Без физического контакта я чувствую себя далёкой от партнёра, даже если на словах у нас всё хорошо.", "category": "TOUCH"},
+    {"text": "Для меня искренний комплимент значит больше, чем подарок.", "category": "WORDS"},
+    {"text": "Совместное занятие вдвоём для меня ценнее, чем любой подарок.", "category": "TIME"},
+    {"text": "Для меня важен сам жест внимания, а не цена подарка.", "category": "GIFTS"},
+    {"text": "Я ценю практическую помощь партнёра больше, чем разговоры о чувствах.", "category": "ACTS"},
+    {"text": "Прикосновение партнёра говорит мне больше, чем любые слова.", "category": "TOUCH"},
 ]
 
 TOTAL_LOVE_LANG_QUESTIONS = len(LOVE_LANG_QUESTIONS)
@@ -1362,18 +1204,32 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # --------------------------------------------------------------------------
 
 
-def build_motivator_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+YES_NO_KEYBOARD_LABELS = [("✅ Да, это про меня", "yes"), ("❌ Не совсем / нет", "no")]
+
+
+def build_yesno_keyboard(prefix: str, qindex: int) -> InlineKeyboardMarkup:
+    """Общая клавиатура 'да/нет' для утверждений (мотиваторы и языки любви).
+
+    Короткие фиксированные подписи вместо длинного текста варианта — раньше
+    в языках любви кнопки показывали вариант ответа целиком, и Telegram
+    обрезал длинный текст прямо посреди слова, так что прочитать до конца
+    было невозможно.
+    """
     buttons = [
-        [InlineKeyboardButton(text=label, callback_data=f"motans|{qindex}|{code}")]
-        for label, code in options
+        [InlineKeyboardButton(text=label, callback_data=f"{prefix}|{qindex}|{yn}")]
+        for label, yn in YES_NO_KEYBOARD_LABELS
     ]
     return InlineKeyboardMarkup(buttons)
 
 
+def build_motivator_keyboard(qindex: int) -> InlineKeyboardMarkup:
+    return build_yesno_keyboard("motans", qindex)
+
+
 async def send_motivator_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
     question = MOTIVATOR_QUESTIONS[qindex]
-    text = f"Вопрос {qindex + 1} из {TOTAL_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
-    keyboard = build_motivator_keyboard(qindex, question["options"])
+    text = f"Утверждение {qindex + 1} из {TOTAL_MOTIVATOR_QUESTIONS}\n\n«{question['text']}»\n\nНасколько это про тебя?"
+    keyboard = build_motivator_keyboard(qindex)
     await query.edit_message_text(text, reply_markup=keyboard)
 
 
@@ -1446,7 +1302,7 @@ async def show_motivator_intro(query, context: ContextTypes.DEFAULT_TYPE):
 
 async def begin_motivator_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Запускается кнопкой после show_motivator_intro — сбрасывает баллы и
-    показывает первый вопрос."""
+    показывает первое утверждение."""
     query = update.callback_query
     await query.answer()
 
@@ -1454,10 +1310,8 @@ async def begin_motivator_test(update: Update, context: ContextTypes.DEFAULT_TYP
     context.user_data["mot_current_q"] = 0
 
     question = MOTIVATOR_QUESTIONS[0]
-    text = f"Вопрос 1 из {TOTAL_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
-    await query.edit_message_text(
-        text, reply_markup=build_motivator_keyboard(0, question["options"])
-    )
+    text = f"Утверждение 1 из {TOTAL_MOTIVATOR_QUESTIONS}\n\n«{question['text']}»\n\nНасколько это про тебя?"
+    await query.edit_message_text(text, reply_markup=build_motivator_keyboard(0))
 
 
 async def handle_motivator_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1465,7 +1319,7 @@ async def handle_motivator_answer(update: Update, context: ContextTypes.DEFAULT_
     await query.answer(text="✅ Принято")
 
     try:
-        _, qindex_str, code = query.data.split("|")
+        _, qindex_str, yn = query.data.split("|")
         qindex = int(qindex_str)
     except (ValueError, AttributeError):
         return
@@ -1483,7 +1337,10 @@ async def handle_motivator_answer(update: Update, context: ContextTypes.DEFAULT_
     if qindex != current_q:
         return
 
-    scores[code] = scores.get(code, 0) + 1
+    if yn == "yes":
+        category = MOTIVATOR_QUESTIONS[qindex]["category"]
+        scores[category] = scores.get(category, 0) + 1
+
     next_q = current_q + 1
     context.user_data["mot_current_q"] = next_q
 
@@ -1493,29 +1350,40 @@ async def handle_motivator_answer(update: Update, context: ContextTypes.DEFAULT_
         await show_motivator_result(query, context, scores)
 
 
+MOTIVATOR_STATEMENTS_PER_CATEGORY = 3
+
+
 def format_motivator_result_text(scores: dict) -> str:
-    """Бесплатный результат — топ-1 мотиватор + короткий тизер."""
-    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
-    top1_code, _ = ranked[0]
-    top1 = MOTIVATOR_PROFILES[top1_code]
+    """Бесплатный результат — топ-1 мотиватор (или несколько, если ничья) + тизер."""
+    max_score = max(scores.values())
+    top_codes = [code for code, score in scores.items() if score == max_score]
+    top1 = MOTIVATOR_PROFILES[top_codes[0]]
+    percent = round(max_score / MOTIVATOR_STATEMENTS_PER_CATEGORY * 100)
 
     lines = [
-        f"🔑 <b>Что тебя реально двигает — {top1['emoji']} {top1['name'].upper()}</b>\n",
+        f"🔑 <b>Что тебя реально двигает — {top1['emoji']} {top1['name'].upper()} ({percent}%)</b>\n",
         f"{top1['subtitle']}.",
         "",
         top1["teaser"],
     ]
+    if len(top_codes) > 1:
+        others = ", ".join(MOTIVATOR_PROFILES[c]["name"] for c in top_codes[1:])
+        lines.append("")
+        lines.append(f"Кстати, у тебя ничья с мотиватором «{others}» — оба выражены одинаково сильно.")
     return "\n".join(lines)
 
 
 def format_motivator_full_text(scores: dict) -> str:
-    """Полный (платный) результат — все 6 мотиваторов с баллами."""
+    """Полный (платный) результат — все 6 мотиваторов в процентах (не ранг, а
+    доля 'да' по каждому — так можно увидеть сразу несколько сильных
+    мотиваторов, а не только один "победивший")."""
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
     lines = ["🔑 <b>Твой полный профиль мотиваторов</b>\n"]
     for code, score in ranked:
         p = MOTIVATOR_PROFILES[code]
-        lines.append(f"{p['emoji']} {p['name']}: {score}/{TOTAL_MOTIVATOR_QUESTIONS}")
+        percent = round(score / MOTIVATOR_STATEMENTS_PER_CATEGORY * 100)
+        lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {MOTIVATOR_STATEMENTS_PER_CATEGORY})")
     lines.append("")
 
     top1_code, _ = ranked[0]
@@ -1566,12 +1434,8 @@ def build_progress_bar(current_index: int, total: int, length: int = 10) -> str:
     return f"{bar} {current_index}/{total}"
 
 
-def build_lovelang_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
-    buttons = [
-        [InlineKeyboardButton(text=label, callback_data=f"llanswer|{qindex}|{code}")]
-        for label, code in options
-    ]
-    return InlineKeyboardMarkup(buttons)
+def build_lovelang_keyboard(qindex: int) -> InlineKeyboardMarkup:
+    return build_yesno_keyboard("llanswer", qindex)
 
 
 async def send_lovelang_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
@@ -1579,10 +1443,10 @@ async def send_lovelang_question(query, context: ContextTypes.DEFAULT_TYPE, qind
     progress = build_progress_bar(qindex, TOTAL_LOVE_LANG_QUESTIONS)
     text = (
         f"{progress}\n"
-        f"Вопрос {qindex + 1} из {TOTAL_LOVE_LANG_QUESTIONS}\n\n"
-        f"{question['text']}"
+        f"Утверждение {qindex + 1} из {TOTAL_LOVE_LANG_QUESTIONS}\n\n"
+        f"«{question['text']}»\n\nНасколько это про тебя?"
     )
-    keyboard = build_lovelang_keyboard(qindex, question["options"])
+    keyboard = build_lovelang_keyboard(qindex)
     await query.edit_message_text(text, reply_markup=keyboard)
 
 
@@ -1650,9 +1514,9 @@ async def begin_lovelang_test(update: Update, context: ContextTypes.DEFAULT_TYPE
     progress = build_progress_bar(0, TOTAL_LOVE_LANG_QUESTIONS)
     await query.edit_message_text(
         f"{progress}\n"
-        f"Вопрос 1 из {TOTAL_LOVE_LANG_QUESTIONS}\n\n"
-        f"{LOVE_LANG_QUESTIONS[0]['text']}",
-        reply_markup=build_lovelang_keyboard(0, LOVE_LANG_QUESTIONS[0]["options"]),
+        f"Утверждение 1 из {TOTAL_LOVE_LANG_QUESTIONS}\n\n"
+        f"«{LOVE_LANG_QUESTIONS[0]['text']}»\n\nНасколько это про тебя?",
+        reply_markup=build_lovelang_keyboard(0),
     )
 
 
@@ -1661,7 +1525,7 @@ async def handle_lovelang_answer(update: Update, context: ContextTypes.DEFAULT_T
     await query.answer(text="✅ Принято")
 
     try:
-        _, qindex_str, code = query.data.split("|")
+        _, qindex_str, yn = query.data.split("|")
         qindex = int(qindex_str)
     except (ValueError, AttributeError):
         return
@@ -1680,7 +1544,10 @@ async def handle_lovelang_answer(update: Update, context: ContextTypes.DEFAULT_T
         # Пользователь нажал на кнопку из уже отвеченного вопроса
         return
 
-    scores[code] = scores.get(code, 0) + 1
+    if yn == "yes":
+        category = LOVE_LANG_QUESTIONS[qindex]["category"]
+        scores[category] = scores.get(category, 0) + 1
+
     next_q = current_q + 1
     context.user_data["ll_current_q"] = next_q
 
@@ -1690,33 +1557,39 @@ async def handle_lovelang_answer(update: Update, context: ContextTypes.DEFAULT_T
         await show_lovelang_result(query, context, scores)
 
 
-def format_lovelang_result_text(scores: dict) -> str:
-    """Бесплатный результат по коду мотивации — та же логика урезанности, что в DISC.
+LOVE_LANG_STATEMENTS_PER_CATEGORY = 3
 
-    Показывает только топ-1 код словами, без баллов по остальным 5
-    категориям. Полная раскладка остаётся для платного синтеза.
+
+def format_lovelang_result_text(scores: dict) -> str:
+    """Бесплатный результат — топ-1 язык (или несколько, если ничья) + тизер.
+
+    Показывает только ведущий язык словами, без процентов по остальным 4
+    категориям. Полная раскладка в процентах остаётся для платного синтеза.
     """
-    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
-    top1_code, _ = ranked[0]
-    top1 = LOVE_LANG_PROFILES[top1_code]
+    max_score = max(scores.values())
+    top_codes = [code for code, score in scores.items() if score == max_score]
+    top1 = LOVE_LANG_PROFILES[top_codes[0]]
+    percent = round(max_score / LOVE_LANG_STATEMENTS_PER_CATEGORY * 100)
 
     lines = []
-    lines.append(f"❤️ <b>Твой язык любви — {top1['emoji']} {top1['name'].upper()}</b>\n")
+    lines.append(f"❤️ <b>Твой язык любви — {top1['emoji']} {top1['name'].upper()} ({percent}%)</b>\n")
     lines.append(top1["teaser"])
     lines.append("")
     lines.append(
         "Помни: нет «правильных» и «неправильных» языков любви — есть то, "
         "через что именно ты чувствуешь заботу, и это важно уметь озвучивать."
     )
+    if len(top_codes) > 1:
+        others = ", ".join(LOVE_LANG_PROFILES[c]["name"] for c in top_codes[1:])
+        lines.append("")
+        lines.append(f"Кстати, у тебя ничья с языком «{others}» — оба выражены одинаково сильно.")
 
     return "\n".join(lines)
 
 
 def format_lovelang_full_text(scores: dict) -> str:
-    """Полный (платный) результат по языкам любви — все 5 языков с баллами.
-
-    Пока нигде не вызывается. Понадобится для объединённого платного отчёта
-    вместе с полным результатом психотипа (format_full_result_text).
+    """Полный (платный) результат — все 5 языков в процентах (доля 'да' по
+    каждому, а не ранг) — так видно, если сильно выражены сразу два языка.
     """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
@@ -1724,7 +1597,8 @@ def format_lovelang_full_text(scores: dict) -> str:
     lines.append("❤️ <b>Твой полный профиль языков любви</b>\n")
     for code, score in ranked:
         p = LOVE_LANG_PROFILES[code]
-        lines.append(f"{p['emoji']} {p['name']}: {score}/{TOTAL_LOVE_LANG_QUESTIONS}")
+        percent = round(score / LOVE_LANG_STATEMENTS_PER_CATEGORY * 100)
+        lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {LOVE_LANG_STATEMENTS_PER_CATEGORY})")
     lines.append("")
 
     top1_code, _ = ranked[0]
