@@ -70,7 +70,7 @@ PERSISTENCE_PATH = os.environ.get("PERSISTENCE_PATH", "bot_persistence.pickle")
 # присылает чек → тебе приходит уведомление с кнопкой подтверждения →
 # после нажатия бот сам присылает полный отчёт в Telegram.
 FULL_REPORT_PRICE_SOLO = os.environ.get("FULL_REPORT_PRICE_SOLO", "2 700 ₸")
-FULL_REPORT_PRICE_COUPLE = os.environ.get("FULL_REPORT_PRICE_COUPLE", "3 960 ₸")
+FULL_REPORT_PRICE_COUPLE = os.environ.get("FULL_REPORT_PRICE_COUPLE", "3 690 ₸")
 COMPATIBILITY_RETEST_PRICE = os.environ.get("COMPATIBILITY_RETEST_PRICE", "1 500 ₸")
 FULL_REPORT_BUTTON_TEXT = os.environ.get(
     "FULL_REPORT_BUTTON_TEXT", "💎 Получить мой полный профиль"
@@ -1959,20 +1959,28 @@ def format_couple_ready_text(context: ContextTypes.DEFAULT_TYPE) -> str:
     return "\n".join(lines)
 
 
+def format_lovelang_top2_text(scores: dict) -> str:
+    """НЕ называет сами языки — только сообщает, что 2 ведущих языка любви
+    посчитаны. Какие именно — раскрывается только в платном разборе (см.
+    format_lovelang_full_text), чтобы не отдавать бесплатно самую суть.
+    """
+    return (
+        "✅ Тест пройден!\n\n"
+        "❤️ <b>У тебя два ведущих языка любви.</b>\n\n"
+        "Что именно это значит и как проявляется у тебя — в полном разборе."
+    )
+
+
 async def show_lovelang_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
-    result_text = format_lovelang_result_text(scores)
-
-    disc_scores = context.user_data.get("disc_scores")
-
-    await query.edit_message_text(result_text, parse_mode=ParseMode.HTML, reply_markup=None)
-
-    # Блок "соединения" — только если есть оба результата (обычный порядок
-    # прохождения). Если психотип-баллы почему-то отсутствуют (например,
-    # прогресс потерялся при перезапуске бота), пропускаем синтез и сразу
-    # предлагаем полный оффер — так пользователь не застревает без ответа.
-    if disc_scores is not None:
-        synthesis_text = build_synthesis_text(disc_scores, scores)
-        await query.message.reply_text(synthesis_text, parse_mode=ParseMode.HTML)
+    """Раньше здесь показывался бесплатный тизер (топ-язык + %) и текст
+    "соединения" психотипа с языком любви — но последний тоже называл язык
+    любви открытым текстом, а полную раскладку по всем 5 языкам с процентами
+    нужно оставить только для платной версии. Сейчас сразу после последнего
+    вопроса называются только 2 ведущих языка (без процентов и описаний), а
+    дальше — оффер с выбором оплаты.
+    """
+    top2_text = format_lovelang_top2_text(scores)
+    await query.edit_message_text(top2_text, parse_mode=ParseMode.HTML, reply_markup=None)
 
     offer_text = format_paid_offer_text()
     await query.message.reply_text(offer_text, parse_mode=ParseMode.HTML)
@@ -2439,6 +2447,9 @@ async def send_payment_instructions(update: Update, context: ContextTypes.DEFAUL
     Приоритет: ссылка на оплату (PAYMENT_LINK_URL, например "удалённая
     оплата" из Kaspi Pay) → номер телефона для перевода (KASPI_PHONE_NUMBER)
     → если ничего не настроено, просто просим подождать реквизиты лично.
+
+    Под сообщением с оплатой всегда есть кнопки на канал и книгу — пока
+    ждёт подтверждения оплаты, есть куда перейти и что почитать.
     """
     is_couple = context.user_data.get("male_scores") is not None
     price = get_couple_price(context) if is_couple else FULL_REPORT_PRICE_SOLO
@@ -2448,10 +2459,15 @@ async def send_payment_instructions(update: Update, context: ContextTypes.DEFAUL
         "проверю его и вышлю тебе полный разбор."
     )
 
+    extra_buttons = [
+        [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
+        [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
+    ]
+
     if PAYMENT_LINK_URL:
         text = f"💳 Стоимость: {price}{ask_receipt}"
         buttons = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(PAYMENT_BUTTON_TEXT, url=PAYMENT_LINK_URL)]]
+            [[InlineKeyboardButton(PAYMENT_BUTTON_TEXT, url=PAYMENT_LINK_URL)]] + extra_buttons
         )
         await update.effective_message.reply_text(text, reply_markup=buttons)
     elif KASPI_PHONE_NUMBER:
@@ -2460,12 +2476,15 @@ async def send_payment_instructions(update: Update, context: ContextTypes.DEFAUL
             f"Переведи через Kaspi Pay на номер: <b>{KASPI_PHONE_NUMBER}</b>"
             f"{ask_receipt}"
         )
-        await update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
+        await update.effective_message.reply_text(
+            text, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(extra_buttons)
+        )
     else:
         await update.effective_message.reply_text(
             f"💳 Стоимость: {price}\n\n"
             "Реквизиты для оплаты пришлю тебе лично в течение дня."
-            f"{ask_receipt}"
+            f"{ask_receipt}",
+            reply_markup=InlineKeyboardMarkup(extra_buttons),
         )
 
     context.user_data["awaiting_receipt"] = True
