@@ -352,57 +352,105 @@ MOTIVATOR_PROFILES = {
     "T": {
         "name": "Развития",
         "emoji": "🧠",
-        "subtitle": "Тебе важно расти и узнавать новое",
+        "subtitle": "Тебе важно познавать и понимать, как всё устроено на самом деле",
         "teaser": (
-            "Тебя двигает вперёд любопытство и желание разобраться в сути — "
-            "не поверхностно, а по-настоящему. Рутина без развития быстро "
-            "тебя выматывает."
+            "В оригинале у Шпрангера этот тип называется «теоретическим» — "
+            "человек, для которого главное не запомнить факт, а докопаться "
+            "до закономерности за ним. Тебя двигает не любопытство ради "
+            "любопытства, а желание по-настоящему разобраться в сути, а не "
+            "довольствоваться готовым ответом."
+        ),
+        "life_example": (
+            "Например: тебе быстро надоедает работа или отношения, где всё "
+            "уже понятно и узнавать больше нечего, даже если внешне всё "
+            "стабильно и хорошо."
         ),
     },
     "U": {
         "name": "Результата",
         "emoji": "💰",
-        "subtitle": "Тебе важно видеть конкретную отдачу от своих усилий",
+        "subtitle": "Тебе важна практическая польза и отдача от того, что ты делаешь",
         "teaser": (
-            "Просто «интересно» тебя надолго не удержит — тебе важно видеть "
-            "измеримый результат: рост дохода, прогресс, конкретную цифру."
+            "У Шпрангера это «экономический» тип — для него польза является "
+            "смыслом любой деятельности. Для тебя смысл дела — в том, что "
+            "оно реально даёт. Просто «интересно» или «красиво» тебя "
+            "надолго не удержит, если нет измеримой отдачи: роста дохода, "
+            "прогресса, конкретной цифры. В отличие от «Служения» (там "
+            "важен сам человек, ради которого стараешься), здесь важен "
+            "именно измеримый итог дела, а не то, кому он достался."
+        ),
+        "life_example": (
+            "Например: тебе тяжело долго заниматься делом, если ты не "
+            "видишь конкретных сдвигов — тебе важно видеть, что усилия "
+            "реально что-то дали, а не просто «процесс идёт»."
         ),
     },
     "A": {
         "name": "Гармонии",
         "emoji": "✨",
-        "subtitle": "Тебе важны красота, баланс и удовольствие от процесса",
+        "subtitle": "Тебе важно, как что-то ощущается и выглядит, а не только его смысл",
         "teaser": (
-            "Тебе важно не только ЧТО сделано, но и КАК — атмосфера и "
-            "гармония процесса имеют для тебя реальное значение."
+            "У Шпрангера это «эстетический» тип — человек, который "
+            "стремится прочувствовать вещь целиком, через форму и "
+            "впечатление, а не только оценить её пользу. Тебе важно не "
+            "только ЧТО сделано, но и КАК — атмосфера и гармония процесса "
+            "имеют для тебя реальное значение."
+        ),
+        "life_example": (
+            "Например: тебя выбивает из колеи беспорядок или напряжённая "
+            "атмосфера вокруг — даже если формально всё сделано правильно, "
+            "тебе некомфортно, если процесс был некрасивым или нервным."
         ),
     },
     "S": {
-        "name": "Пользы",
+        "name": "Служения",
         "emoji": "❤️",
-        "subtitle": "Тебе важно помогать людям и видеть смысл в том, что делаешь",
+        "subtitle": "Смысл ты находишь в заботе о людях, а не в личной выгоде или эффективности",
         "teaser": (
-            "Тебя мотивирует ощущение, что твои усилия реально кому-то "
-            "помогают, а не только приносят выгоду."
+            "У Шпрангера это «социальный» тип — тот, кто находит себя в "
+            "другом человеке и живёт ради любви к людям. Не путай с "
+            "«Результатом»: там важен измеримый итог дела, а здесь — важен "
+            "конкретный человек, ради которого ты стараешься, даже если "
+            "это не даёт никакой практической выгоды."
+        ),
+        "life_example": (
+            "Например: ты готова вложиться в человека без всякой личной "
+            "выгоды — просто потому что он тебе дорог, и это для тебя "
+            "важнее любой «эффективности»."
         ),
     },
     "I": {
         "name": "Свободы",
         "emoji": "👑",
-        "subtitle": "Тебе важно самой принимать решения и не зависеть от чужого разрешения",
+        "subtitle": "Тебе важно иметь влияние и самой определять, как будет",
         "teaser": (
-            "Тебе важно не просто получить результат — тебе важно самой "
-            "решать, как, с кем и куда двигаться. Жёсткий контроль быстро "
-            "снижает твою мотивацию."
+            "У Шпрангера это «политический» тип — стремление к власти, "
+            "влиянию и самостоятельности, а не подчинению чужой воле. Тебя "
+            "двигает желание быть тем, кто ведёт, а не тем, кем управляют: "
+            "самой решать, как, с кем и куда двигаться. Жёсткий контроль "
+            "извне быстро гасит твою мотивацию."
+        ),
+        "life_example": (
+            "Например: тебе тяжело работать или быть в отношениях под "
+            "жёстким контролем, даже если условия хорошие — ты быстро "
+            "теряешь запал, если не можешь сама решать, как действовать."
         ),
     },
     "TR": {
         "name": "Принципов",
         "emoji": "⚖️",
-        "subtitle": "Тебе важны чёткая система и понятные правила",
+        "subtitle": "Тебе важно, чтобы жизнь строилась на цельной системе принципов, в которую ты веришь",
         "teaser": (
-            "Тебе комфортнее и эффективнее, когда есть ясная система и "
-            "понятные принципы, а не хаос и постоянные исключения."
+            "У Шпрангера это «религиозный» тип в широком смысле — не про "
+            "веру в конкретную религию, а про то, что человек соотносит "
+            "каждую отдельную ситуацию с общей картиной смысла и живёт по "
+            "устойчивым принципам. Тебе комфортнее и эффективнее, когда "
+            "есть ясная система, а не хаос и постоянные исключения."
+        ),
+        "life_example": (
+            "Например: тебе некомфортно, когда правила игры постоянно "
+            "меняются на ходу — тебе важно заранее понимать систему, по "
+            "которой всё строится, дома ли, на работе ли."
         ),
     },
 }
@@ -908,6 +956,71 @@ MALE_QUESTIONS = [
 ]
 
 TOTAL_MALE_QUESTIONS = len(MALE_QUESTIONS)
+
+
+# --------------------------------------------------------------------------
+# ЯЗЫК ЛЮБВИ ПАРТНЁРА — короткое продолжение теста на партнёра (5 вопросов,
+# по одному наблюдению на каждый из 5 языков Чепмена). Без этого блока
+# "совместимость" была неполной: самая ценная часть методики Чепмена — это
+# именно СРАВНЕНИЕ двух языков любви (её и его), а не язык одного человека
+# сам по себе. Использует те же категории WORDS/TIME/GIFTS/ACTS/TOUCH и
+# профили LOVE_LANG_PROFILES, что и её собственный тест.
+# --------------------------------------------------------------------------
+
+MALE_LOVE_LANG_QUESTIONS = [
+    {
+        "text": "Как партнёр обычно проявляет заботу о тебе?",
+        "options": [
+            ("Говорит тёплые слова", "WORDS"),
+            ("Уделяет время", "TIME"),
+            ("Дарит подарки", "GIFTS"),
+            ("Помогает по делу", "ACTS"),
+            ("Обнимает", "TOUCH"),
+        ],
+    },
+    {
+        "text": "Когда партнёр гордится тобой, он…",
+        "options": [
+            ("Говорит это вслух", "WORDS"),
+            ("Хочет побыть вместе", "TIME"),
+            ("Дарит что-то в честь этого", "GIFTS"),
+            ("Делает что-то полезное", "ACTS"),
+            ("Обнимает", "TOUCH"),
+        ],
+    },
+    {
+        "text": "Как партнёр мирится после ссоры?",
+        "options": [
+            ("Говорит словами", "WORDS"),
+            ("Предлагает время вместе", "TIME"),
+            ("Дарит что-то", "GIFTS"),
+            ("Делает что-то полезное", "ACTS"),
+            ("Обнимает", "TOUCH"),
+        ],
+    },
+    {
+        "text": "Когда партнёр хочет тебя порадовать, он обычно…",
+        "options": [
+            ("Приносит подарок", "GIFTS"),
+            ("Берёт дела на себя", "ACTS"),
+            ("Говорит комплимент", "WORDS"),
+            ("Обнимает, целует", "TOUCH"),
+            ("Откладывает свои дела ради тебя", "TIME"),
+        ],
+    },
+    {
+        "text": "Когда видит, что тебе плохо, партнёр обычно…",
+        "options": [
+            ("Обнимает", "TOUCH"),
+            ("Предлагает помощь", "ACTS"),
+            ("Остаётся рядом", "TIME"),
+            ("Подбадривает словами", "WORDS"),
+            ("Дарит что-то для настроения", "GIFTS"),
+        ],
+    },
+]
+
+TOTAL_MALE_LL_QUESTIONS = len(MALE_LOVE_LANG_QUESTIONS)
 
 
 # --------------------------------------------------------------------------
@@ -1518,17 +1631,32 @@ async def handle_motivator_answer(update: Update, context: ContextTypes.DEFAULT_
 
 
 def format_motivator_result_text(scores: dict) -> str:
-    """Бесплатный результат — топ-1 мотиватор (или несколько, если ничья) + тизер."""
+    """Бесплатный результат — топ-1 мотиватор (или несколько, если ничья) + тизер.
+
+    Начинается с общего определения того, что вообще такое "мотиватор" —
+    без этого результат ("РАЗВИТИЯ (30%)") читается как набор случайных
+    слов без контекста, особенно если человек не помнит объяснение
+    методологии Шпрангера, которое было в начале, за много сообщений до этого.
+    """
     max_score = max(scores.values())
     top_codes = [code for code, score in scores.items() if score == max_score]
     top1 = MOTIVATOR_PROFILES[top_codes[0]]
     percent = round(max_score / TOTAL_MOTIVATOR_QUESTIONS * 100)
 
     lines = [
-        f"🔑 <b>Что тебя реально двигает — {top1['emoji']} {top1['name'].upper()} ({percent}%)</b>\n",
-        f"{top1['subtitle']}.",
+        (
+            "🔑 <b>Мотиватор</b> — это не просто «что тебе нравится», а "
+            "глубинная ценность, которая либо включает твою энергию, либо "
+            "выключает её, даже если внешне ситуация выглядит одинаково для "
+            "всех."
+        ),
         "",
+        f"<b>Твой ведущий мотиватор — {top1['emoji']} {top1['name'].upper()} ({percent}%)</b>",
+        "",
+        f"{top1['subtitle']}.",
         top1["teaser"],
+        "",
+        top1["life_example"],
     ]
     if len(top_codes) > 1:
         others = ", ".join(MOTIVATOR_PROFILES[c]["name"] for c in top_codes[1:])
@@ -1554,6 +1682,7 @@ def format_motivator_full_text(scores: dict) -> str:
     lines.append(f"<b>Ведущий мотиватор: {top1['emoji']} {top1['name']}</b>")
     lines.append(f"{top1['subtitle']}.")
     lines.append(top1["teaser"])
+    lines.append(top1["life_example"])
 
     return "\n".join(lines)
 
@@ -1906,6 +2035,11 @@ def format_choice_bridge_text() -> str:
             "💑 <b>Узнать себя И психотип партнёра</b> — увидеть, где вы "
             f"совпадаете, а где рискуете не понять друг друга — {FULL_REPORT_PRICE_COUPLE}"
         ),
+        (
+            f"<i>(если позже захочешь проверить ещё одного мужчину — твой "
+            f"психотип и язык любви уже сохранены, платишь только "
+            f"{COMPATIBILITY_RETEST_PRICE} за нового человека)</i>"
+        ),
         "",
         (
             "На знакомство с человеком обычно уходят месяцы: свидания, "
@@ -1971,16 +2105,97 @@ def format_lovelang_top2_text(scores: dict) -> str:
     )
 
 
+def format_life_impact_teaser() -> str:
+    """Показывается сразу после теста на язык любви, до платного оффера —
+    связывает все три пройденных теста (психотип + мотиваторы + язык
+    любви) с двумя самыми частыми болями: деньгами и повторяющимся типом
+    партнёра. Ничего конкретного не называет (ни психотип, ни мотиватор, ни
+    язык любви) — это крючок, а не результат, вся конкретика только в
+    платном разборе.
+    """
+    lines = [
+        "Три теста, которые ты только что прошла, — это не три отдельные картинки. Это одна карта.",
+        "",
+        (
+            "💰 Ты можешь много работать, но деньги идут не так, как "
+            "хочется — потому что то, что тебя реально мотивирует, "
+            "конфликтует с тем, как именно ты пытаешься зарабатывать."
+        ),
+        (
+            "💔 Ты можешь снова и снова выбирать один и тот же тип "
+            "мужчины — и снова упираться в одну и ту же стену — потому что "
+            "твой психотип и твой язык любви вместе создают конкретный "
+            "повторяющийся сценарий, который со стороны не видно."
+        ),
+        "",
+        (
+            "В полном разборе мы показываем именно эту связку — не общие "
+            "слова про «характер», а конкретно: что мешает именно тебе "
+            "зарабатывать больше, и что заставляет тебя снова и снова "
+            "наступать на одни и те же грабли в отношениях."
+        ),
+    ]
+    return "\n".join(lines)
+
+
+def format_couple_success_story() -> str:
+    """Короткая вдохновляющая история — противовес истории про Айгуль и
+    Данияра (та была про то, как непонимание разрушило пару; эта — про то,
+    как понимание общих мотиваторов и ценностей пару, наоборот, сблизило).
+    Показывается последним сообщением, сразу после выбора оплаты — как
+    финальный аргумент прямо в момент решения.
+    """
+    lines = [
+        "Марат постоянно менял работу — за три года четвёртый раз.",
+        "",
+        (
+            "Дана считала это несерьёзностью: «Ты никогда не "
+            "успокоишься? Мы же не можем строить планы, если тебя всё "
+            "время что-то не устраивает»."
+        ),
+        (
+            "Оказалось, у него ведущий мотиватор — Развития: рутина без "
+            "роста медленно его выматывала, и он физически не мог "
+            "оставаться там, где всё уже понятно."
+        ),
+        (
+            "У Даны — тот же мотиватор. Только она реализовывала его "
+            "через учёбу и книги, а не смену работы, и поэтому со стороны "
+            "выглядела «спокойной», а он — «нестабильным»."
+        ),
+        (
+            "Когда оба увидели, что хотят одного и того же — расти, а не "
+            "стоять на месте — просто разными способами, «он несерьёзный» "
+            "превратилось в «мы оба такие, давай думать, как расти вместе»."
+        ),
+        (
+            "Марат остался в компании — но выбил себе внутренний проект "
+            "развития. Дана начала не критиковать, а спрашивать: «Чему "
+            "новому ты сейчас учишься?» Ссоры на эту тему просто "
+            "закончились."
+        ),
+        "",
+        "Иногда всё, что нужно, — это увидеть, что вы хотите одного и того же.",
+    ]
+    return "\n".join(lines)
+
+
 async def show_lovelang_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
     """Раньше здесь показывался бесплатный тизер (топ-язык + %) и текст
     "соединения" психотипа с языком любви — но последний тоже называл язык
     любви открытым текстом, а полную раскладку по всем 5 языкам с процентами
     нужно оставить только для платной версии. Сейчас сразу после последнего
-    вопроса называются только 2 ведущих языка (без процентов и описаний), а
-    дальше — оффер с выбором оплаты.
+    вопроса называются только 2 ведущих языка (без процентов и описаний),
+    затем крючок про деньги/отношения (format_life_impact_teaser), потом
+    оффер с выбором оплаты, и в конце — вдохновляющая история про пару,
+    которая поняла общие мотиваторы (format_couple_success_story) — как
+    последний аргумент прямо в момент решения.
     """
     top2_text = format_lovelang_top2_text(scores)
     await query.edit_message_text(top2_text, parse_mode=ParseMode.HTML, reply_markup=None)
+
+    impact_text = format_life_impact_teaser()
+    await query.message.reply_text(impact_text, parse_mode=ParseMode.HTML)
 
     offer_text = format_paid_offer_text()
     await query.message.reply_text(offer_text, parse_mode=ParseMode.HTML)
@@ -1995,6 +2210,9 @@ async def show_lovelang_result(query, context: ContextTypes.DEFAULT_TYPE, scores
     await query.message.reply_text(
         choice_text, parse_mode=ParseMode.HTML, reply_markup=choice_buttons
     )
+
+    success_story = format_couple_success_story()
+    await query.message.reply_text(success_story)
 
     # Баллы языков любви сохраняем — понадобятся для полного платного отчёта
     # вместе с disc_scores (см. format_full_result_text / format_lovelang_full_text).
@@ -2077,11 +2295,84 @@ async def handle_male_answer(update: Update, context: ContextTypes.DEFAULT_TYPE)
     if next_q < TOTAL_MALE_QUESTIONS:
         await send_male_question(query, context, next_q)
     else:
-        await show_male_result(query, context, scores)
+        context.user_data["male_current_q"] = None
+        await start_male_lovelang(query, context)
+
+
+def build_male_lovelang_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+    return build_multi_keyboard("malellans", qindex, options)
+
+
+async def send_male_lovelang_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
+    question = MALE_LOVE_LANG_QUESTIONS[qindex]
+    text = f"Вопрос {qindex + 1} из {TOTAL_MALE_LL_QUESTIONS}\n\n{question['text']}"
+    keyboard = build_male_lovelang_keyboard(qindex, question["options"])
+    await query.edit_message_text(text, reply_markup=keyboard)
+
+
+async def start_male_lovelang(query, context: ContextTypes.DEFAULT_TYPE):
+    """Продолжение теста на партнёра сразу после его психотипа — без
+    отдельной кнопки, чтобы не терять темп (та же логика, что и переход
+    психотип → мотиваторы у неё самой).
+    """
+    context.user_data["male_ll_scores"] = {code: 0 for code in LOVE_LANG_PROFILES}
+    context.user_data["male_ll_current_q"] = 0
+
+    intro = (
+        "❤️ Ещё 5 вопросов — теперь про то, как партнёр проявляет любовь. "
+        "Это нужно для настоящего сравнения — не только характеров, но и "
+        "того, на каком языке любви говорит каждый из вас."
+    )
+    await query.edit_message_text(intro)
+
+    question = MALE_LOVE_LANG_QUESTIONS[0]
+    text = f"Вопрос 1 из {TOTAL_MALE_LL_QUESTIONS}\n\n{question['text']}"
+    await query.message.reply_text(
+        text, reply_markup=build_male_lovelang_keyboard(0, question["options"])
+    )
+
+
+async def handle_male_lovelang_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer(text="✅ Принято")
+
+    try:
+        _, qindex_str, code = query.data.split("|")
+        qindex = int(qindex_str)
+    except (ValueError, AttributeError):
+        return
+
+    current_q = context.user_data.get("male_ll_current_q")
+    scores = context.user_data.get("male_ll_scores")
+
+    if current_q is None or scores is None:
+        await query.edit_message_text(
+            "⚠️ Результаты не сохранились (бот перезапускался). Нажми "
+            "«Узнать психотип партнёра» ещё раз."
+        )
+        return
+
+    if qindex != current_q:
+        return
+
+    scores[code] = scores.get(code, 0) + 1
+    next_q = current_q + 1
+    context.user_data["male_ll_current_q"] = next_q
+
+    if next_q < TOTAL_MALE_LL_QUESTIONS:
+        await send_male_lovelang_question(query, context, next_q)
+    else:
+        context.user_data["male_ll_current_q"] = None
+        male_scores = context.user_data.get("male_scores")
+        await show_male_result(query, context, male_scores, scores)
 
 
 def format_male_result_text(scores: dict) -> str:
-    """Бесплатный результат теста на партнёра — топ-1 тип + короткий тизер."""
+    """Бесплатный результат теста на партнёра — топ-1 тип + короткий тизер.
+
+    Язык любви партнёра НЕ называется здесь (как и её собственный) — только
+    в платном разборе. Здесь лишь короткое упоминание, что он тоже посчитан.
+    """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
     top1_code, _ = ranked[0]
     top1 = MALE_PROFILES[top1_code]
@@ -2094,12 +2385,17 @@ def format_male_result_text(scores: dict) -> str:
         top1["weaknesses"][0],
         "",
         top1["recommendations"][0],
+        "",
+        "❤️ Его язык любви тоже посчитан — увидишь в полном разборе.",
     ]
     return "\n".join(lines)
 
 
-def format_male_full_text(scores: dict) -> str:
-    """Полный (платный) результат по партнёру — все 4 типа с баллами."""
+def format_male_full_text(scores: dict, ll_scores: dict = None) -> str:
+    """Полный (платный) результат по партнёру — все 4 типа с баллами, плюс
+    его язык любви (если посчитан — ll_scores может отсутствовать для
+    старых заявок, оформленных до появления этого блока).
+    """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
     lines = ["🧑 <b>Полный профиль партнёра</b>\n"]
@@ -2116,11 +2412,30 @@ def format_male_full_text(scores: dict) -> str:
     lines.append("Зоны риска: " + "; ".join(top1["weaknesses"]))
     lines.append("Как тебе с ним общаться: " + "; ".join(top1["recommendations"]))
 
+    if ll_scores:
+        ll_ranked = sorted(ll_scores.items(), key=lambda item: item[1], reverse=True)
+        lines.append("")
+        lines.append("❤️ <b>Его язык любви</b>")
+        for code, score in ll_ranked:
+            p = LOVE_LANG_PROFILES[code]
+            percent = round(score / TOTAL_MALE_LL_QUESTIONS * 100)
+            lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_MALE_LL_QUESTIONS})")
+        ll_top1_code, _ = ll_ranked[0]
+        ll_top1 = LOVE_LANG_PROFILES[ll_top1_code]
+        lines.append("")
+        lines.append(f"<b>Его ведущий язык любви: {ll_top1['emoji']} {ll_top1['name']}</b>")
+        lines.append(ll_top1["teaser"])
+
     return "\n".join(lines)
 
 
 def build_compatibility_text(disc_scores: dict, male_scores: dict) -> str:
-    """Короткий текст совместимости — её топ-психотип + его топ-психотип."""
+    """Короткий текст совместимости — её топ-психотип + его топ-психотип.
+
+    Про языки любви здесь — только тизер без названий (сами языки не
+    раскрываются бесплатно ни у неё, ни у него): полное сравнение остаётся
+    только в платном разборе.
+    """
     her_ranked = sorted(disc_scores.items(), key=lambda item: item[1], reverse=True)
     her_top1 = PROFILES[her_ranked[0][0]]
 
@@ -2143,11 +2458,17 @@ def build_compatibility_text(disc_scores: dict, male_scores: dict) -> str:
             "Именно на стыке этих двух особенностей чаще всего рождаются ваши "
             "непонимания."
         ),
+        "",
+        (
+            "❤️ А ещё у вас двоих посчитаны языки любви — на каких языках "
+            "говорит каждый из вас и где может быть нестыковка, покажем в "
+            "полном разборе."
+        ),
     ]
     return "\n".join(lines)
 
 
-async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
+async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict, ll_scores: dict = None):
     result_text = format_male_result_text(scores)
     await query.edit_message_text(result_text, parse_mode=ParseMode.HTML, reply_markup=None)
 
@@ -2167,6 +2488,8 @@ async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: di
 
     context.user_data["male_scores"] = scores
     context.user_data["male_current_q"] = None
+    context.user_data["male_love_lang_scores"] = ll_scores
+    context.user_data["male_ll_current_q"] = None
 
 
 # --------------------------------------------------------------------------
@@ -2535,7 +2858,9 @@ async def process_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, fi
     pending[str(user.id)] = {
         "disc_scores": context.user_data.get("disc_scores"),
         "love_lang_scores": context.user_data.get("love_lang_scores"),
+        "motivator_scores": context.user_data.get("motivator_scores"),
         "male_scores": context.user_data.get("male_scores"),
+        "male_love_lang_scores": context.user_data.get("male_love_lang_scores"),
         "username": user.username,
         "full_name": user.full_name,
         "receipt_file_id": file_id,
@@ -2614,6 +2939,7 @@ async def handle_receipt_document(update: Update, context: ContextTypes.DEFAULT_
 REPORT_SECTION_TITLES_SOLO = [
     ("🧠", "Мой психотип"),
     ("❤️", "Мой язык любви"),
+    ("💰", "Что мешает мне зарабатывать больше"),
     ("🧭", "Как я принимаю решения в паре"),
     ("💥", "Как я веду себя в конфликте"),
     ("👥", "Как я проявляюсь рядом с партнёром"),
@@ -2632,6 +2958,7 @@ REPORT_SECTION_TITLES_SOLO = [
 REPORT_SECTION_TITLES_COUPLE = [
     ("🧠", "Твой психотип"),
     ("🧑", "Психотип партнёра"),
+    ("💰", "Что мешает тебе зарабатывать больше"),
     ("🧭", "Как вы принимаете решения"),
     ("❤️", "Как каждый из вас проявляет любовь и заботу"),
     ("💥", "Как вы реагируете на конфликты"),
@@ -2650,8 +2977,8 @@ REPORT_SECTION_TITLES_COUPLE = [
 REPORT_SECTION_DELIMITER = "###РАЗДЕЛ###"
 
 
-def build_solo_report_prompt(disc_scores: dict, love_lang_scores: dict) -> str:
-    """Промпт для соло-отчёта (только женский психотип + язык любви)."""
+def build_solo_report_prompt(disc_scores: dict, love_lang_scores: dict, motivator_scores: dict = None) -> str:
+    """Промпт для соло-отчёта (женский психотип + язык любви + мотиваторы)."""
     disc_ranked = sorted(disc_scores.items(), key=lambda item: item[1], reverse=True)
     ll_ranked = sorted(love_lang_scores.items(), key=lambda item: item[1], reverse=True)
 
@@ -2672,11 +2999,24 @@ def build_solo_report_prompt(disc_scores: dict, love_lang_scores: dict) -> str:
             f"- {p['name']} ({score}/{TOTAL_LOVE_LANG_QUESTIONS} баллов) — {p['subtitle']}. {p['teaser']}"
         )
 
+    if motivator_scores:
+        mot_ranked = sorted(motivator_scores.items(), key=lambda item: item[1], reverse=True)
+        mot_lines = []
+        for code, score in mot_ranked:
+            p = MOTIVATOR_PROFILES[code]
+            mot_lines.append(
+                f"- {p['name']} ({score}/{TOTAL_MOTIVATOR_QUESTIONS} баллов) — {p['subtitle']}. {p['teaser']}"
+            )
+        mot_block = f"\n\nМОТИВАТОРЫ, что реально движет человеком (баллы по 6 категориям, от высшего к низшему):\n{chr(10).join(mot_lines)}"
+    else:
+        mot_block = ""
+
     section_list = "\n".join(
         f"{i + 1}. {title}" for i, (_, title) in enumerate(REPORT_SECTION_TITLES_SOLO)
     )
+    total_sections = len(REPORT_SECTION_TITLES_SOLO)
 
-    prompt = f"""Ты помогаешь составить персональный отчёт о женском психотипе в отношениях (по цветовой модели Марстона) и языке любви (по методике Гэри Чепмена).
+    prompt = f"""Ты помогаешь составить персональный отчёт о женском психотипе в отношениях (по цветовой модели Марстона), языке любви (по методике Гэри Чепмена) и мотиваторах (по модели Шпрангера).
 
 Вот баллы и готовые описания конкретного человека:
 
@@ -2684,31 +3024,38 @@ def build_solo_report_prompt(disc_scores: dict, love_lang_scores: dict) -> str:
 {chr(10).join(disc_lines)}
 
 ЯЗЫК ЛЮБВИ (баллы по 5 языкам, от высшего к низшему):
-{chr(10).join(ll_lines)}
+{chr(10).join(ll_lines)}{mot_block}
 
-Напиши персональный отчёт РОВНО из 15 разделов в такой последовательности:
+Напиши персональный отчёт РОВНО из {total_sections} разделов в такой последовательности:
 {section_list}
 
 Формат ответа — ОЧЕНЬ ВАЖНО:
 - Не пиши номера и заголовки разделов сами — заголовки уже есть, ты пишешь только текст содержания.
-- Раздели содержание разделов друг от друга строкой "{REPORT_SECTION_DELIMITER}" на отдельной строке (между каждой парой соседних разделов, всего 14 разделителей между 15 разделами).
+- Раздели содержание разделов друг от друга строкой "{REPORT_SECTION_DELIMITER}" на отдельной строке (между каждой парой соседних разделов, всего {total_sections - 1} разделителей между {total_sections} разделами).
 - Не используй markdown-разметку вообще (ни звёздочки, ни решётки, ни другие символы форматирования) — только обычный текст.
 
 Требования к содержанию:
 - Читательница — женщина, обращайся к ней на "ты" в женском роде (уверенная, решительная, сказала), тон тёплый, прямой и живой, без канцелярита и воды.
-- Раздел 8 ("Моё главное слепое пятно") — самое важное: покажи конкретно, как ведущий психотип И ведущий язык любви УСИЛИВАЮТ друг друга и создают конкретную повторяющуюся проблему в отношениях (не общие слова, а конкретный сценарий).
+- Раздел 3 ("Что мешает мне зарабатывать больше") — используй данные о мотиваторах: покажи конкретно, как ведущий мотиватор человека конфликтует с тем, как она сейчас пытается зарабатывать (например, стремление к свободе, а работа с жёстким контролем; или стремление к смыслу и заботе о людях, а работа воспринимается как сугубо про деньги) — конкретный сценарий, а не общие слова про "надо больше стараться".
+- Раздел 9 ("Моё главное слепое пятно") — самое важное про отношения: покажи конкретно, как ведущий психотип И ведущий язык любви УСИЛИВАЮТ друг друга и создают конкретную повторяющуюся проблему в отношениях (не общие слова, а конкретный сценарий).
 - Не повторяй дословно списки выше — переработай их в связный текст, используй их как основу, а не как готовый ответ.
 - Каждый раздел — 2-5 предложений, по делу.
-- В разделе 15 дай 2-3 конкретных, выполнимых шага, а не общие пожелания.
-- ОБЯЗАТЕЛЬНО допиши все 15 разделов до конца, включая последний. Если чувствуешь, что не укладываешься в объём — сокращай более ранние разделы, но не обрывай отчёт раньше времени.
+- В последнем разделе дай 2-3 конкретных, выполнимых шага, а не общие пожелания.
+- ОБЯЗАТЕЛЬНО допиши все {total_sections} разделов до конца, включая последний. Если чувствуешь, что не укладываешься в объём — сокращай более ранние разделы, но не обрывай отчёт раньше времени.
 - Не используй слово "DISC" — только "психотип".
-- Общий объём — примерно 900-1400 слов."""
+- Общий объём — примерно 950-1500 слов."""
 
     return prompt
 
 
-def build_couple_report_prompt(disc_scores: dict, love_lang_scores: dict, male_scores: dict) -> str:
-    """Промпт для парного отчёта (её психотип + язык любви + его психотип + совместимость)."""
+def build_couple_report_prompt(
+    disc_scores: dict,
+    love_lang_scores: dict,
+    male_scores: dict,
+    male_love_lang_scores: dict = None,
+    motivator_scores: dict = None,
+) -> str:
+    """Промпт для парного отчёта (её психотип + язык любви + мотиваторы + его психотип + его язык любви + совместимость)."""
     disc_ranked = sorted(disc_scores.items(), key=lambda item: item[1], reverse=True)
     ll_ranked = sorted(love_lang_scores.items(), key=lambda item: item[1], reverse=True)
     male_ranked = sorted(male_scores.items(), key=lambda item: item[1], reverse=True)
@@ -2730,6 +3077,18 @@ def build_couple_report_prompt(disc_scores: dict, love_lang_scores: dict, male_s
             f"- {p['name']} ({score}/{TOTAL_LOVE_LANG_QUESTIONS} баллов) — {p['subtitle']}. {p['teaser']}"
         )
 
+    if motivator_scores:
+        mot_ranked = sorted(motivator_scores.items(), key=lambda item: item[1], reverse=True)
+        mot_lines = []
+        for code, score in mot_ranked:
+            p = MOTIVATOR_PROFILES[code]
+            mot_lines.append(
+                f"- {p['name']} ({score}/{TOTAL_MOTIVATOR_QUESTIONS} баллов) — {p['subtitle']}. {p['teaser']}"
+            )
+        mot_block = f"\n\nЕЁ МОТИВАТОРЫ, что реально движет ею (баллы по 6 категориям, от высшего к низшему):\n{chr(10).join(mot_lines)}"
+    else:
+        mot_block = ""
+
     male_lines = []
     for code, score in male_ranked:
         p = MALE_PROFILES[code]
@@ -2740,11 +3099,24 @@ def build_couple_report_prompt(disc_scores: dict, love_lang_scores: dict, male_s
             f"  Как ей с ним общаться: {'; '.join(p['recommendations'])}"
         )
 
+    if male_love_lang_scores:
+        male_ll_ranked = sorted(male_love_lang_scores.items(), key=lambda item: item[1], reverse=True)
+        male_ll_lines = []
+        for code, score in male_ll_ranked:
+            p = LOVE_LANG_PROFILES[code]
+            male_ll_lines.append(
+                f"- {p['name']} ({score}/{TOTAL_MALE_LL_QUESTIONS} баллов, по её наблюдениям) — {p['subtitle']}."
+            )
+        male_ll_block = f"\n\nЕГО ЯЗЫК ЛЮБВИ, по её наблюдениям (баллы по 5 языкам, от высшего к низшему):\n{chr(10).join(male_ll_lines)}"
+    else:
+        male_ll_block = ""
+
     section_list = "\n".join(
         f"{i + 1}. {title}" for i, (_, title) in enumerate(REPORT_SECTION_TITLES_COUPLE)
     )
+    total_sections = len(REPORT_SECTION_TITLES_COUPLE)
 
-    prompt = f"""Ты помогаешь составить персональный отчёт о совместимости пары на основе психотипа обоих партнёров (по цветовой модели Марстона) и языка любви женщины (по методике Гэри Чепмена).
+    prompt = f"""Ты помогаешь составить персональный отчёт о совместимости пары на основе психотипа обоих партнёров (по цветовой модели Марстона), языка любви обоих (по методике Гэри Чепмена) и её мотиваторов (по модели Шпрангера).
 
 Данные собраны только со стороны женщины: её собственный тест плюс её ответы на вопросы-наблюдения о типичном поведении партнёра (мужчина сам тест не проходил).
 
@@ -2752,38 +3124,46 @@ def build_couple_report_prompt(disc_scores: dict, love_lang_scores: dict, male_s
 {chr(10).join(disc_lines)}
 
 ЕЁ ЯЗЫК ЛЮБВИ (баллы по 5 языкам, от высшего к низшему):
-{chr(10).join(ll_lines)}
+{chr(10).join(ll_lines)}{mot_block}
 
 ЕГО ПСИХОТИП, по её наблюдениям (баллы по 4 типам, от высшего к низшему):
-{chr(10).join(male_lines)}
+{chr(10).join(male_lines)}{male_ll_block}
 
-Напиши персональный отчёт РОВНО из 15 разделов в такой последовательности:
+Напиши персональный отчёт РОВНО из {total_sections} разделов в такой последовательности:
 {section_list}
 
 Формат ответа — ОЧЕНЬ ВАЖНО:
 - Не пиши номера и заголовки разделов сами — заголовки уже есть, ты пишешь только текст содержания.
-- Раздели содержание разделов друг от друга строкой "{REPORT_SECTION_DELIMITER}" на отдельной строке (между каждой парой соседних разделов, всего 14 разделителей между 15 разделами).
+- Раздели содержание разделов друг от друга строкой "{REPORT_SECTION_DELIMITER}" на отдельной строке (между каждой парой соседних разделов, всего {total_sections - 1} разделителей между {total_sections} разделами).
 - Не используй markdown-разметку вообще (ни звёздочки, ни решётки, ни другие символы форматирования) — только обычный текст.
 
 Требования к содержанию:
 - Пишешь для женщины, обращайся к ней на "ты". О партнёре говори "он"/"партнёр". Тон тёплый, прямой и живой, без канцелярита и воды.
-- Раздел 9 ("Что может разрушать ваши отношения") — самое важное: покажи конкретно, как её ведущий психотип и его ведущий психотип вместе создают конкретный повторяющийся сценарий конфликта (не общие слова, а конкретная ситуация).
+- Раздел 3 ("Что мешает тебе зарабатывать больше") — используй данные о её мотиваторах: покажи конкретно, как её ведущий мотиватор конфликтует с тем, как она сейчас пытается зарабатывать (конкретный сценарий, а не общие слова про "надо больше стараться"). Если данных о мотиваторах нет — пиши по её психотипу.
+- Раздел 5 ("Как каждый из вас проявляет любовь и заботу") — если данные о его языке любви есть, обязательно сравни её и его ведущие языки любви и покажи, где рождается ощущение нехватки любви из-за разницы языков, а не из-за реального охлаждения чувств.
+- Раздел 10 ("Что может разрушать ваши отношения") — самое важное: покажи конкретно, как её ведущий психотип и его ведущий психотип вместе создают конкретный повторяющийся сценарий конфликта (не общие слова, а конкретная ситуация).
 - Не повторяй дословно списки выше — переработай их в связный текст, используй их как основу, а не как готовый ответ.
 - Каждый раздел — 2-5 предложений, по делу.
-- ОБЯЗАТЕЛЬНО допиши все 15 разделов до конца, включая последний. Если чувствуешь, что не укладываешься в объём — сокращай более ранние разделы, но не обрывай отчёт раньше времени.
+- ОБЯЗАТЕЛЬНО допиши все {total_sections} разделов до конца, включая последний. Если чувствуешь, что не укладываешься в объём — сокращай более ранние разделы, но не обрывай отчёт раньше времени.
 - Не используй слово "DISC" — только "психотип".
-- Общий объём — примерно 900-1400 слов."""
+- Общий объём — примерно 950-1500 слов."""
 
     return prompt
 
 
-async def generate_full_report(disc_scores: dict, love_lang_scores: dict, male_scores: dict = None):
+async def generate_full_report(
+    disc_scores: dict,
+    love_lang_scores: dict,
+    male_scores: dict = None,
+    male_love_lang_scores: dict = None,
+    motivator_scores: dict = None,
+):
     """Генерирует полный отчёт через Claude API — соло или парный, в
     зависимости от того, передан ли male_scores.
 
     Возвращает кортеж (sections, error_reason):
-      - при успехе: (список из 15 строк содержания, None)
-      - при любой ошибке или если модель вернула не 15 частей:
+      - при успехе: (список строк содержания, None)
+      - при любой ошибке или если модель вернула не то число частей:
         (None, короткое текстовое описание причины) — вызывающий код
         подставит фолбэк и покажет причину админу в статусе.
     """
@@ -2796,9 +3176,11 @@ async def generate_full_report(disc_scores: dict, love_lang_scores: dict, male_s
         return None, reason
 
     if is_couple:
-        prompt = build_couple_report_prompt(disc_scores, love_lang_scores, male_scores)
+        prompt = build_couple_report_prompt(
+            disc_scores, love_lang_scores, male_scores, male_love_lang_scores, motivator_scores
+        )
     else:
-        prompt = build_solo_report_prompt(disc_scores, love_lang_scores)
+        prompt = build_solo_report_prompt(disc_scores, love_lang_scores, motivator_scores)
 
     def _call():
         client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY, timeout=45.0)
@@ -2941,7 +3323,9 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
     target_id = int(target_id_str)
     disc_scores = record["disc_scores"]
     love_lang_scores = record["love_lang_scores"]
+    motivator_scores = record.get("motivator_scores")
     male_scores = record.get("male_scores")
+    male_love_lang_scores = record.get("male_love_lang_scores")
     is_couple = male_scores is not None
 
     # Сразу показываем промежуточный статус — генерация через Claude API
@@ -2949,14 +3333,16 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
     # кнопка зависла.
     await edit_admin_message(query, "⏳ Генерирую отчёт и отправляю... (обычно 15-30 секунд)")
 
-    # Пытаемся сгенерировать настоящий синтез через Claude API (список из 15
+    # Пытаемся сгенерировать настоящий синтез через Claude API (список
     # секций содержания, соло или парный — в зависимости от того, пройден ли
     # тест на партнёра). Если не получилось (нет ключа, ошибка сети, модель
-    # вернула не 15 частей) — подстраховываемся склеенной версией статических
-    # полных отчётов, чтобы человек в любом случае получил результат. И в
-    # том, и в другом случае итоговый текст — валидный HTML (заголовки
-    # жирным мы добавляем сами, содержание экранировано).
-    sections, error_reason = await generate_full_report(disc_scores, love_lang_scores, male_scores)
+    # вернула не то число частей) — подстраховываемся склеенной версией
+    # статических полных отчётов, чтобы человек в любом случае получил
+    # результат. И в том, и в другом случае итоговый текст — валидный HTML
+    # (заголовки жирным мы добавляем сами, содержание экранировано).
+    sections, error_reason = await generate_full_report(
+        disc_scores, love_lang_scores, male_scores, male_love_lang_scores, motivator_scores
+    )
     used_fallback = sections is None
     if sections is None:
         report_text = (
@@ -2964,10 +3350,12 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
             + "\n\n"
             + format_lovelang_full_text(love_lang_scores)
         )
+        if motivator_scores:
+            report_text += "\n\n" + format_motivator_full_text(motivator_scores)
         if is_couple:
             report_text += (
                 "\n\n"
-                + format_male_full_text(male_scores)
+                + format_male_full_text(male_scores, male_love_lang_scores)
                 + "\n\n"
                 + build_compatibility_text(disc_scores, male_scores)
             )
@@ -3114,14 +3502,39 @@ def format_result_text(scores: dict) -> str:
 
 
 def format_bridge_to_lovelang_text() -> str:
-    """Короткое сообщение-мостик после теста на психотип — приглашение ко второму тесту.
-
-    Раньше здесь был длинный список вопросов + пример слепого пятна —
-    теперь этот контент переехал в format_paid_offer_text(), потому что
-    появился отдельный шаг "соединения" между двумя тестами (см.
-    build_synthesis_text) и он сам по себе достаточно сильный крючок.
+    """Мостик после теста на психотип/мотиваторы — приглашение ко второму
+    тесту. Открывается короткой историей о паре, которая любила друг друга,
+    но говорила на разных языках любви и не заметила этого вовремя — это
+    продающий крючок для перехода к тесту на язык любви, а не абстрактный
+    список вопросов.
     """
     lines = [
+        "Айгуль и Данияр были вместе три года.",
+        "",
+        (
+            "Он вставал на час раньше, чтобы прогреть машину. Брал на себя "
+            "все звонки в мастерскую. Чинил всё, что она просила, в тот же "
+            "вечер."
+        ),
+        (
+            "Она хотела услышать одно: «ты у меня самая лучшая». Хоть "
+            "раз. Просто вслух."
+        ),
+        (
+            "Он не понимал, зачем говорить то, что и так видно по делу. "
+            "Она не понимала, почему за три года он ни разу не сказал "
+            "этих слов."
+        ),
+        (
+            "Она ушла со словами «ты меня не любишь». Он до сих пор не "
+            "понимает, что сделал не так — он же старался, каждый день, "
+            "руками."
+        ),
+        (
+            "Они оба любили. Просто на разных языках — и ни один из них "
+            "об этом не знал."
+        ),
+        "",
         "Ты узнала, <b>КАК</b> ты ведёшь себя в отношениях.",
         "",
         "Но пока мы не знаем:",
@@ -3129,7 +3542,7 @@ def format_bridge_to_lovelang_text() -> str:
         "💔 что заставляет тебя чувствовать, что тебя не любят, даже когда это не так;",
         "🔑 что для тебя на самом деле важнее всего в паре.",
         "",
-        "Чтобы это узнать, пройди второй мини-тест — «Твой язык любви».",
+        "Чтобы это не повторилось у тебя, пройди второй мини-тест — «Твой язык любви».",
     ]
     return "\n".join(lines)
 
@@ -3229,6 +3642,7 @@ def main():
     application.add_handler(CallbackQueryHandler(handle_lovelang_answer, pattern=r"^llanswer\|"))
     application.add_handler(CallbackQueryHandler(start_male_test, pattern=r"^start_male_test$"))
     application.add_handler(CallbackQueryHandler(handle_male_answer, pattern=r"^maleans\|"))
+    application.add_handler(CallbackQueryHandler(handle_male_lovelang_answer, pattern=r"^malellans\|"))
     application.add_handler(CallbackQueryHandler(start_other_test, pattern=r"^start_other_test$"))
     application.add_handler(CallbackQueryHandler(handle_other_answer, pattern=r"^otherans\|"))
     application.add_handler(CallbackQueryHandler(handle_confirm_other_payment, pattern=r"^otherconfirm\|"))
