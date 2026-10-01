@@ -334,8 +334,8 @@ TOTAL_QUESTIONS = len(QUESTIONS)
 
 
 # --------------------------------------------------------------------------
-# МОТИВАТОРЫ (модель Спрэнгера / PIAV: Развития, Результата, Гармонии,
-# Пользы, Свободы, Принципов) — вторая часть ТЕСТА 1, сразу после психотипа.
+# МОТИВАТОРЫ (модель Шпрангера: Теоретический, Экономический, Эстетический,
+# Социальный, Политический, Религиозный) — вторая часть ТЕСТА 1, сразу после психотипа.
 #
 # Специально НЕ вынесены в отдельный третий тест: психотип отвечает на
 # вопрос "КАК ты себя ведёшь", мотиваторы — "ПОЧЕМУ" — это одна связка, как
@@ -350,15 +350,14 @@ TOTAL_QUESTIONS = len(QUESTIONS)
 
 MOTIVATOR_PROFILES = {
     "T": {
-        "name": "Развития",
+        "name": "Теоретический",
         "emoji": "🧠",
         "subtitle": "Тебе важно познавать и понимать, как всё устроено на самом деле",
         "teaser": (
-            "В оригинале у Шпрангера этот тип называется «теоретическим» — "
-            "человек, для которого главное не запомнить факт, а докопаться "
-            "до закономерности за ним. Тебя двигает не любопытство ради "
-            "любопытства, а желание по-настоящему разобраться в сути, а не "
-            "довольствоваться готовым ответом."
+            "Это тип человека, для которого главное — не запомнить факт, а "
+            "докопаться до закономерности за ним. Тебя двигает не "
+            "любопытство ради любопытства, а желание по-настоящему "
+            "разобраться в сути, а не довольствоваться готовым ответом."
         ),
         "life_example": (
             "Например: тебе быстро надоедает работа или отношения, где всё "
@@ -367,17 +366,17 @@ MOTIVATOR_PROFILES = {
         ),
     },
     "U": {
-        "name": "Результата",
+        "name": "Экономический",
         "emoji": "💰",
         "subtitle": "Тебе важна практическая польза и отдача от того, что ты делаешь",
         "teaser": (
-            "У Шпрангера это «экономический» тип — для него польза является "
-            "смыслом любой деятельности. Для тебя смысл дела — в том, что "
-            "оно реально даёт. Просто «интересно» или «красиво» тебя "
-            "надолго не удержит, если нет измеримой отдачи: роста дохода, "
-            "прогресса, конкретной цифры. В отличие от «Служения» (там "
-            "важен сам человек, ради которого стараешься), здесь важен "
-            "именно измеримый итог дела, а не то, кому он достался."
+            "Для этого типа польза является смыслом любой деятельности. "
+            "Для тебя смысл дела — в том, что оно реально даёт. Просто "
+            "«интересно» или «красиво» тебя надолго не удержит, если нет "
+            "измеримой отдачи: роста дохода, прогресса, конкретной цифры. "
+            "В отличие от «Социального» типа (там важен сам человек, ради "
+            "которого стараешься), здесь важен именно измеримый итог дела, "
+            "а не то, кому он достался."
         ),
         "life_example": (
             "Например: тебе тяжело долго заниматься делом, если ты не "
@@ -386,15 +385,14 @@ MOTIVATOR_PROFILES = {
         ),
     },
     "A": {
-        "name": "Гармонии",
+        "name": "Эстетический",
         "emoji": "✨",
         "subtitle": "Тебе важно, как что-то ощущается и выглядит, а не только его смысл",
         "teaser": (
-            "У Шпрангера это «эстетический» тип — человек, который "
-            "стремится прочувствовать вещь целиком, через форму и "
-            "впечатление, а не только оценить её пользу. Тебе важно не "
-            "только ЧТО сделано, но и КАК — атмосфера и гармония процесса "
-            "имеют для тебя реальное значение."
+            "Это тип человека, который стремится прочувствовать вещь "
+            "целиком, через форму и впечатление, а не только оценить её "
+            "пользу. Тебе важно не только ЧТО сделано, но и КАК — атмосфера "
+            "и гармония процесса имеют для тебя реальное значение."
         ),
         "life_example": (
             "Например: тебя выбивает из колеи беспорядок или напряжённая "
@@ -403,15 +401,15 @@ MOTIVATOR_PROFILES = {
         ),
     },
     "S": {
-        "name": "Служения",
+        "name": "Социальный",
         "emoji": "❤️",
         "subtitle": "Смысл ты находишь в заботе о людях, а не в личной выгоде или эффективности",
         "teaser": (
-            "У Шпрангера это «социальный» тип — тот, кто находит себя в "
-            "другом человеке и живёт ради любви к людям. Не путай с "
-            "«Результатом»: там важен измеримый итог дела, а здесь — важен "
-            "конкретный человек, ради которого ты стараешься, даже если "
-            "это не даёт никакой практической выгоды."
+            "Это тип человека, который находит себя в другом человеке и "
+            "живёт ради любви к людям. Не путай с «Экономическим»: там "
+            "важен измеримый итог дела, а здесь — важен конкретный человек, "
+            "ради которого ты стараешься, даже если это не даёт никакой "
+            "практической выгоды."
         ),
         "life_example": (
             "Например: ты готова вложиться в человека без всякой личной "
@@ -420,15 +418,16 @@ MOTIVATOR_PROFILES = {
         ),
     },
     "I": {
-        "name": "Свободы",
+        "name": "Политический",
         "emoji": "👑",
         "subtitle": "Тебе важно иметь влияние и самой определять, как будет",
         "teaser": (
-            "У Шпрангера это «политический» тип — стремление к власти, "
-            "влиянию и самостоятельности, а не подчинению чужой воле. Тебя "
-            "двигает желание быть тем, кто ведёт, а не тем, кем управляют: "
-            "самой решать, как, с кем и куда двигаться. Жёсткий контроль "
-            "извне быстро гасит твою мотивацию."
+            "У Шпрангера так называется тип со стремлением к власти, "
+            "влиянию и самостоятельности, а не подчинению чужой воле — "
+            "здесь это не про политику в буквальном смысле, а про то, что "
+            "тебя двигает желание быть тем, кто ведёт, а не тем, кем "
+            "управляют: самой решать, как, с кем и куда двигаться. Жёсткий "
+            "контроль извне быстро гасит твою мотивацию."
         ),
         "life_example": (
             "Например: тебе тяжело работать или быть в отношениях под "
@@ -437,13 +436,13 @@ MOTIVATOR_PROFILES = {
         ),
     },
     "TR": {
-        "name": "Принципов",
+        "name": "Религиозный",
         "emoji": "⚖️",
         "subtitle": "Тебе важно, чтобы жизнь строилась на цельной системе принципов, в которую ты веришь",
         "teaser": (
-            "У Шпрангера это «религиозный» тип в широком смысле — не про "
-            "веру в конкретную религию, а про то, что человек соотносит "
-            "каждую отдельную ситуацию с общей картиной смысла и живёт по "
+            "У Шпрангера так называется тип в широком смысле — не про веру "
+            "в конкретную религию, а про то, что человек соотносит каждую "
+            "отдельную ситуацию с общей картиной смысла и живёт по "
             "устойчивым принципам. Тебе комфортнее и эффективнее, когда "
             "есть ясная система, а не хаос и постоянные исключения."
         ),
@@ -1024,6 +1023,108 @@ TOTAL_MALE_LL_QUESTIONS = len(MALE_LOVE_LANG_QUESTIONS)
 
 
 # --------------------------------------------------------------------------
+# МОТИВАТОРЫ ПАРТНЁРА — третье и последнее продолжение теста на партнёра
+# (после психотипа и языка любви). Нужно для полной картины пары: чтобы
+# показать не только "кто есть кто", но и "что движет каждым из вас" — те
+# же 6 категорий Шпрангера, что и у неё самой, только вопросы
+# наблюдательные ("что явно даёт партнёру энергию") вместо самоотчёта.
+# --------------------------------------------------------------------------
+
+MALE_MOTIVATOR_QUESTIONS = [
+    {
+        "text": "Что явно даёт партнёру больше всего энергии в делах?",
+        "options": [
+            ("Разобраться в новом", "T"),
+            ("Увидеть результат", "U"),
+            ("Красота и гармония", "A"),
+            ("Помощь людям", "S"),
+            ("Свобода действовать", "I"),
+            ("Чёткие правила", "TR"),
+        ],
+    },
+    {
+        "text": "Что его раздражает больше всего?",
+        "options": [
+            ("Когда решают за него", "I"),
+            ("Нет результата", "U"),
+            ("Поверхностный подход", "T"),
+            ("Хаос вокруг", "A"),
+            ("Его усилия не нужны", "S"),
+            ("Нет системы", "TR"),
+        ],
+    },
+    {
+        "text": "Что его вдохновляет по-настоящему?",
+        "options": [
+            ("Помочь другому", "S"),
+            ("Свобода действий", "I"),
+            ("Рост показателей", "U"),
+            ("Новые знания", "T"),
+            ("Рабочая система", "TR"),
+            ("Красота в деле", "A"),
+        ],
+    },
+    {
+        "text": "Что для него признак хорошо сделанной работы?",
+        "options": [
+            ("Понятный итог", "U"),
+            ("Гармоничный процесс", "A"),
+            ("Разобрался в сути", "T"),
+            ("Всё по системе", "TR"),
+            ("Есть польза людям", "S"),
+            ("Сделано по-своему", "I"),
+        ],
+    },
+    {
+        "text": "Что его демотивирует быстрее всего?",
+        "options": [
+            ("Беспорядок", "A"),
+            ("Ощущение бесполезности", "S"),
+            ("Жёсткий контроль", "I"),
+            ("Нет вызова, скучно", "T"),
+            ("Нет прогресса", "U"),
+            ("Смена правил на ходу", "TR"),
+        ],
+    },
+    {
+        "text": "На что он смотрит в первую очередь, оценивая новую идею?",
+        "options": [
+            ("Насколько интересно", "T"),
+            ("Даёт ли свободу", "I"),
+            ("Практическая польза", "U"),
+            ("Впишется гармонично", "A"),
+            ("Насколько системно", "TR"),
+            ("Кому это поможет", "S"),
+        ],
+    },
+    {
+        "text": "Что для него важнее в деньгах?",
+        "options": [
+            ("Рост дохода", "U"),
+            ("Финансовая свобода", "I"),
+            ("Помощь близким", "S"),
+            ("Комфорт и красота", "A"),
+            ("Ресурс для роста", "T"),
+            ("Стабильность дохода", "TR"),
+        ],
+    },
+    {
+        "text": "Что он выберет, если придётся выбрать одно?",
+        "options": [
+            ("Пользу, но малый доход", "S"),
+            ("Доход и показатели", "U"),
+            ("Свободу, но нестабильно", "I"),
+            ("Рост без быстрого итога", "T"),
+            ("Комфортную атмосферу", "A"),
+            ("Чёткие правила игры", "TR"),
+        ],
+    },
+]
+
+TOTAL_MALE_MOTIVATOR_QUESTIONS = len(MALE_MOTIVATOR_QUESTIONS)
+
+
+# --------------------------------------------------------------------------
 # ПСИХОТИП ЛЮБОГО ДРУГОГО ЧЕЛОВЕКА (мама, подруга, коллега, ребёнок —
 # не обязательно романтический партнёр). Отдельная платная опция, доступная
 # в любой момент (кнопка после отчёта + команда /another), с отдельной
@@ -1222,6 +1323,164 @@ OTHER_PERSON_QUESTIONS = [
 ]
 
 TOTAL_OTHER_QUESTIONS = len(OTHER_PERSON_QUESTIONS)
+
+
+# --------------------------------------------------------------------------
+# ЯЗЫК ЛЮБВИ И МОТИВАТОРЫ "ЕЩЁ ОДНОГО ЧЕЛОВЕКА" — продолжение теста на
+# любого человека (мама, подруга, коллега), не только психотип. Раньше тест
+# заканчивался сразу после психотипа — короче, чем тест на партнёра, хотя
+# цена (OTHER_PERSON_PRICE) предполагает такой же полный разбор, как и у
+# партнёра. Использует те же категории WORDS/TIME/GIFTS/ACTS/TOUCH и
+# T/U/A/S/I/TR, что и везде.
+# --------------------------------------------------------------------------
+
+OTHER_LOVE_LANG_QUESTIONS = [
+    {
+        "text": "Как этот человек обычно проявляет заботу?",
+        "options": [
+            ("Говорит тёплые слова", "WORDS"),
+            ("Уделяет время", "TIME"),
+            ("Дарит подарки", "GIFTS"),
+            ("Помогает по делу", "ACTS"),
+            ("Тепло, через объятия", "TOUCH"),
+        ],
+    },
+    {
+        "text": "Когда этот человек кем-то гордится, он…",
+        "options": [
+            ("Говорит это вслух", "WORDS"),
+            ("Хочет провести время вместе", "TIME"),
+            ("Дарит что-то в честь этого", "GIFTS"),
+            ("Делает что-то полезное", "ACTS"),
+            ("Тепло обнимает", "TOUCH"),
+        ],
+    },
+    {
+        "text": "Как этот человек обычно мирится после конфликта?",
+        "options": [
+            ("Говорит словами", "WORDS"),
+            ("Предлагает время вместе", "TIME"),
+            ("Дарит что-то", "GIFTS"),
+            ("Делает что-то полезное", "ACTS"),
+            ("Через тепло, объятия", "TOUCH"),
+        ],
+    },
+    {
+        "text": "Когда этот человек хочет кого-то порадовать, он обычно…",
+        "options": [
+            ("Приносит подарок", "GIFTS"),
+            ("Берёт дела на себя", "ACTS"),
+            ("Говорит комплимент", "WORDS"),
+            ("Тепло, через объятия", "TOUCH"),
+            ("Откладывает свои дела ради другого", "TIME"),
+        ],
+    },
+    {
+        "text": "Когда видит, что кому-то плохо, этот человек обычно…",
+        "options": [
+            ("Обнимает, рядом физически", "TOUCH"),
+            ("Предлагает помощь", "ACTS"),
+            ("Остаётся рядом", "TIME"),
+            ("Подбадривает словами", "WORDS"),
+            ("Дарит что-то для настроения", "GIFTS"),
+        ],
+    },
+]
+
+TOTAL_OTHER_LL_QUESTIONS = len(OTHER_LOVE_LANG_QUESTIONS)
+
+OTHER_MOTIVATOR_QUESTIONS = [
+    {
+        "text": "Что явно даёт этому человеку больше всего энергии в делах?",
+        "options": [
+            ("Разобраться в новом", "T"),
+            ("Увидеть результат", "U"),
+            ("Красота и гармония", "A"),
+            ("Помощь людям", "S"),
+            ("Свобода действовать", "I"),
+            ("Чёткие правила", "TR"),
+        ],
+    },
+    {
+        "text": "Что раздражает этого человека больше всего?",
+        "options": [
+            ("Когда решают за него", "I"),
+            ("Нет результата", "U"),
+            ("Поверхностный подход", "T"),
+            ("Хаос вокруг", "A"),
+            ("Усилия не нужны", "S"),
+            ("Нет системы", "TR"),
+        ],
+    },
+    {
+        "text": "Что этого человека вдохновляет по-настоящему?",
+        "options": [
+            ("Помочь другому", "S"),
+            ("Свобода действий", "I"),
+            ("Рост показателей", "U"),
+            ("Новые знания", "T"),
+            ("Рабочая система", "TR"),
+            ("Красота в деле", "A"),
+        ],
+    },
+    {
+        "text": "Что для этого человека признак хорошо сделанной работы?",
+        "options": [
+            ("Понятный итог", "U"),
+            ("Гармоничный процесс", "A"),
+            ("Разобрался в сути", "T"),
+            ("Всё по системе", "TR"),
+            ("Есть польза людям", "S"),
+            ("Сделано по-своему", "I"),
+        ],
+    },
+    {
+        "text": "Что демотивирует этого человека быстрее всего?",
+        "options": [
+            ("Беспорядок", "A"),
+            ("Ощущение бесполезности", "S"),
+            ("Жёсткий контроль", "I"),
+            ("Нет вызова, скучно", "T"),
+            ("Нет прогресса", "U"),
+            ("Смена правил на ходу", "TR"),
+        ],
+    },
+    {
+        "text": "На что этот человек смотрит в первую очередь, оценивая новую идею?",
+        "options": [
+            ("Насколько интересно", "T"),
+            ("Даёт ли свободу", "I"),
+            ("Практическая польза", "U"),
+            ("Впишется гармонично", "A"),
+            ("Насколько системно", "TR"),
+            ("Кому это поможет", "S"),
+        ],
+    },
+    {
+        "text": "Что для этого человека важнее в деньгах?",
+        "options": [
+            ("Рост дохода", "U"),
+            ("Финансовая свобода", "I"),
+            ("Помощь близким", "S"),
+            ("Комфорт и красота", "A"),
+            ("Ресурс для роста", "T"),
+            ("Стабильность дохода", "TR"),
+        ],
+    },
+    {
+        "text": "Что этот человек выберет, если придётся выбрать одно?",
+        "options": [
+            ("Пользу, но малый доход", "S"),
+            ("Доход и показатели", "U"),
+            ("Свободу, но нестабильно", "I"),
+            ("Рост без быстрого итога", "T"),
+            ("Комфортную атмосферу", "A"),
+            ("Чёткие правила игры", "TR"),
+        ],
+    },
+]
+
+TOTAL_OTHER_MOTIVATOR_QUESTIONS = len(OTHER_MOTIVATOR_QUESTIONS)
 
 # --------------------------------------------------------------------------
 # ЛОГИКА БОТА
@@ -1567,6 +1826,16 @@ def format_motivator_intro_text() -> str:
             "узнала), но и какие именно ценности стоят за твоими решениями."
         ),
         "",
+        "📋 <b>Все 6 мотиваторов Шпрангера:</b>",
+        "🧠 Теоретический — движет познание, желание разобраться в сути",
+        "💰 Экономический — движет практическая польза и измеримый результат",
+        "✨ Эстетический — движет форма, впечатление, гармония процесса",
+        "❤️ Социальный — движет забота о людях, а не личная выгода",
+        "👑 Политический — движет влияние и самостоятельность в решениях",
+        "⚖️ Религиозный — движет цельная система принципов и смысла",
+        "",
+        "Дальше узнаешь, какой из них ведущий именно у тебя.",
+        "",
         f"Вторая часть — {TOTAL_MOTIVATOR_QUESTIONS} вопросов. Готова?",
     ]
     return "\n".join(lines)
@@ -1667,7 +1936,10 @@ def format_motivator_result_text(scores: dict) -> str:
 
 def format_motivator_full_text(scores: dict) -> str:
     """Полный (платный) результат — все 6 мотиваторов в процентах от общего
-    числа вопросов (доля выборов в пользу каждой категории)."""
+    числа вопросов (доля выборов в пользу каждой категории). Если несколько
+    категорий набрали одинаковый максимум — показываем их ВСЕ как ведущие,
+    а не произвольно первую из списка.
+    """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
     lines = ["🔑 <b>Твой полный профиль мотиваторов</b>\n"]
@@ -1677,12 +1949,24 @@ def format_motivator_full_text(scores: dict) -> str:
         lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_MOTIVATOR_QUESTIONS})")
     lines.append("")
 
-    top1_code, _ = ranked[0]
-    top1 = MOTIVATOR_PROFILES[top1_code]
-    lines.append(f"<b>Ведущий мотиватор: {top1['emoji']} {top1['name']}</b>")
-    lines.append(f"{top1['subtitle']}.")
-    lines.append(top1["teaser"])
-    lines.append(top1["life_example"])
+    max_score = ranked[0][1]
+    top_codes = [code for code, score in ranked if score == max_score]
+
+    if len(top_codes) == 1:
+        top1 = MOTIVATOR_PROFILES[top_codes[0]]
+        lines.append(f"<b>Ведущий мотиватор: {top1['emoji']} {top1['name']}</b>")
+        lines.append(f"{top1['subtitle']}.")
+        lines.append(top1["teaser"])
+        lines.append(top1["life_example"])
+    else:
+        names = ", ".join(f"{MOTIVATOR_PROFILES[c]['emoji']} {MOTIVATOR_PROFILES[c]['name']}" for c in top_codes)
+        lines.append(f"<b>Ведущие мотиваторы (ничья): {names}</b>")
+        lines.append("Все они выражены у тебя одинаково сильно — вот что каждый из них означает:")
+        for code in top_codes:
+            p = MOTIVATOR_PROFILES[code]
+            lines.append("")
+            lines.append(f"<b>{p['emoji']} {p['name']}</b> — {p['subtitle']}.")
+            lines.append(p["teaser"])
 
     return "\n".join(lines)
 
@@ -1876,7 +2160,9 @@ def format_lovelang_result_text(scores: dict) -> str:
 def format_lovelang_full_text(scores: dict) -> str:
     """Полный (платный) результат — все 5 языков в процентах от общего числа
     вопросов (доля выборов в пользу каждого языка, а не ранг) — так видно,
-    если сильно выражены сразу два языка.
+    если сильно выражены сразу два языка. Если несколько языков набрали
+    одинаковый максимум — показываем их ВСЕ как ведущие, а не произвольно
+    первый из списка.
     """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
@@ -1888,11 +2174,23 @@ def format_lovelang_full_text(scores: dict) -> str:
         lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_LOVE_LANG_QUESTIONS})")
     lines.append("")
 
-    top1_code, _ = ranked[0]
-    top1 = LOVE_LANG_PROFILES[top1_code]
-    lines.append(f"<b>Ведущий язык: {top1['emoji']} {top1['name']}</b>")
-    lines.append(f"{top1['subtitle']}.")
-    lines.append(top1["teaser"])
+    max_score = ranked[0][1]
+    top_codes = [code for code, score in ranked if score == max_score]
+
+    if len(top_codes) == 1:
+        top1 = LOVE_LANG_PROFILES[top_codes[0]]
+        lines.append(f"<b>Ведущий язык: {top1['emoji']} {top1['name']}</b>")
+        lines.append(f"{top1['subtitle']}.")
+        lines.append(top1["teaser"])
+    else:
+        names = ", ".join(f"{LOVE_LANG_PROFILES[c]['emoji']} {LOVE_LANG_PROFILES[c]['name']}" for c in top_codes)
+        lines.append(f"<b>Ведущие языки (ничья): {names}</b>")
+        lines.append("Оба выражены у тебя одинаково сильно — вот что каждый из них означает:")
+        for code in top_codes:
+            p = LOVE_LANG_PROFILES[code]
+            lines.append("")
+            lines.append(f"<b>{p['emoji']} {p['name']}</b> — {p['subtitle']}.")
+            lines.append(p["teaser"])
 
     return "\n".join(lines)
 
@@ -2154,8 +2452,8 @@ def format_couple_success_story() -> str:
             "время что-то не устраивает»."
         ),
         (
-            "Оказалось, у него ведущий мотиватор — Развития: рутина без "
-            "роста медленно его выматывала, и он физически не мог "
+            "Оказалось, у него ведущий мотиватор — Теоретический: рутина "
+            "без роста медленно его выматывала, и он физически не мог "
             "оставаться там, где всё уже понятно."
         ),
         (
@@ -2365,19 +2663,89 @@ async def handle_male_lovelang_answer(update: Update, context: ContextTypes.DEFA
         await send_male_lovelang_question(query, context, next_q)
     else:
         context.user_data["male_ll_current_q"] = None
+        context.user_data["male_love_lang_scores"] = scores
+        await start_male_motivator(query, context)
+
+
+def build_male_motivator_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+    return build_multi_keyboard("malemot", qindex, options)
+
+
+async def send_male_motivator_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
+    question = MALE_MOTIVATOR_QUESTIONS[qindex]
+    text = f"Вопрос {qindex + 1} из {TOTAL_MALE_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
+    keyboard = build_male_motivator_keyboard(qindex, question["options"])
+    await query.edit_message_text(text, reply_markup=keyboard)
+
+
+async def start_male_motivator(query, context: ContextTypes.DEFAULT_TYPE):
+    """Третье и последнее продолжение теста на партнёра — сразу после его
+    языка любви, без отдельной кнопки, чтобы не терять темп.
+    """
+    context.user_data["male_mot_scores"] = {code: 0 for code in MOTIVATOR_PROFILES}
+    context.user_data["male_mot_current_q"] = 0
+
+    intro = (
+        "🔑 Последние 8 вопросов — что реально движет партнёром. Так в "
+        "разборе будет полная картина: не только характеры и языки любви, "
+        "но и то, ПОЧЕМУ каждый из вас поступает именно так."
+    )
+    await query.edit_message_text(intro)
+
+    question = MALE_MOTIVATOR_QUESTIONS[0]
+    text = f"Вопрос 1 из {TOTAL_MALE_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
+    await query.message.reply_text(
+        text, reply_markup=build_male_motivator_keyboard(0, question["options"])
+    )
+
+
+async def handle_male_motivator_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer(text="✅ Принято")
+
+    try:
+        _, qindex_str, code = query.data.split("|")
+        qindex = int(qindex_str)
+    except (ValueError, AttributeError):
+        return
+
+    current_q = context.user_data.get("male_mot_current_q")
+    scores = context.user_data.get("male_mot_scores")
+
+    if current_q is None or scores is None:
+        await query.edit_message_text(
+            "⚠️ Результаты не сохранились (бот перезапускался). Нажми "
+            "«Узнать психотип партнёра» ещё раз."
+        )
+        return
+
+    if qindex != current_q:
+        return
+
+    scores[code] = scores.get(code, 0) + 1
+    next_q = current_q + 1
+    context.user_data["male_mot_current_q"] = next_q
+
+    if next_q < TOTAL_MALE_MOTIVATOR_QUESTIONS:
+        await send_male_motivator_question(query, context, next_q)
+    else:
+        context.user_data["male_mot_current_q"] = None
         male_scores = context.user_data.get("male_scores")
-        await show_male_result(query, context, male_scores, scores)
+        male_ll_scores = context.user_data.get("male_love_lang_scores")
+        await show_male_result(query, context, male_scores, male_ll_scores, scores)
 
 
 def format_male_result_text(scores: dict) -> str:
-    """Бесплатный результат теста на партнёра — топ-1 тип + короткий тизер.
+    """Бесплатный результат теста на партнёра — топ-1 тип (или несколько,
+    если ничья) + короткий тизер.
 
     Язык любви партнёра НЕ называется здесь (как и её собственный) — только
     в платном разборе. Здесь лишь короткое упоминание, что он тоже посчитан.
     """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
-    top1_code, _ = ranked[0]
-    top1 = MALE_PROFILES[top1_code]
+    max_score = ranked[0][1]
+    top_codes = [code for code, score in ranked if score == max_score]
+    top1 = MALE_PROFILES[top_codes[0]]
 
     lines = [
         f"🧑 <b>Психотип партнёра — {top1['emoji']} {top1['name'].upper()}</b>\n",
@@ -2387,16 +2755,23 @@ def format_male_result_text(scores: dict) -> str:
         top1["weaknesses"][0],
         "",
         top1["recommendations"][0],
+    ]
+    if len(top_codes) > 1:
+        others = ", ".join(MALE_PROFILES[c]["name"] for c in top_codes[1:])
+        lines.append("")
+        lines.append(f"Кстати, у него ничья с типом «{others}» — оба выражены одинаково сильно.")
+    lines += [
         "",
         "❤️ Его язык любви тоже посчитан — увидишь в полном разборе.",
     ]
     return "\n".join(lines)
 
 
-def format_male_full_text(scores: dict, ll_scores: dict = None) -> str:
+def format_male_full_text(scores: dict, ll_scores: dict = None, mot_scores: dict = None) -> str:
     """Полный (платный) результат по партнёру — все 4 типа с баллами, плюс
-    его язык любви (если посчитан — ll_scores может отсутствовать для
-    старых заявок, оформленных до появления этого блока).
+    его язык любви и мотиваторы (оба могут отсутствовать для старых заявок,
+    оформленных до появления этих блоков). При ничьей внутри любого блока
+    показываем все ведущие категории, а не произвольно первую.
     """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
@@ -2406,13 +2781,25 @@ def format_male_full_text(scores: dict, ll_scores: dict = None) -> str:
         lines.append(f"{p['emoji']} {p['name']}: {score}/{TOTAL_MALE_QUESTIONS}")
     lines.append("")
 
-    top1_code, _ = ranked[0]
-    top1 = MALE_PROFILES[top1_code]
-    lines.append(f"<b>Ведущий тип: {top1['emoji']} {top1['name']}</b>")
-    lines.append(f"{top1['subtitle']}.")
-    lines.append("Сильные стороны: " + "; ".join(top1["strengths"]))
-    lines.append("Зоны риска: " + "; ".join(top1["weaknesses"]))
-    lines.append("Как тебе с ним общаться: " + "; ".join(top1["recommendations"]))
+    max_score = ranked[0][1]
+    top_codes = [code for code, score in ranked if score == max_score]
+    if len(top_codes) == 1:
+        top1 = MALE_PROFILES[top_codes[0]]
+        lines.append(f"<b>Ведущий тип: {top1['emoji']} {top1['name']}</b>")
+        lines.append(f"{top1['subtitle']}.")
+        lines.append("Сильные стороны: " + "; ".join(top1["strengths"]))
+        lines.append("Зоны риска: " + "; ".join(top1["weaknesses"]))
+        lines.append("Как тебе с ним общаться: " + "; ".join(top1["recommendations"]))
+    else:
+        names = ", ".join(f"{MALE_PROFILES[c]['emoji']} {MALE_PROFILES[c]['name']}" for c in top_codes)
+        lines.append(f"<b>Ведущие типы (ничья): {names}</b>")
+        for code in top_codes:
+            p = MALE_PROFILES[code]
+            lines.append("")
+            lines.append(f"<b>{p['emoji']} {p['name']}</b> — {p['subtitle']}.")
+            lines.append("Сильные стороны: " + "; ".join(p["strengths"]))
+            lines.append("Зоны риска: " + "; ".join(p["weaknesses"]))
+            lines.append("Как тебе с ним общаться: " + "; ".join(p["recommendations"]))
 
     if ll_scores:
         ll_ranked = sorted(ll_scores.items(), key=lambda item: item[1], reverse=True)
@@ -2422,11 +2809,43 @@ def format_male_full_text(scores: dict, ll_scores: dict = None) -> str:
             p = LOVE_LANG_PROFILES[code]
             percent = round(score / TOTAL_MALE_LL_QUESTIONS * 100)
             lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_MALE_LL_QUESTIONS})")
-        ll_top1_code, _ = ll_ranked[0]
-        ll_top1 = LOVE_LANG_PROFILES[ll_top1_code]
+        ll_max = ll_ranked[0][1]
+        ll_top_codes = [code for code, score in ll_ranked if score == ll_max]
+        if len(ll_top_codes) == 1:
+            ll_top1 = LOVE_LANG_PROFILES[ll_top_codes[0]]
+            lines.append("")
+            lines.append(f"<b>Его ведущий язык любви: {ll_top1['emoji']} {ll_top1['name']}</b>")
+            lines.append(ll_top1["teaser"])
+        else:
+            ll_names = ", ".join(f"{LOVE_LANG_PROFILES[c]['emoji']} {LOVE_LANG_PROFILES[c]['name']}" for c in ll_top_codes)
+            lines.append("")
+            lines.append(f"<b>Его ведущие языки любви (ничья): {ll_names}</b>")
+            for code in ll_top_codes:
+                p = LOVE_LANG_PROFILES[code]
+                lines.append(f"{p['emoji']} {p['name']}: {p['teaser']}")
+
+    if mot_scores:
+        mot_ranked = sorted(mot_scores.items(), key=lambda item: item[1], reverse=True)
         lines.append("")
-        lines.append(f"<b>Его ведущий язык любви: {ll_top1['emoji']} {ll_top1['name']}</b>")
-        lines.append(ll_top1["teaser"])
+        lines.append("🔑 <b>Его мотиваторы</b>")
+        for code, score in mot_ranked:
+            p = MOTIVATOR_PROFILES[code]
+            percent = round(score / TOTAL_MALE_MOTIVATOR_QUESTIONS * 100)
+            lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_MALE_MOTIVATOR_QUESTIONS})")
+        mot_max = mot_ranked[0][1]
+        mot_top_codes = [code for code, score in mot_ranked if score == mot_max]
+        if len(mot_top_codes) == 1:
+            mot_top1 = MOTIVATOR_PROFILES[mot_top_codes[0]]
+            lines.append("")
+            lines.append(f"<b>Его ведущий мотиватор: {mot_top1['emoji']} {mot_top1['name']}</b>")
+            lines.append(mot_top1["teaser"])
+        else:
+            mot_names = ", ".join(f"{MOTIVATOR_PROFILES[c]['emoji']} {MOTIVATOR_PROFILES[c]['name']}" for c in mot_top_codes)
+            lines.append("")
+            lines.append(f"<b>Его ведущие мотиваторы (ничья): {mot_names}</b>")
+            for code in mot_top_codes:
+                p = MOTIVATOR_PROFILES[code]
+                lines.append(f"{p['emoji']} {p['name']}: {p['teaser']}")
 
     return "\n".join(lines)
 
@@ -2470,7 +2889,9 @@ def build_compatibility_text(disc_scores: dict, male_scores: dict) -> str:
     return "\n".join(lines)
 
 
-async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict, ll_scores: dict = None):
+async def show_male_result(
+    query, context: ContextTypes.DEFAULT_TYPE, scores: dict, ll_scores: dict = None, mot_scores: dict = None
+):
     result_text = format_male_result_text(scores)
     await query.edit_message_text(result_text, parse_mode=ParseMode.HTML, reply_markup=None)
 
@@ -2492,6 +2913,8 @@ async def show_male_result(query, context: ContextTypes.DEFAULT_TYPE, scores: di
     context.user_data["male_current_q"] = None
     context.user_data["male_love_lang_scores"] = ll_scores
     context.user_data["male_ll_current_q"] = None
+    context.user_data["male_motivator_scores"] = mot_scores
+    context.user_data["male_mot_current_q"] = None
 
 
 # --------------------------------------------------------------------------
@@ -2592,14 +3015,149 @@ async def handle_other_answer(update: Update, context: ContextTypes.DEFAULT_TYPE
     if next_q < TOTAL_OTHER_QUESTIONS:
         await send_other_question(query, context, next_q)
     else:
-        await show_other_result(query, context, scores)
+        context.user_data["other_current_q"] = None
+        await start_other_lovelang(query, context)
+
+
+def build_other_lovelang_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+    return build_multi_keyboard("otherll", qindex, options)
+
+
+async def send_other_lovelang_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
+    question = OTHER_LOVE_LANG_QUESTIONS[qindex]
+    text = f"Вопрос {qindex + 1} из {TOTAL_OTHER_LL_QUESTIONS}\n\n{question['text']}"
+    keyboard = build_other_lovelang_keyboard(qindex, question["options"])
+    await query.edit_message_text(text, reply_markup=keyboard)
+
+
+async def start_other_lovelang(query, context: ContextTypes.DEFAULT_TYPE):
+    """Продолжение теста на "ещё одного человека" сразу после психотипа —
+    без отдельной кнопки, чтобы не терять темп."""
+    context.user_data["other_ll_scores"] = {code: 0 for code in LOVE_LANG_PROFILES}
+    context.user_data["other_ll_current_q"] = 0
+
+    label = context.user_data.get("other_label", "этого человека")
+    intro = f"❤️ Ещё 5 вопросов — про то, как «{label}» проявляет любовь и заботу."
+    await query.edit_message_text(intro)
+
+    question = OTHER_LOVE_LANG_QUESTIONS[0]
+    text = f"Вопрос 1 из {TOTAL_OTHER_LL_QUESTIONS}\n\n{question['text']}"
+    await query.message.reply_text(
+        text, reply_markup=build_other_lovelang_keyboard(0, question["options"])
+    )
+
+
+async def handle_other_lovelang_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer(text="✅ Принято")
+
+    try:
+        _, qindex_str, code = query.data.split("|")
+        qindex = int(qindex_str)
+    except (ValueError, AttributeError):
+        return
+
+    current_q = context.user_data.get("other_ll_current_q")
+    scores = context.user_data.get("other_ll_scores")
+
+    if current_q is None or scores is None:
+        await query.edit_message_text(
+            "⚠️ Результаты не сохранились (бот перезапускался). Нажми "
+            "/another, чтобы начать заново."
+        )
+        return
+
+    if qindex != current_q:
+        return
+
+    scores[code] = scores.get(code, 0) + 1
+    next_q = current_q + 1
+    context.user_data["other_ll_current_q"] = next_q
+
+    if next_q < TOTAL_OTHER_LL_QUESTIONS:
+        await send_other_lovelang_question(query, context, next_q)
+    else:
+        context.user_data["other_ll_current_q"] = None
+        context.user_data["other_love_lang_scores"] = scores
+        await start_other_motivator(query, context)
+
+
+def build_other_motivator_keyboard(qindex: int, options) -> InlineKeyboardMarkup:
+    return build_multi_keyboard("othermot", qindex, options)
+
+
+async def send_other_motivator_question(query, context: ContextTypes.DEFAULT_TYPE, qindex: int):
+    question = OTHER_MOTIVATOR_QUESTIONS[qindex]
+    text = f"Вопрос {qindex + 1} из {TOTAL_OTHER_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
+    keyboard = build_other_motivator_keyboard(qindex, question["options"])
+    await query.edit_message_text(text, reply_markup=keyboard)
+
+
+async def start_other_motivator(query, context: ContextTypes.DEFAULT_TYPE):
+    """Третье и последнее продолжение теста на "ещё одного человека" —
+    сразу после его языка любви."""
+    context.user_data["other_mot_scores"] = {code: 0 for code in MOTIVATOR_PROFILES}
+    context.user_data["other_mot_current_q"] = 0
+
+    intro = (
+        "🔑 Последние 8 вопросов — что реально движет этим человеком. Так "
+        "разбор будет полным: не только характер и язык любви, но и то, "
+        "ПОЧЕМУ он поступает именно так."
+    )
+    await query.edit_message_text(intro)
+
+    question = OTHER_MOTIVATOR_QUESTIONS[0]
+    text = f"Вопрос 1 из {TOTAL_OTHER_MOTIVATOR_QUESTIONS}\n\n{question['text']}"
+    await query.message.reply_text(
+        text, reply_markup=build_other_motivator_keyboard(0, question["options"])
+    )
+
+
+async def handle_other_motivator_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer(text="✅ Принято")
+
+    try:
+        _, qindex_str, code = query.data.split("|")
+        qindex = int(qindex_str)
+    except (ValueError, AttributeError):
+        return
+
+    current_q = context.user_data.get("other_mot_current_q")
+    scores = context.user_data.get("other_mot_scores")
+
+    if current_q is None or scores is None:
+        await query.edit_message_text(
+            "⚠️ Результаты не сохранились (бот перезапускался). Нажми "
+            "/another, чтобы начать заново."
+        )
+        return
+
+    if qindex != current_q:
+        return
+
+    scores[code] = scores.get(code, 0) + 1
+    next_q = current_q + 1
+    context.user_data["other_mot_current_q"] = next_q
+
+    if next_q < TOTAL_OTHER_MOTIVATOR_QUESTIONS:
+        await send_other_motivator_question(query, context, next_q)
+    else:
+        context.user_data["other_mot_current_q"] = None
+        psychotype_scores = context.user_data.get("other_scores")
+        ll_scores = context.user_data.get("other_love_lang_scores")
+        await show_other_result(query, context, psychotype_scores, ll_scores, scores)
 
 
 def format_other_result_text(label: str, scores: dict) -> str:
-    """Бесплатный тизер — топ-1 тип + первая сильная/слабая сторона."""
+    """Бесплатный тизер — топ-1 тип (или несколько, если ничья) + первая
+    сильная/слабая сторона. Язык любви и мотиваторы НЕ называются здесь —
+    только в платном разборе, как и везде в боте.
+    """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
-    top1_code, _ = ranked[0]
-    top1 = OTHER_PERSON_PROFILES[top1_code]
+    max_score = ranked[0][1]
+    top_codes = [code for code, score in ranked if score == max_score]
+    top1 = OTHER_PERSON_PROFILES[top_codes[0]]
 
     lines = [
         f"🧠 <b>Психотип «{label}» — {top1['emoji']} {top1['name'].upper()}</b>\n",
@@ -2608,11 +3166,20 @@ def format_other_result_text(label: str, scores: dict) -> str:
         top1["strengths"][0],
         top1["weaknesses"][0],
     ]
+    if len(top_codes) > 1:
+        others = ", ".join(OTHER_PERSON_PROFILES[c]["name"] for c in top_codes[1:])
+        lines.append("")
+        lines.append(f"Кстати, тут ничья с типом «{others}» — оба выражены одинаково сильно.")
+    lines.append("")
+    lines.append(f"❤️ Язык любви и 🔑 мотиваторы «{label}» тоже посчитаны — увидишь в полном разборе.")
     return "\n".join(lines)
 
 
-def format_other_full_text(label: str, scores: dict) -> str:
-    """Полный (платный) результат — все 4 типа с баллами + рекомендации."""
+def format_other_full_text(label: str, scores: dict, ll_scores: dict = None, mot_scores: dict = None) -> str:
+    """Полный (платный) результат — психотип + язык любви + мотиваторы, с
+    учётом возможной ничьей в любом из трёх блоков (оба параметра — None
+    для старых заявок, оформленных до появления этих блоков).
+    """
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
 
     lines = [f"🧠 <b>Полный профиль «{label}»</b>\n"]
@@ -2621,31 +3188,119 @@ def format_other_full_text(label: str, scores: dict) -> str:
         lines.append(f"{p['emoji']} {p['name']}: {score}/{TOTAL_OTHER_QUESTIONS}")
     lines.append("")
 
-    top1_code, _ = ranked[0]
-    top1 = OTHER_PERSON_PROFILES[top1_code]
-    lines.append(f"<b>Ведущий тип: {top1['emoji']} {top1['name']}</b>")
-    lines.append(f"{top1['subtitle']}.")
-    lines.append("Сильные стороны: " + "; ".join(top1["strengths"]))
-    lines.append("Зоны риска: " + "; ".join(top1["weaknesses"]))
-    lines.append("Как с ним общаться: " + "; ".join(top1["recommendations"]))
+    max_score = ranked[0][1]
+    top_codes = [code for code, score in ranked if score == max_score]
+    if len(top_codes) == 1:
+        top1 = OTHER_PERSON_PROFILES[top_codes[0]]
+        lines.append(f"<b>Ведущий тип: {top1['emoji']} {top1['name']}</b>")
+        lines.append(f"{top1['subtitle']}.")
+        lines.append("Сильные стороны: " + "; ".join(top1["strengths"]))
+        lines.append("Зоны риска: " + "; ".join(top1["weaknesses"]))
+        lines.append("Как с ним общаться: " + "; ".join(top1["recommendations"]))
+    else:
+        names = ", ".join(f"{OTHER_PERSON_PROFILES[c]['emoji']} {OTHER_PERSON_PROFILES[c]['name']}" for c in top_codes)
+        lines.append(f"<b>Ведущие типы (ничья): {names}</b>")
+        for code in top_codes:
+            p = OTHER_PERSON_PROFILES[code]
+            lines.append("")
+            lines.append(f"<b>{p['emoji']} {p['name']}</b> — {p['subtitle']}.")
+            lines.append("Сильные стороны: " + "; ".join(p["strengths"]))
+            lines.append("Зоны риска: " + "; ".join(p["weaknesses"]))
+            lines.append("Как с ним общаться: " + "; ".join(p["recommendations"]))
+
+    if ll_scores:
+        ll_ranked = sorted(ll_scores.items(), key=lambda item: item[1], reverse=True)
+        lines.append("")
+        lines.append(f"❤️ <b>Язык любви «{label}»</b>")
+        for code, score in ll_ranked:
+            p = LOVE_LANG_PROFILES[code]
+            percent = round(score / TOTAL_OTHER_LL_QUESTIONS * 100)
+            lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_OTHER_LL_QUESTIONS})")
+        ll_max = ll_ranked[0][1]
+        ll_top_codes = [code for code, score in ll_ranked if score == ll_max]
+        if len(ll_top_codes) == 1:
+            ll_top1 = LOVE_LANG_PROFILES[ll_top_codes[0]]
+            lines.append("")
+            lines.append(f"<b>Ведущий язык любви: {ll_top1['emoji']} {ll_top1['name']}</b>")
+            lines.append(ll_top1["teaser"])
+        else:
+            ll_names = ", ".join(f"{LOVE_LANG_PROFILES[c]['emoji']} {LOVE_LANG_PROFILES[c]['name']}" for c in ll_top_codes)
+            lines.append("")
+            lines.append(f"<b>Ведущие языки любви (ничья): {ll_names}</b>")
+            for code in ll_top_codes:
+                p = LOVE_LANG_PROFILES[code]
+                lines.append(f"{p['emoji']} {p['name']}: {p['teaser']}")
+
+    if mot_scores:
+        mot_ranked = sorted(mot_scores.items(), key=lambda item: item[1], reverse=True)
+        lines.append("")
+        lines.append(f"🔑 <b>Мотиваторы «{label}»</b>")
+        for code, score in mot_ranked:
+            p = MOTIVATOR_PROFILES[code]
+            percent = round(score / TOTAL_OTHER_MOTIVATOR_QUESTIONS * 100)
+            lines.append(f"{p['emoji']} {p['name']}: {percent}% ({score} из {TOTAL_OTHER_MOTIVATOR_QUESTIONS})")
+        mot_max = mot_ranked[0][1]
+        mot_top_codes = [code for code, score in mot_ranked if score == mot_max]
+        if len(mot_top_codes) == 1:
+            mot_top1 = MOTIVATOR_PROFILES[mot_top_codes[0]]
+            lines.append("")
+            lines.append(f"<b>Ведущий мотиватор: {mot_top1['emoji']} {mot_top1['name']}</b>")
+            lines.append(mot_top1["teaser"])
+        else:
+            mot_names = ", ".join(f"{MOTIVATOR_PROFILES[c]['emoji']} {MOTIVATOR_PROFILES[c]['name']}" for c in mot_top_codes)
+            lines.append("")
+            lines.append(f"<b>Ведущие мотиваторы (ничья): {mot_names}</b>")
+            for code in mot_top_codes:
+                p = MOTIVATOR_PROFILES[code]
+                lines.append(f"{p['emoji']} {p['name']}: {p['teaser']}")
 
     return "\n".join(lines)
 
 
-async def show_other_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict):
+async def show_other_result(query, context: ContextTypes.DEFAULT_TYPE, scores: dict, ll_scores: dict = None, mot_scores: dict = None):
     label = context.user_data.get("other_label", "этого человека")
     result_text = format_other_result_text(label, scores)
     await query.edit_message_text(result_text, parse_mode=ParseMode.HTML, reply_markup=None)
 
     context.user_data["other_scores"] = scores
     context.user_data["other_current_q"] = None
+    context.user_data["other_love_lang_scores"] = ll_scores
+    context.user_data["other_ll_current_q"] = None
+    context.user_data["other_motivator_scores"] = mot_scores
+    context.user_data["other_mot_current_q"] = None
     context.user_data["awaiting_other_receipt"] = True
 
-    await query.message.reply_text(
-        f"💳 Полный разбор «{label}» — <b>{OTHER_PERSON_PRICE}</b>.\n\n"
-        "Пришли сюда скриншот чека (просто фото) — проверю и вышлю полный профиль.",
-        parse_mode=ParseMode.HTML,
+    ask_receipt = (
+        "\n\nПришли сюда скриншот чека (просто фото) — проверю и вышлю полный профиль."
     )
+    extra_buttons = [
+        [InlineKeyboardButton(CHANNEL_BUTTON_TEXT, url=CHANNEL_URL)],
+        [InlineKeyboardButton(COURSE_BUTTON_TEXT, callback_data="book_info")],
+    ]
+
+    if PAYMENT_LINK_URL:
+        text = f"💳 Полный разбор «{label}» — <b>{OTHER_PERSON_PRICE}</b>.{ask_receipt}"
+        buttons = InlineKeyboardMarkup(
+            [[InlineKeyboardButton(PAYMENT_BUTTON_TEXT, url=PAYMENT_LINK_URL)]] + extra_buttons
+        )
+        await query.message.reply_text(text, parse_mode=ParseMode.HTML, reply_markup=buttons)
+    elif KASPI_PHONE_NUMBER:
+        text = (
+            f"💳 Полный разбор «{label}» — <b>{OTHER_PERSON_PRICE}</b>.\n\n"
+            f"Переведи через Kaspi Pay на номер: <b>{KASPI_PHONE_NUMBER}</b>"
+            f"{ask_receipt}"
+        )
+        await query.message.reply_text(
+            text, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(extra_buttons)
+        )
+    else:
+        await query.message.reply_text(
+            f"💳 Полный разбор «{label}» — <b>{OTHER_PERSON_PRICE}</b>.\n\n"
+            "Реквизиты для оплаты пришлю тебе лично в течение дня."
+            f"{ask_receipt}",
+            parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(extra_buttons),
+        )
 
 
 async def process_other_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, file_id: str, is_photo: bool):
@@ -2658,6 +3313,8 @@ async def process_other_receipt(update: Update, context: ContextTypes.DEFAULT_TY
     user = update.effective_user
     label = context.user_data.get("other_label", "этого человека")
     scores = context.user_data.get("other_scores")
+    ll_scores = context.user_data.get("other_love_lang_scores")
+    mot_scores = context.user_data.get("other_motivator_scores")
 
     other_pending = context.bot_data.setdefault("other_pending", {})
     counter = context.bot_data.setdefault("other_pending_counter", 0) + 1
@@ -2668,6 +3325,8 @@ async def process_other_receipt(update: Update, context: ContextTypes.DEFAULT_TY
         "user_id": user.id,
         "label": label,
         "scores": scores,
+        "ll_scores": ll_scores,
+        "mot_scores": mot_scores,
         "username": user.username,
         "full_name": user.full_name,
         "receipt_file_id": file_id,
@@ -2725,7 +3384,7 @@ async def handle_confirm_other_payment(update: Update, context: ContextTypes.DEF
 
     target_id = record["user_id"]
     label = record["label"]
-    report_text = format_other_full_text(label, record["scores"])
+    report_text = format_other_full_text(label, record["scores"], record.get("ll_scores"), record.get("mot_scores"))
 
     telegram_ok = True
     try:
@@ -2863,6 +3522,7 @@ async def process_receipt(update: Update, context: ContextTypes.DEFAULT_TYPE, fi
         "motivator_scores": context.user_data.get("motivator_scores"),
         "male_scores": context.user_data.get("male_scores"),
         "male_love_lang_scores": context.user_data.get("male_love_lang_scores"),
+        "male_motivator_scores": context.user_data.get("male_motivator_scores"),
         "username": user.username,
         "full_name": user.full_name,
         "receipt_file_id": file_id,
@@ -2974,6 +3634,7 @@ REPORT_SECTION_TITLES_COUPLE = [
     ("🔀", "Где вы можете не понимать друг друга"),
     ("🗣️", "Как выстраивать общение без постоянных обид"),
     ("🤝", "Что вам важно принять друг в друге"),
+    ("💌", "10 правил общения с партнёром"),
 ]
 
 REPORT_SECTION_DELIMITER = "###РАЗДЕЛ###"
@@ -3058,8 +3719,9 @@ def build_couple_report_prompt(
     male_scores: dict,
     male_love_lang_scores: dict = None,
     motivator_scores: dict = None,
+    male_motivator_scores: dict = None,
 ) -> str:
-    """Промпт для парного отчёта (её психотип + язык любви + мотиваторы + его психотип + его язык любви + совместимость)."""
+    """Промпт для парного отчёта (её психотип + язык любви + мотиваторы + его психотип + его язык любви + его мотиваторы + совместимость)."""
     disc_ranked = sorted(disc_scores.items(), key=lambda item: item[1], reverse=True)
     ll_ranked = sorted(love_lang_scores.items(), key=lambda item: item[1], reverse=True)
     male_ranked = sorted(male_scores.items(), key=lambda item: item[1], reverse=True)
@@ -3115,12 +3777,24 @@ def build_couple_report_prompt(
     else:
         male_ll_block = ""
 
+    if male_motivator_scores:
+        male_mot_ranked = sorted(male_motivator_scores.items(), key=lambda item: item[1], reverse=True)
+        male_mot_lines = []
+        for code, score in male_mot_ranked:
+            p = MOTIVATOR_PROFILES[code]
+            male_mot_lines.append(
+                f"- {p['name']} ({score}/{TOTAL_MALE_MOTIVATOR_QUESTIONS} баллов, по её наблюдениям) — {p['subtitle']}. {p['teaser']}"
+            )
+        male_mot_block = f"\n\nЕГО МОТИВАТОРЫ, по её наблюдениям (баллы по 6 категориям, от высшего к низшему):\n{chr(10).join(male_mot_lines)}"
+    else:
+        male_mot_block = ""
+
     section_list = "\n".join(
         f"{i + 1}. {title}" for i, (_, title) in enumerate(REPORT_SECTION_TITLES_COUPLE)
     )
     total_sections = len(REPORT_SECTION_TITLES_COUPLE)
 
-    prompt = f"""Ты помогаешь составить персональный отчёт о совместимости пары на основе психотипа обоих партнёров (по цветовой модели Марстона), языка любви обоих (по методике Гэри Чепмена) и её мотиваторов (по модели Шпрангера).
+    prompt = f"""Ты помогаешь составить персональный отчёт о совместимости пары на основе психотипа обоих партнёров (по цветовой модели Марстона), языка любви обоих (по методике Гэри Чепмена) и мотиваторов обоих (по модели Шпрангера).
 
 Данные собраны только со стороны женщины: её собственный тест плюс её ответы на вопросы-наблюдения о типичном поведении партнёра (мужчина сам тест не проходил).
 
@@ -3131,7 +3805,7 @@ def build_couple_report_prompt(
 {chr(10).join(ll_lines)}{mot_block}
 
 ЕГО ПСИХОТИП, по её наблюдениям (баллы по 4 типам, от высшего к низшему):
-{chr(10).join(male_lines)}{male_ll_block}
+{chr(10).join(male_lines)}{male_ll_block}{male_mot_block}
 
 Напиши персональный отчёт РОВНО из {total_sections} разделов в такой последовательности:
 {section_list}
@@ -3145,13 +3819,15 @@ def build_couple_report_prompt(
 - Пишешь для женщины, обращайся к ней на "ты". О партнёре говори строго в третьем лице ("он"/"его"/"ему"/"партнёр") — никогда не описывай партнёра от первого лица и не путай, чьи это слова: все "я хочу/я чувствую" в тексте — это про неё, а про него — только "он хочет/он чувствует". Тон тёплый, прямой и живой, без канцелярита и воды.
 - Раздел 3 ("Что мешает тебе зарабатывать больше") — используй данные о её мотиваторах: покажи конкретно, как её ведущий мотиватор конфликтует с тем, как она сейчас пытается зарабатывать (конкретный сценарий, а не общие слова про "надо больше стараться"). Если данных о мотиваторах нет — пиши по её психотипу.
 - Раздел 5 ("Как каждый из вас проявляет любовь и заботу") — если данные о его языке любви есть, обязательно сравни её и его ведущие языки любви и покажи, где рождается ощущение нехватки любви из-за разницы языков, а не из-за реального охлаждения чувств. Дополнительно приведи 2-3 готовые короткие фразы, которые она может прямо сейчас сказать партнёру на ЕГО языке любви (например, если его язык — слова поддержки, дай готовую фразу признания; если это время вместе — готовую фразу-приглашение; и т.д., в зависимости от его реального ведущего языка).
+- Раздел 7 ("Что для каждого из вас важно в отношениях") — если данные о его мотиваторах есть, обязательно упомяни и её, и его ведущий мотиватор, и покажи, совпадают они или разные (оба варианта разбери — и совпадение, и разницу).
 - Раздел 10 ("Что может разрушать ваши отношения") — самое важное: покажи конкретно, как её ведущий психотип и его ведущий психотип вместе создают конкретный повторяющийся сценарий конфликта (не общие слова, а конкретная ситуация).
+- Последний раздел ("10 правил общения с партнёром") — это САМЫЙ ВАЖНЫЙ раздел отчёта, финальный синтез всего: сформулируй РОВНО 10 конкретных, практичных правил общения именно с ЭТИМ партнёром, пронумерованных 1-10, каждое на основе реальных данных выше (её и его психотипов, языков любви, мотиваторов) — не общие советы уровня "больше разговаривайте", а конкретные правила, привязанные к тому, что показали тесты (например: "Прежде чем требовать ответа сразу — дай ему время подумать, это не равнодушие, а его психотип" или "Говори ему слова признания вслух хотя бы раз в день — это его язык любви"). Каждое правило — 1-2 предложения.
 - Пиши максимально подробно и содержательно — раскрывай каждый раздел полностью, с конкретными примерами и деталями, а не общими фразами ради краткости.
 - Не повторяй дословно списки выше — переработай их в связный текст, используй их как основу, а не как готовый ответ.
-- Каждый раздел — минимум 4-6 предложений, с конкретикой и примерами, кроме раздела с готовыми фразами (там фразы можно дать отдельными короткими строками).
-- ОБЯЗАТЕЛЬНО допиши все {total_sections} разделов до конца, включая последний. Если чувствуешь, что не укладываешься в объём — сокращай более ранние разделы, но не обрывай отчёт раньше времени.
+- Каждый раздел — минимум 4-6 предложений, с конкретикой и примерами, кроме раздела с готовыми фразами и раздела "10 правил" (там пункты можно дать отдельными короткими пронумерованными строками).
+- ОБЯЗАТЕЛЬНО допиши все {total_sections} разделов до конца, включая последний — раздел "10 правил" не должен быть сокращён или пропущен, это ключевая ценность отчёта. Если чувствуешь, что не укладываешься в объём — сокращай более ранние разделы, но не обрывай отчёт раньше времени и не жертвуй последним разделом.
 - Не используй слово "DISC" — только "психотип".
-- Общий объём — примерно 1400-2000 слов."""
+- Общий объём — примерно 1500-2200 слов."""
 
     return prompt
 
@@ -3162,6 +3838,7 @@ async def generate_full_report(
     male_scores: dict = None,
     male_love_lang_scores: dict = None,
     motivator_scores: dict = None,
+    male_motivator_scores: dict = None,
 ):
     """Генерирует полный отчёт через Claude API — соло или парный, в
     зависимости от того, передан ли male_scores.
@@ -3182,16 +3859,21 @@ async def generate_full_report(
 
     if is_couple:
         prompt = build_couple_report_prompt(
-            disc_scores, love_lang_scores, male_scores, male_love_lang_scores, motivator_scores
+            disc_scores,
+            love_lang_scores,
+            male_scores,
+            male_love_lang_scores,
+            motivator_scores,
+            male_motivator_scores,
         )
     else:
         prompt = build_solo_report_prompt(disc_scores, love_lang_scores, motivator_scores)
 
     def _call():
-        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY, timeout=45.0)
+        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY, timeout=120.0)
         response = client.messages.create(
             model=ANTHROPIC_MODEL,
-            max_tokens=6000,
+            max_tokens=7000,
             messages=[{"role": "user", "content": prompt}],
         )
         return "".join(block.text for block in response.content if block.type == "text")
@@ -3331,12 +4013,13 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
     motivator_scores = record.get("motivator_scores")
     male_scores = record.get("male_scores")
     male_love_lang_scores = record.get("male_love_lang_scores")
+    male_motivator_scores = record.get("male_motivator_scores")
     is_couple = male_scores is not None
 
     # Сразу показываем промежуточный статус — генерация через Claude API
     # обычно занимает 10-30 секунд, и без этого сообщения кажется, что
     # кнопка зависла.
-    await edit_admin_message(query, "⏳ Генерирую отчёт и отправляю... (обычно 15-30 секунд)")
+    await edit_admin_message(query, "⏳ Генерирую отчёт и отправляю... (обычно 20-60 секунд, для парного разбора может занять больше минуты)")
 
     # Пытаемся сгенерировать настоящий синтез через Claude API (список
     # секций содержания, соло или парный — в зависимости от того, пройден ли
@@ -3346,7 +4029,7 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
     # результат. И в том, и в другом случае итоговый текст — валидный HTML
     # (заголовки жирным мы добавляем сами, содержание экранировано).
     sections, error_reason = await generate_full_report(
-        disc_scores, love_lang_scores, male_scores, male_love_lang_scores, motivator_scores
+        disc_scores, love_lang_scores, male_scores, male_love_lang_scores, motivator_scores, male_motivator_scores
     )
     used_fallback = sections is None
     if sections is None:
@@ -3360,7 +4043,7 @@ async def handle_confirm_payment(update: Update, context: ContextTypes.DEFAULT_T
         if is_couple:
             report_text += (
                 "\n\n"
-                + format_male_full_text(male_scores, male_love_lang_scores)
+                + format_male_full_text(male_scores, male_love_lang_scores, male_motivator_scores)
                 + "\n\n"
                 + build_compatibility_text(disc_scores, male_scores)
             )
@@ -3648,8 +4331,11 @@ def main():
     application.add_handler(CallbackQueryHandler(start_male_test, pattern=r"^start_male_test$"))
     application.add_handler(CallbackQueryHandler(handle_male_answer, pattern=r"^maleans\|"))
     application.add_handler(CallbackQueryHandler(handle_male_lovelang_answer, pattern=r"^malellans\|"))
+    application.add_handler(CallbackQueryHandler(handle_male_motivator_answer, pattern=r"^malemot\|"))
     application.add_handler(CallbackQueryHandler(start_other_test, pattern=r"^start_other_test$"))
     application.add_handler(CallbackQueryHandler(handle_other_answer, pattern=r"^otherans\|"))
+    application.add_handler(CallbackQueryHandler(handle_other_lovelang_answer, pattern=r"^otherll\|"))
+    application.add_handler(CallbackQueryHandler(handle_other_motivator_answer, pattern=r"^othermot\|"))
     application.add_handler(CallbackQueryHandler(handle_confirm_other_payment, pattern=r"^otherconfirm\|"))
     application.add_handler(CallbackQueryHandler(request_full_report, pattern=r"^request_report$"))
     application.add_handler(CallbackQueryHandler(show_book_info, pattern=r"^book_info$"))
